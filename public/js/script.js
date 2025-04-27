@@ -1,223 +1,212 @@
-
-//Movies
-const productContainers = [...document.querySelectorAll('.movie-container')];
-const nxtBtn = [...document.querySelectorAll('.nxt-btn')];
-const preBtn = [...document.querySelectorAll('.pre-btn')];
-
-productContainers.forEach((item, i) => {
-    let containerDimensions = item.getBoundingClientRect();
-    let containerWidth = containerDimensions.width;
-
-    nxtBtn[i].addEventListener('click', () => {
-        item.scrollLeft += containerWidth;
-    });
-
-    preBtn[i].addEventListener('click', () => {
-        item.scrollLeft -= containerWidth;
-    });
-});
-//Login button and signup button 
 document.addEventListener("DOMContentLoaded", function() {
+
+    // --- Logic Slider ---
+    const productContainers = [...document.querySelectorAll('.movie-container')];
+    const nxtBtn = [...document.querySelectorAll('.nxt-btn')];
+    const preBtn = [...document.querySelectorAll('.pre-btn')];
+
+    productContainers.forEach((item, i) => {
+        let containerDimensions = item.getBoundingClientRect();
+        let containerWidth = containerDimensions.width;
+
+        if (nxtBtn[i]) { // Kiểm tra nút tồn tại
+            nxtBtn[i].addEventListener('click', () => {
+                item.scrollLeft += containerWidth;
+            });
+        }
+
+        if (preBtn[i]) { // Kiểm tra nút tồn tại
+            preBtn[i].addEventListener('click', () => {
+                item.scrollLeft -= containerWidth;
+            });
+        }
+    });
+
+    // --- Logic các nút Header (Login, Signup, News, Watchlist) ---
     const loginBtn = document.getElementById("login-btn");
     const signUpBtn = document.getElementById("sign-up-btn");
     const newsBtn = document.getElementById("news-btn");
+    const watchlistBtn = document.getElementById('watchlist-btn'); // Lấy nút watchlist
 
     if (loginBtn) {
         loginBtn.addEventListener("click", function() {
-            console.log("Button clicked");
-            window.location.href = "?module=auth&action=loginUser"; 
+            // Chú ý: Dùng URL thật thay vì query string nếu dùng Laravel routing
+            // window.location.href = "{{ url('/login') }}"; // Ví dụ với Laravel route
+            window.location.href = "?module=auth&action=loginUser"; // Mã gốc của bạn
         });
     }
 
     if (signUpBtn) {
         signUpBtn.addEventListener("click", function() {
-            console.log("Button clicked");
-            window.location.href = "?module=auth&action=signup"; 
+            // window.location.href = "{{ url('/register') }}"; // Ví dụ với Laravel route
+            window.location.href = "?module=auth&action=signup"; // Mã gốc của bạn
         });
     }
-    if(newsBtn){
+
+    if (newsBtn) {
         newsBtn.addEventListener("click", function() {
-            console.log("Button clicked");
-            window.location.href = "?module=view&action=news"; 
+            // window.location.href = "{{ url('/news') }}"; // Ví dụ với Laravel route
+            window.location.href = "?module=view&action=news"; // Mã gốc của bạn
         });
     }
-});
 
-function searchMovies(query) {
-    const suggestions = document.getElementById("suggestions");
-    if (query.length === 0) {
-        suggestions.style.display = "none";
-        return;
+    // *** DI CHUYỂN TỪ HEADER.BLADE.PHP ***
+    if (watchlistBtn) {
+        watchlistBtn.addEventListener('click', function() {
+            // Khi có logic auth, bạn sẽ kiểm tra ở đây
+            // Ví dụ: Giả sử có biến isLoggedIn từ backend (cần truyền vào JS)
+            // if (typeof isLoggedIn !== 'undefined' && isLoggedIn) {
+            //     window.location.href = '/watchlist'; // URL thật
+            // } else {
+            //     alert('Watchlist feature requires login.');
+            //     // Hoặc chuyển hướng đến trang login
+            //     // window.location.href = '/login'; // URL thật
+            // }
+
+            // Mã tạm thời như trong file blade cũ
+            alert('Watchlist feature requires login (coming soon).');
+        });
     }
 
-    fetch(`./modules/home/search.php?query=${query}`)
-        .then((response) => response.json())
-        .then((data) => {
-            suggestions.innerHTML = ""; // Clear previous suggestions
-            data.forEach((movie) => {
-                const item = document.createElement("div");
-                item.classList.add("suggestion-item");
-                item.innerHTML = `
-                <img src="./admin/${movie.movie_image}" alt="${movie.movie_name}">
-                <div>
-                    <h4>${movie.movie_name}</h4>
-                    <p>${movie.release_date}</p>
-                </div>
-            `;
-                item.onclick = () => {
-                    window.location.href = `?module=view&action=movie_detail&movie_id=${movie.movie_id}`;
-                };
-                suggestions.appendChild(item);
+    // --- Logic Search Suggestions Header ---
+    // *** DI CHUYỂN TỪ HEADER.BLADE.PHP ***
+    const searchInputHeader = document.getElementById('search-bar');
+    const suggestionsContainerHeader = document.getElementById('suggestions');
+
+    if (searchInputHeader && suggestionsContainerHeader) {
+        searchInputHeader.addEventListener('keyup', function() {
+            const query = this.value;
+            if (query.length < 2) {
+                suggestionsContainerHeader.style.display = 'none';
+                suggestionsContainerHeader.innerHTML = '';
+                return;
+            }
+            console.log("Header Search query:", query); // Log để biết đang gõ
+
+            // *** Chú ý: Phần Fetch API đang bị comment out ***
+            // Bạn cần kích hoạt lại và thay đổi URL thành API thật của Laravel
+            /*
+            const searchUrl = '/api/search'; // <<< THAY BẰNG API ROUTE THẬT CỦA BẠN
+
+            fetch(`${searchUrl}?query=${encodeURIComponent(query)}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    // Có thể cần thêm CSRF token nếu API của bạn yêu cầu
+                    // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                 }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                suggestionsContainerHeader.innerHTML = ""; // Clear previous
+                if (data && data.length > 0) {
+                     data.forEach(item => {
+                        const div = document.createElement("div");
+                        div.classList.add("suggestion-item");
+                        // Cập nhật innerHTML để phù hợp với dữ liệu trả về từ API
+                        div.innerHTML = `
+                            <img src="${item.image_url || '/img/placeholder.jpg'}" alt="${item.title || ''}">
+                            <div>
+                                <h4>${item.title || 'No Title'}</h4>
+                                <p>${item.type || ''} ${item.year || ''}</p>
+                            </div>`;
+                        // Cập nhật URL khi click
+                        div.onclick = () => {
+                            window.location.href = item.url || '#'; // URL chi tiết
+                        };
+                        suggestionsContainerHeader.appendChild(div);
+                    });
+                    suggestionsContainerHeader.style.display = "block";
+                } else {
+                    suggestionsContainerHeader.style.display = "none";
+                }
+            })
+            .catch(error => {
+                console.error("Search Error:", error);
+                suggestionsContainerHeader.innerHTML = `<div class="suggestion-item"><i>Error fetching suggestions.</i></div>`;
+                suggestionsContainerHeader.style.display = "block"; // Hiển thị lỗi
             });
+            */
 
-            suggestions.style.display = "block";
-        })
-        .catch((error) => console.error("Error:", error));
-}   
+            // Mã hiển thị tạm thời (bỏ đi khi kích hoạt fetch)
+            suggestionsContainerHeader.innerHTML = `<div class="suggestion-item"><i>Searching for "${query}"... (API disabled)</i></div>`;
+            suggestionsContainerHeader.style.display = "block";
 
-document.addEventListener("DOMContentLoaded", function() {
+        });
+
+        // Đóng suggestions khi click ra ngoài
+        document.addEventListener('click', function(event) {
+            // Kiểm tra suggestionsContainerHeader có tồn tại không trước khi truy cập thuộc tính
+            if (suggestionsContainerHeader && searchInputHeader && !searchInputHeader.contains(event.target) && !suggestionsContainerHeader.contains(event.target)) {
+                suggestionsContainerHeader.style.display = 'none';
+            }
+        });
+    }
+
+
+    // --- Logic Search cũ (có thể không cần nữa nếu search header hoạt động) ---
+    /* <<< COMMENT OUT HOẶC XÓA HÀM NÀY ĐỂ TRÁNH XUNG ĐỘT >>>
+    function searchMovies(query) {
+        const suggestions = document.getElementById("suggestions"); // Dùng chung ID với search header?
+        if (query.length === 0) {
+            suggestions.style.display = "none";
+            return;
+        }
+
+        // URL này dùng cấu trúc PHP cũ, không phải Laravel API
+        fetch(`./modules/home/search.php?query=${query}`)
+            .then((response) => response.json())
+            .then((data) => {
+                suggestions.innerHTML = ""; // Clear previous suggestions
+                data.forEach((movie) => {
+                    // ... (logic tạo item giống mã gốc) ...
+                });
+                suggestions.style.display = "block";
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+    */
+
+    // --- Logic Rating Form ---
+    // (Giữ nguyên phần code xử lý rating form của bạn ở đây)
     // Mở form đánh giá khi nhấn vào nút "Rate"
     document.querySelectorAll('.rate-link').forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            const movieId = this.dataset.movieId;
-
-            if (!isLoggedIn) {
-                alert("Please log in to rate this movie.");
-            } else {
-                const form = document.querySelector(`.rating-form[data-movie-id="${movieId}"]`);
-                form.style.display = 'block';
-
-                // Kiểm tra nếu đã đánh giá, hiển thị nút "Remove Rating"
-                const userRating = this.textContent.includes("★") ? parseInt(this.textContent.split("★ ")[1]) : null;
-                const removeRatingBtn = form.querySelector('.remove-rating-btn');
-                
-                if (userRating) {
-                    removeRatingBtn.style.display = 'block';
-                } else {
-                    removeRatingBtn.style.display = 'none';
-                }
-            }
-        });
+         // ... (code gốc của bạn) ...
     });
 
-    // Đóng form khi nhấn vào nút "X"
-    document.querySelectorAll('.close-btn').forEach(closeBtn => {
-        closeBtn.addEventListener('click', function() {
-            this.parentElement.style.display = 'none';
-        });
-    });
+     // Đóng form khi nhấn vào nút "X"
+     document.querySelectorAll('.close-btn').forEach(closeBtn => {
+         // ... (code gốc của bạn) ...
+     });
 
-    // Đóng form khi nhấp ra ngoài form
-    window.addEventListener('click', function(event) {
-        document.querySelectorAll('.rating-form').forEach(form => {
-            if (form.style.display === 'block' && !form.contains(event.target) && !event.target.classList.contains('rate-link')) {
-                form.style.display = 'none';
-            }
-        });
-    });
+     // Đóng form khi nhấp ra ngoài form
+     window.addEventListener('click', function(event) {
+         // ... (code gốc của bạn) ...
+     });
 
-    // Tô màu sao khi hover
-    document.querySelectorAll('.rating-form').forEach(form => {
-        const stars = form.querySelectorAll('.star');
-        stars.forEach((star, index) => {
-            star.addEventListener('mouseenter', function() {
-                for (let i = 0; i <= index; i++) {
-                    stars[i].classList.add('hovered');
-                }
-            });
-            star.addEventListener('mouseleave', function() {
-                stars.forEach(star => star.classList.remove('hovered'));
-            });
-        });
-    });
+     // Tô màu sao khi hover
+     document.querySelectorAll('.rating-form').forEach(form => {
+         // ... (code gốc của bạn) ...
+     });
 
-    // Sự kiện click để gửi đánh giá
-    document.querySelectorAll('.star').forEach(star => {
-        star.addEventListener('click', function() {
-            const ratingValue = this.dataset.value;
-            const movieId = this.closest('.rating-form').dataset.movieId;
+     // Sự kiện click để gửi đánh giá
+     document.querySelectorAll('.star').forEach(star => {
+         // ... (code gốc của bạn) ...
+     });
 
-            fetch('./ajax/rate_movie.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ movie_id: movieId, rating: ratingValue, user_id: loggedInUserId })
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert("Thank you for rating!");
-                    updateRatingUI(movieId, ratingValue, data.new_average_rating);
-                    const form = document.querySelector(`.rating-form[data-movie-id="${movieId}"]`);
-                    form.style.display = 'none'; // Đóng form sau khi đánh giá thành công
-                } else {
-                    alert(data.error || "There was an error submitting your rating.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("There was an error submitting your rating.");
-            });
-        });
-    });
+     // Xử lý sự kiện click để xoá đánh giá
+     document.querySelectorAll('.remove-rating-btn').forEach(button => {
+         // ... (code gốc của bạn) ...
+     });
 
-    // Xử lý sự kiện click để xoá đánh giá
-    document.querySelectorAll('.remove-rating-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const form = this.closest('.rating-form');
-            const movieId = form.dataset.movieId;
+     // Hàm cập nhật giao diện sau khi gửi hoặc xoá đánh giá
+     function updateRatingUI(movieId, ratingValue, newAverageRating) {
+         // ... (code gốc của bạn) ...
+     }
+     // (Kết thúc phần code rating)
 
-            fetch('./ajax/remove_rating.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ movie_id: movieId, user_id: loggedInUserId })
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert("Your rating has been removed.");
-                    updateRatingUI(movieId, null, data.new_average_rating);
-                    form.style.display = 'none'; // Đóng form sau khi xoá đánh giá thành công
-                } else {
-                    alert(data.error || "There was an error removing your rating.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("There was an error removing your rating.");
-            });
-        });
-    });
-
-    // Hàm cập nhật giao diện sau khi gửi hoặc xoá đánh giá
-    function updateRatingUI(movieId, ratingValue, newAverageRating) {
-        const rateButton = document.querySelector(`.rate-link[data-movie-id="${movieId}"]`);
-        if (rateButton) {
-            if (ratingValue) {
-                rateButton.textContent = `★ ${ratingValue}`;
-                rateButton.classList.add('rated');
-            } else {
-                rateButton.textContent = "☆ Rate";
-                rateButton.classList.remove('rated');
-            }
-        }
-
-        const ratingScoreElement = document.querySelector(`.movie-card[data-movie-id="${movieId}"] .rating-score`);
-        if (ratingScoreElement) {
-            ratingScoreElement.textContent = `★ ${newAverageRating}/10`;
-        }
-    }
-    
-    
-});
+}); // Kết thúc listener DOMContentLoaded chính

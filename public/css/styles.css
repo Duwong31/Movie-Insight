@@ -32,14 +32,13 @@ body {
     background-color: var(--header);
     position: fixed;
     top: 0;
-    left: 0; /* Thêm left: 0 */
+    left: 0;
     width: 100%;
     display: flex;
-    justify-content: space-between; /* Giữ lại */
+    /* justify-content: space-between; -> Không cần nữa nếu dùng margin: auto cho search */
     align-items: center;
     padding: 0 20px; /* Giữ padding ngang */
-    z-index: 11; /* Đảm bảo header nổi trên */
-    /* margin và padding: 0 không cần thiết cho #header */
+    z-index: 11;
 }
 
 /* Logo */
@@ -47,46 +46,44 @@ body {
     color: var(--red);
     font-size: 1rem;
     font-weight: 600;
-    /* margin: 10px auto 10px 80px; -> margin auto không hợp lý khi header dùng flex */
-    margin: 10px 0; /* Chỉ cần margin top/bottom */
+    margin: 10px 0; /* Adjust top/bottom margin for overall header vertical position if needed */
     padding: 5px;
-    display: flex;
-    align-items: center;
-    font-family: 'Axiforma', poppins, sans-serif; /* Font logo */
+    display: flex;         /* KEEP: Makes it a flex container */
+    align-items: center;   /* KEEP: This is the key for vertical alignment */
+    font-family: 'Axiforma', poppins, sans-serif;
     letter-spacing: 1px;
-    text-decoration: none; /* Đảm bảo link logo không có gạch chân */
+    text-decoration: none;
+    white-space: nowrap; /* Đảm bảo logo không bị xuống dòng */
 }
 
-#header .logo img { /* Style cho ảnh logo nếu cần */
-    display: block; /* Loại bỏ khoảng trắng thừa dưới ảnh */
+#header .logo img {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
 }
 
 #header .logo p {
+    margin: 0;           /* ADD THIS: Remove default paragraph margins */
+    /* padding-left: 8px; <-- REMOVE OR COMMENT OUT: Use margin on the image instead */
     line-height: 1;
-    padding-left: 5px;
-    /* box-sizing không cần ở đây */
 }
 
 /* Navigation container */
 #header .navigation {
     display: flex;
-    /* justify-content: flex-start; không cần khi header đã là flex */
     align-items: center;
-    /* max-width: 1400px; không cần, header đã là 100% */
-    /* margin: auto; không cần */
-    /* width: 100%; không cần */
-    /* padding: auto; giá trị không hợp lệ */
-    margin-left: auto; /* Đẩy navigation sang phải */
+    flex-grow: 1; /* Cho phép container này mở rộng */
+    margin-left: 30px; /* Khoảng cách giữa logo và navigation */
+    /* margin-left: auto; -> XÓA DÒNG NÀY */
 }
 
 /* Mobile Menu Icon */
 #header .navigation .menu-icon {
     cursor: pointer;
-    /* float: right; không dùng float với flex */
     padding: 20px 10px;
-    z-index: 103; /* Cao hơn menu */
-    display: none; /* Ẩn trên màn hình lớn */
-    margin-left: 15px; /* Khoảng cách với phần tử trước */
+    z-index: 103;
+    display: none;
+    margin-left: 15px;
 }
 
 #header .navigation .menu-icon .nav-icon {
@@ -140,9 +137,9 @@ body {
 #header .navigation .menu-tag {
     color: var(--white);
     font-size: 15px;
-    display: none; /* Ẩn trên màn hình lớn */
-    margin-left: 5px; /* Khoảng cách với icon */
-    cursor: pointer; /* Cho biết có thể click (dù label mới là target) */
+    display: none;
+    margin-left: 5px;
+    cursor: pointer;
     text-decoration: none;
 }
 
@@ -150,20 +147,19 @@ body {
 #header .menu { /* Dùng class, không phải thẻ menu */
     position: fixed;
     left: 0;
-    top: 0; /* Nên bắt đầu từ dưới header? Hoặc full màn hình */
+    top: 0;
     width: 100%;
     height: 100%;
     background-color: var(--menu-bg);
-    z-index: 102; /* Dưới icon menu */
-    display: none; /* Ẩn mặc định */
-    flex-direction: column; /* Xếp dọc trên mobile */
+    z-index: 102;
+    display: none;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 60px; /* Khoảng trống cho header */
     animation: fade 0.3s;
-    list-style: none; /* Bỏ dấu chấm */
-    margin: 0; /* Reset margin */
-    padding: 0; /* Reset padding */
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 #header .menu li {
@@ -197,18 +193,20 @@ body {
 
 /* Desktop Menu (Inline List) */
 #header .navigation ul.menu { /* Chỉ áp dụng cho ul.menu trong .navigation */
-    display: flex; /* Hiển thị dạng hàng ngang trên desktop */
-    position: static; /* Reset position */
+    display: flex;
+    position: static;
     height: auto;
     width: auto;
-    background-color: transparent; /* Nền trong suốt */
-    flex-direction: row; /* Hàng ngang */
+    background-color: transparent;
+    flex-direction: row;
     z-index: auto;
-    animation: none; /* Không cần animation */
-    margin: 0; /* Reset margin */
-    padding: 0; /* Reset padding */
-    margin-left: 30px; /* Khoảng cách với logo/search */
-    list-style: none; /* Bỏ dấu chấm */
+    animation: none;
+    margin: 0;
+    padding: 0;
+    /* margin-left: 30px; -> XÓA DÒNG NÀY, khoảng cách giờ do .navigation */
+    margin-right: 20px; /* TẠO KHOẢNG CÁCH giữa menu và search box */
+    list-style: none;
+    white-space: nowrap; /* Bỏ dấu chấm */
 }
 
 #header .navigation ul.menu li {
@@ -220,55 +218,71 @@ body {
 }
 
 #header .navigation ul.menu li a {
-     font-size: 15px; /* Size chữ menu desktop */
-     /* margin: 0px 40px; Không cần */
-     font-family: poppins, sans-serif; /* Dùng font body */
-     transition: color 0.3s ease; /* Chỉ transition màu */
+    font-size: 15px;
+     font-family: poppins, sans-serif;
+     transition: color 0.3s ease;
      text-decoration: none;
+     color: var(--white);
 }
 
 #header .navigation ul.menu li a:hover {
-    font-size: 15px; /* Giữ nguyên size */
+    font-size: 15px;
     color: var(--red);
-    /* transition: all ease 0.3s; */
 }
 
 
 /* Search Box */
 #header .search-box {
-    background-color: var(--search-box-bg);
-    padding: 3px 10px; /* Giảm padding */
+    background-color: var(--white); /* Keep the outer grey box */
     border-radius: 20px;
-    height: 38px; /* Giảm chiều cao */
+    height: 38px;
     display: flex;
     align-items: center;
-    margin-left: 20px;
-    /* width: 800px; -> Để nó tự co giãn hoặc đặt max-width */
-    max-width: 500px; /* Giới hạn chiều rộng tối đa */
-    flex-grow: 1; /* Cho phép nó chiếm không gian thừa */
-    margin-right: 20px; /* Khoảng cách với nút bên phải */
+    margin-left: auto;
+    margin-right: 20px;
+    max-width: 800px;
+    flex-grow: 1;
+    min-width: 200px;
+    overflow: hidden;
+    /* Add padding here for icon spacing from the edge */
+    /* padding: 0 1px; */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 #header .search-container {
     position: relative;
     width: 100%; /* Chiếm hết chiều rộng của .search-box */
-    /* margin: 20px; không cần margin ở đây */
+    height: 100%;       /* Make it fill the search-box height */
+    display: flex;      /* Use flex to make the input fill it */
+    align-items: center;
+}
+
+#header .search-icon {
+    color: #888; /* Color for the magnifying glass */
+    font-size: 16px; /* Adjust size as needed */
+    margin-right: 8px; /* Space between icon and input text */
+    /* No margin-left needed if using padding on .search-box */
+    flex-shrink: 0; /* Prevent icon from shrinking */
 }
 
 #header #search-bar { /* Target input bằng ID */
     width: 100%;
-    padding: 8px 10px; /* Điều chỉnh padding input */
-    /* padding: 10px 40px 10px 35px; padding cũ quá lớn */
-    border-radius: 4px;
-    border: none !important; /* Bỏ border */
-    background-color: transparent; /* Nền trong suốt */
-    outline: none;
-    color: var(--white);
+    height: 100%;         /* Fill the search-container height */
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;     /* Input doesn't need radius if container has it */
+    border: none;         /* Keep border: none */
+    background-color: transparent; /* Keep transparent */
+    outline: none;        /* Keep outline: none */
+    color: var(--main);
     font-size: 14px;
+    font-family: poppins, sans-serif; /* Ensure font is inherited or set */
+    box-sizing: border-box;
+    flex-grow: 1
 }
 
 #header #search-bar::placeholder {
-    color: #ffffff5e;
+    color: #aaa;
 }
 
 /* Bỏ các style .search-input, .search-icon, .clear-icon nếu không dùng */
@@ -276,17 +290,17 @@ body {
 /* Suggestions List */
 #header .suggestions-list {
     position: absolute;
-    top: calc(100% + 5px); /* Khoảng cách dưới ô search */
+    top: calc(100% + 5px);
     left: 0;
     right: 0;
-    background: #2a2a2a; /* Màu nền tối hơn */
-    border: 1px solid #444; /* Border nhẹ */
+    background: #2a2a2a;
+    border: 1px solid #444;
     border-radius: 4px;
     z-index: 10;
-    max-height: 250px; /* Tăng chiều cao tối đa */
+    max-height: 250px;
     overflow-y: auto;
     display: none;
-    color: #eee; /* Màu chữ sáng */
+    color: #eee;
 }
 
 #header .suggestions-list .suggestion-item {
@@ -296,6 +310,8 @@ body {
     align-items: center;
     border-bottom: 1px solid #444; /* Border giữa các item */
     transition: background-color 0.2s ease;
+    color: #eee;
+    border-bottom: 1px solid #444;
 }
 #header .suggestions-list .suggestion-item:last-child {
     border-bottom: none; /* Bỏ border cho item cuối */
@@ -315,14 +331,9 @@ body {
 }
 
 #header .suggestions-list .suggestion-item h4 {
-    margin: 0 0 3px 0; /* Reset margin, thêm khoảng cách dưới */
-    font-size: 14px;
-    font-weight: 600;
     color: var(--white);
 }
 #header .suggestions-list .suggestion-item p {
-    margin: 0;
-    font-size: 12px;
     color: #aaa;
 }
 
@@ -335,16 +346,17 @@ body {
 #header #news-btn, /* Nếu có nút news */
 #header #watchlist-btn,
 #header #sign-up-btn {
-    padding: 7px 15px; /* Tăng padding */
+    padding: 7px 15px;
     border: none;
     color: var(--white);
-    margin-left: 10px; /* Giảm margin */
+    margin-left: 10px; /* Giữ margin giữa các nút */
     cursor: pointer;
-    border-radius: 5px; /* Bo góc vuông hơn */
+    border-radius: 5px;
     font-size: 14px;
     font-weight: 500;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
     white-space: nowrap; /* Ngăn nút xuống dòng */
+    flex-shrink: 0; /* Ngăn nút xuống dòng */
 }
 
 #header #login-btn,
@@ -489,7 +501,8 @@ body {
 
      /* Có thể cần style lại #header .navigation để các icon nằm gọn */
      #header .navigation {
-         margin-left: auto; /* Đẩy icon menu về cuối */
+        margin-left: auto; /* Đẩy icon menu về cuối khi các item khác ẩn */
+        flex-grow: 0;
      }
 }
 
