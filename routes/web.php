@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController; // Import HomeController nếu dùng Controller
+use Illuminate\Support\Facades\Auth; // <<< Thêm dòng này
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\TvShowController;
 use App\Http\Controllers\CelebController;
@@ -9,53 +10,46 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\WatchlistController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\SearchController; // Controller cho tìm kiếm
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
+use App\Http\Controllers\SearchController;
 
 // Trang chủ
-Route::get('/', [HomeController::class, 'index'])->name('home'); // Gán tên 'home'
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Ví dụ các route khác (bạn sẽ cần tạo Controller tương ứng)
+// Các route công khai khác (Dùng route() helper trong view thay vì ?module=...)
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.list');
+Route::get('/movies/{id}', [MovieController::class, 'show'])->name('movie.detail'); // Dùng route này cho link chi tiết
 Route::get('/tv-shows', [TvShowController::class, 'index'])->name('tvshows.list');
+// Route chi tiết TV Show có thể dùng chung 'movie.detail' nếu cấu trúc giống nhau
+// Route::get('/tv-shows/{id}', [TvShowController::class, 'show'])->name('tvshow.detail');
 Route::get('/celebs', [CelebController::class, 'index'])->name('celebs.list');
+Route::get('/celebs/{id}', [CelebController::class, 'show'])->name('celeb.detail'); // Dùng route này
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-Route::get('/search', [SearchController::class, 'webSearch'])->name('search'); // Route cho form search
+Route::get('/search', [SearchController::class, 'webSearch'])->name('search');
 
-// Route cần đăng nhập (sử dụng middleware auth)
-Route::middleware('auth:sanctum')->group(function () {
+// Route xác thực (Login, Register, Forgot Password, Logout...)
+Auth::routes(); // Tự động tạo các route /login, /register, /logout,...
 
-    // *** ĐỊNH NGHĨA ROUTE RATING PHIM ***
-    Route::post('/rate/movie', [RatingController::class, 'store'])
-          ->name('api.rate.movie'); // <-- Đặt tên route ở đây
+// Route cần đăng nhập
+Route::middleware(['auth'])->group(function () { // <<< Dùng 'auth'
 
-    // *** ĐỊNH NGHĨA ROUTE XÓA RATING ***
-    // (Cần cả route này vì JS cũng dùng route('api.remove.rating'))
-    // Có thể dùng POST hoặc DELETE
-    Route::post('/remove-rating', [RatingController::class, 'destroy'])
-           ->name('api.remove.rating');
+    // Rating
+    Route::post('/rate/movie', [RatingController::class, 'store'])->name('api.rate.movie');
+    Route::post('/remove-rating', [RatingController::class, 'destroy'])->name('api.remove.rating'); // Đổi thành DELETE nếu muốn chuẩn RESTful hơn
 
-    // *** ĐỊNH NGHĨA ROUTE WATCHLIST ***
-    // (Cần cả các route này vì JS cũng dùng)
-    Route::post('/watchlist/add', [WatchlistController::class, 'store'])
-           ->name('api.watchlist.add');
+    // Watchlist
+    Route::post('/watchlist/add', [WatchlistController::class, 'store'])->name('api.watchlist.add');
+    Route::delete('/watchlist/remove', [WatchlistController::class, 'destroy'])->name('api.watchlist.remove');
+    Route::get('/my-watchlist', [WatchlistController::class, 'index'])->name('watchlist.index'); // Route xem watchlist
 
-    // Sử dụng DELETE sẽ hợp lý hơn cho việc xóa
-    Route::delete('/watchlist/remove', [WatchlistController::class, 'destroy'])
-            ->name('api.watchlist.remove');
-
-    // Thêm các API endpoint cần xác thực khác ở đây...
+    // Profile (Ví dụ)
+    // Route::get('/profile', [UserProfileController::class, 'edit'])->name('profile.edit');
+    // Route::put('/profile', [UserProfileController::class, 'update'])->name('profile.update');
 
 });
 
+// Laravel UI tạo route /home mặc định, bạn có thể bỏ nếu trang chủ là '/'
+// Hoặc sửa redirect trong Auth Controllers
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Có thể comment hoặc xóa dòng này
+Auth::routes();
 
-// Route xác thực mặc định của Laravel (nếu bạn cài đặt auth)
-// require __DIR__.'/auth.php';
-
-// Route API cho search suggestions (trong routes/api.php)
-// Route::get('/search', [ApiSearchController::class, 'suggestions'])->name('api.search');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
