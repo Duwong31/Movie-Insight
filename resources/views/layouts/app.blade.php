@@ -22,8 +22,7 @@
         @yield('content')
     </main>
 
-    @include('partials.footer') {{-- Include footer (cũng cần bỏ <style>) --}}
-
+    @include('partials.footer') 
     {{-- JS Files --}}
     <script src="{{ asset('js/jquery.min.js') }}"></script> {{-- Nếu cần --}}
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>

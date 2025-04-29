@@ -87,7 +87,7 @@
 <style>
     /* Kế thừa style từ login hoặc thêm style riêng */
     .card { background-color: #333; color: #fff; border: 1px solid #444; }
-    .card-header { background-color: #444; border-bottom: 1px solid #555; }
+    .card-header { background-color: #444; border-bottom: 1px solid #555; text-align: center}
     .form-control { background-color: #555; color: #fff; border: 1px solid #666; }
     .form-control:focus { background-color: #666; color: #fff; border-color: #e70634; box-shadow: none; }
     .btn-primary { background-color: #e70634; border-color: #e70634; }

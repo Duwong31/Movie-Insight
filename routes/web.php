@@ -41,9 +41,9 @@ Route::middleware(['auth'])->group(function () { // <<< Dùng 'auth'
     Route::delete('/watchlist/remove', [WatchlistController::class, 'destroy'])->name('api.watchlist.remove');
     Route::get('/my-watchlist', [WatchlistController::class, 'index'])->name('watchlist.index'); // Route xem watchlist
 
-    // Profile (Ví dụ)
-    // Route::get('/profile', [UserProfileController::class, 'edit'])->name('profile.edit');
-    // Route::put('/profile', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show'); // Thay Controller nếu cần
+    Route::get('/my-ratings', [UserRatingController::class, 'index'])->name('ratings.index'); // Thay Controller nếu cần
+    Route::get('/account-settings', [AccountSettingController::class, 'edit'])->name('settings.account');
 
 });
 

@@ -53,28 +53,33 @@
                 <a href="{{ route('register') }}" id="sign-up-btn">Sign up</a> {{-- Giữ ID, đổi thành <a> --}}
             @endif
 
-        @else
-            {{-- Auth State: Hiển thị nút Watchlist (trỏ đúng link), Tên User, Logout --}}
+            @else
+            {{-- Auth State: Hiển thị nút Watchlist (trỏ đúng link), Dropdown User --}}
 
             {{-- Nút Watchlist (trỏ đến trang watchlist thực tế) --}}
             <a href="{{ route('watchlist.index') ?? '#' }}" id="watchlist-btn"> {{-- Giữ ID, đổi href --}}
-                 <i class="fa-solid fa-list-check"></i> Watchlist {{-- Đổi icon nếu muốn --}}
+                 <i class="fa-solid fa-list-check"></i> Watchlist
             </a>
 
-            {{-- Hiển thị Tên User và Logout --}}
-            {{-- Sử dụng cấu trúc .dropdown mà CSS của bạn đã có --}}
-            <div class="dropdown">
-                {{-- Link kích hoạt dropdown (CSS của bạn style thẻ <a> đầu tiên trong .dropdown) --}}
-                {{-- Chúng ta sẽ hiển thị tên user ở đây --}}
-                <a href="#" class="dropdown-toggle-placeholder"> {{-- Thêm class nếu cần target JS, nhưng CSS có thể đã đủ --}}
-                    <i class="fa-regular fa-user" style="margin-right: 5px;"></i> {{-- Thêm icon user nếu muốn --}}
-                    <span>{{ Auth::user()->fullname ?? Auth::user()->name }}</span>
+            {{-- Dropdown User (Sử dụng cấu trúc .dropdown hiện có) --}}
+            <div class="dropdown" id="user-dropdown-container"> {{-- Thêm ID cho container --}}
+                {{-- Link kích hoạt dropdown (sẽ được style bởi CSS) --}}
+                {{-- Thêm ID 'user-dropdown-toggle' để JS bắt sự kiện click --}}
+                <a href="#" id="user-dropdown-toggle" class="user-dropdown-trigger">
+                    <i class="fa-regular fa-user user-icon"></i>
+                    <span class="user-name">{{ Auth::user()->fullname ?? Auth::user()->name }}</span>
+                     <i class="fa-solid fa-caret-down dropdown-caret"></i> {{-- Thêm icon mũi tên nếu muốn --}}
                 </a>
 
-                {{-- Menu dropdown (CSS của bạn style .dropdown-menu) --}}
-                <ul class="dropdown-menu">
-                    {{-- <li><a class="dropdown-item" href="#">Profile</a></li> --}}
-                    {{-- <li><hr class="dropdown-divider"></li> --}}
+                {{-- Menu dropdown (sẽ được style bởi CSS) --}}
+                {{-- Thêm ID 'user-dropdown-menu' để JS ẩn/hiện --}}
+                <ul class="dropdown-menu" id="user-dropdown-menu" style="display: none;"> {{-- Thêm style="display: none;" --}}
+                    {{-- Thêm các mục menu mong muốn --}}
+                    <li><a class="dropdown-item" href="{{ route('profile.show') ?? '#' }}">Your Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('watchlist.index') ?? '#' }}">Your Watchlist</a></li>
+                    <li><a class="dropdown-item" href="{{ route('ratings.index') ?? '#' }}">Your ratings</a></li>
+                    <li><a class="dropdown-item" href="{{ route('settings.account') ?? '#' }}">Account settings</a></li>
+                    <li><hr class="dropdown-divider"></li> {{-- Dòng kẻ ngang phân cách --}}
                     <li>
                          {{-- Form logout ẩn --}}
                          <form id="logout-form-header" action="{{ route('logout') }}" method="POST" style="display: none;">

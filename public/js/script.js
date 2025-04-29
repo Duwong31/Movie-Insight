@@ -209,4 +209,41 @@ document.addEventListener("DOMContentLoaded", function() {
      }
      // (Kết thúc phần code rating)
 
+     // Header - Profile Dropdown
+    const dropdownToggle = document.getElementById('user-dropdown-toggle');
+    const dropdownMenu = document.getElementById('user-dropdown-menu');
+    const dropdownContainer = document.getElementById('user-dropdown-container'); // Lấy container
+
+    console.log("Dropdown Toggle Element:", dropdownToggle);
+    console.log("Dropdown Menu Element:", dropdownMenu);
+    console.log("Dropdown Container Element:", dropdownContainer);
+
+    if (dropdownToggle && dropdownMenu && dropdownContainer) {
+        console.log("Dropdown elements FOUND. Adding click listener to toggle.");
+        dropdownToggle.addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn link điều hướng
+            console.log("Dropdown TOGGLE CLICKED!");
+            dropdownMenu.classList.toggle('show');
+            console.log("Dropdown menu classes:", dropdownMenu.classList);
+        });
+        console.log("Adding document click listener for outside clicks.");
+        // Đóng dropdown khi click ra bên ngoài
+        document.addEventListener('click', function(event) {
+            // Quan trọng: Chỉ đóng nếu click nằm ngoài TOÀN BỘ container dropdown
+            if (!dropdownContainer.contains(event.target)) {
+                // Chỉ thực hiện remove class nếu menu đang hiển thị
+                if (dropdownMenu.classList.contains('show')) {
+                    console.log("Clicked OUTSIDE dropdown container. Closing menu."); // Xác nhận click ngoài và đóng
+                    dropdownMenu.classList.remove('show');
+                    console.log("Dropdown menu classes after closing:", dropdownMenu.classList);
+                }
+            } else {
+                // Optional: Ghi log khi click bên trong để dễ debug
+                // console.log("Clicked INSIDE dropdown container.");
+            }
+        });
+    }else {
+        // Thông báo lỗi nếu không tìm thấy phần tử nào đó
+        console.error("ERROR: Could not find one or more dropdown elements! Check IDs in HTML and JS.");
+    }
 }); // Kết thúc listener DOMContentLoaded chính
