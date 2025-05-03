@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; // <<< Thêm dòng này
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MovieController;
+use Modules\Movies\Controllers\MovieController;
 use App\Http\Controllers\TvShowController;
 use App\Http\Controllers\CelebController;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\WatchlistController;
+use Modules\Watchlists\Controllers\WatchlistController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SearchController;
@@ -25,7 +25,8 @@ Route::get('/celebs', [CelebController::class, 'index'])->name('celebs.list');
 Route::get('/celebs/{id}', [CelebController::class, 'show'])->name('celeb.detail'); // Dùng route này
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/search', [SearchController::class, 'webSearch'])->name('search');
-
+Route::get('/genres/{id}', [GenreController::class, 'show'])
+      ->name('genres.show');
 // Route xác thực (Login, Register, Forgot Password, Logout...)
 Auth::routes(); // Tự động tạo các route /login, /register, /logout,...
 
@@ -47,8 +48,6 @@ Route::middleware(['auth'])->group(function () { // <<< Dùng 'auth'
 
 });
 
-// Laravel UI tạo route /home mặc định, bạn có thể bỏ nếu trang chủ là '/'
-// Hoặc sửa redirect trong Auth Controllers
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Có thể comment hoặc xóa dòng này
 Auth::routes();
 

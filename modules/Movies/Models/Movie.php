@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany; // <<< Thêm dòng này
 use Illuminate\Database\Eloquent\Relations\HasOne;  // <<< Giữ lại nếu đã có userRating
+use Illuminate\Database\Eloquent\Relations\BelongsToMany; // <<< Thêm dòng này
 use Illuminate\Support\Facades\Auth;             // <<< Giữ lại nếu đã có userRating
 use App\Models\Rating;  
+use Modules\Genres\Models\Genre;
+use Modules\Actors\Models\Actor;
+use App\Models\User; // <<< Add this line to import the User model
+
 
 class Movie extends Model
 {
@@ -29,11 +34,6 @@ class Movie extends Model
      */
     public function ratings(): HasMany
     {
-        // Giả định:
-        // - Model Rating là App\Models\Rating
-        // - Bảng ratings có cột khóa ngoại là 'movie_id' trỏ đến 'id' của bảng movies.
-        // Nếu khóa ngoại của bạn tên khác, hãy truyền nó làm tham số thứ hai.
-        // Ví dụ: return $this->hasMany(Rating::class, 'foreign_key_khac');
         return $this->hasMany(Rating::class, 'movie_id');
     }
 
@@ -45,10 +45,23 @@ class Movie extends Model
      */
     public function userRating(): HasOne
     {
-        // Chỉ trả về rating của user hiện tại
         return $this->hasOne(Rating::class, 'movie_id')
                     ->where('user_id', Auth::id());
     }
 
-    // ... các phương thức khác nếu có ...
+    public function genres(): BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class, 'movie_genre', 'movie_id', 'genre_id');
+    }
+
+    public function actors(): BelongsToMany
+    {
+        return $this->belongsToMany(Actor::class, 'movie_actor', 'movie_id', 'actor_id');
+    }
+    
+    public function watchers(): BelongsToMany // <<< Thêm phương thức này
+    {
+        return $this->belongsToMany(User::class, 'watchlist', 'movie_id', 'user_id')
+                    ->withTimestamps();
+    }
 }

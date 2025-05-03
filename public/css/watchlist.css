@@ -1,0 +1,130 @@
+.watchlist-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    /* color: #fff; */ /* Có thể bỏ nếu layout đã có màu chữ */
+    /* background-color: #222; */ /* Có thể bỏ nếu layout đã có màu nền */
+    border-radius: 8px;
+    margin-top: 100px; /* Điều chỉnh nếu cần */
+    margin-bottom: 50px; /* Thêm khoảng cách dưới */
+}
+.watchlist-title {
+    font-size: 28px;
+    font-weight: bold;
+    /* color: white; */ /* Có thể bỏ nếu layout đã có màu chữ */
+    text-align: center;
+    margin-bottom: 30px; /* Thêm khoảng cách dưới tiêu đề */
+}
+
+.watchlist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.watchlist-item {
+    display: flex;
+    background-color: #333; /* Giữ lại màu nền item */
+    color: #ddd; /* Màu chữ trong item */
+    padding: 15px; /* Tăng padding */
+    border-radius: 8px;
+    align-items: center;
+    position: relative; /* Để định vị nút xóa */
+    transition: background-color 0.3s ease;
+}
+.watchlist-item:hover {
+     background-color: #444; /* Hiệu ứng hover */
+}
+
+.watchlist-movie-image img {
+    width: 100px;
+    height: 150px;
+    border-radius: 5px;
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    display: block; /* Tránh khoảng trắng dưới ảnh */
+}
+
+.watchlist-movie-info {
+    margin-left: 20px; /* Tăng khoảng cách */
+    flex: 1; /* Chiếm phần còn lại */
+}
+
+.watchlist-movie-info h2 {
+    font-size: 20px;
+    margin: 0 0 8px; /* Tăng khoảng cách dưới */
+    color: #fff; /* Màu tiêu đề phim */
+}
+
+.watchlist-movie-info p.movie-description { /* Thêm class để dễ style */
+    font-size: 14px; /* Tăng font size */
+    margin: 0 0 10px; /* Khoảng cách dưới */
+    line-height: 1.5; /* Cải thiện khả năng đọc */
+    /* Giới hạn số dòng nếu cần */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-meta {
+    font-size: 14px;
+    color: #aaa;
+    display: flex;
+    gap: 15px;
+    align-items: center; /* Căn giữa các item */
+    margin-bottom: 5px; /* Khoảng cách dưới meta */
+}
+.movie-meta-star{
+    color: yellow;
+    font-weight: bold;
+}
+
+/*remove button watchlist*/
+.remove-button {
+    width: 35px; /* Tăng kích thước */
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #dc3545; /* Màu đỏ bootstrap */
+    border: none;
+    border-radius: 50%; /* Bo tròn */
+    cursor: pointer;
+    font-size: 16px; /* Kích thước icon */
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-left: 15px; /* Khoảng cách với info */
+}
+
+.remove-button i {
+     transition: transform 0.3s;
+}
+
+
+.remove-button:hover {
+    background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
+    transform: scale(1.1);
+}
+
+.remove-button:hover i {
+    /* transform: rotate(90deg); */ /* Có thể bỏ hiệu ứng xoay nếu không thích */
+}
+
+/* Thêm style cho trường hợp watchlist rỗng */
+.empty-watchlist {
+    text-align: center;
+    font-size: 18px;
+    color: #aaa;
+    padding: 50px 20px;
+    border: 2px dashed #444;
+    border-radius: 8px;
+}
+.empty-watchlist a {
+    color: #0d6efd; /* Màu link bootstrap */
+    text-decoration: none;
+}
+ .empty-watchlist a:hover {
+     text-decoration: underline;
+ }

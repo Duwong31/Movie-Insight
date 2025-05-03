@@ -6,7 +6,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail; // Thêm nếu dùng email verifi
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens; // Giữ lại nếu có thể dùng API sau này
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Movies\Models\Movie;
 
 class User extends Authenticatable // implements MustVerifyEmail (nếu dùng)
 {
@@ -46,12 +49,15 @@ class User extends Authenticatable // implements MustVerifyEmail (nếu dùng)
         'isAdmin' => 'boolean', // Cast isAdmin thành true/false
     ];
 
-    // Nếu bạn cần định nghĩa relationship với Rating, Watchlist,... thì thêm ở đây
-    // ví dụ:
-    // public function ratings() {
-    //     return $this->hasMany(Rating::class);
-    // }
-    // public function watchlistItems() {
-    //     return $this->hasMany(WatchlistItem::class); // Giả sử có model WatchlistItem
-    // }
+    public function ratings(): HasMany
+    {
+        // Giả sử bạn có Model Rating và bảng ratings có user_id
+        return $this->hasMany(Rating::class);
+    }
+
+    public function watchlistMovies(): BelongsToMany // <<< Thêm phương thức này
+    {
+        return $this->belongsToMany(Movie::class, 'watchlist', 'user_id', 'movie_id')
+                    ->withTimestamps(); // Thêm cái này nếu bảng watchlist có cột created_at, updated_at
+    }
 }

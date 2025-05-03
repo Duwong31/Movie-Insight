@@ -1,0 +1,171 @@
+.movie-detail-body {
+    background-color: #1c1c1c;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.movie-detail-container {
+    width: 900px;
+    padding: 20px;
+}
+
+/* Header chứa poster và thông tin phim */
+.movie-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.movie-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.release-year {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #b3b3b3;
+}
+
+.rating-section {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+.rating-section .rating,
+.rating-section .your-rating {
+    text-align: center;
+}
+.rate-link{
+    box-sizing: border-box;
+    border: none;
+    padding: 0 5px 2px;
+    background-color: transparent;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: rgb(87, 153, 239);
+}
+.rate-link:hover{
+    background-color: #272626;
+    border-radius: 12.8px;
+}
+.stars {
+    font-size: 1.2rem;
+    color: #ffd700;
+}
+
+.your-stars {
+    font-size: 1.2rem;
+    color: rgb(87, 153, 239);
+}
+
+/* Căn poster và trailer vào giữa */
+.movie-poster-trailer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.movie-poster {
+    width: 400px;
+    height: 364px;
+    border-radius: 8px;
+}
+
+.movie-trailer {
+    width: 800px;
+    height: 370px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Genres và nút Watchlist */
+.genres-watchlist {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.genres span {
+    background-color: transparent;
+    color: #ffffff;
+    padding: 5px 10px;
+    border: 1px solid white;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+.watchlist-button {
+    background-color: #e70634;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.watchlist-button:hover {
+    background-color: #ce032c;
+}
+
+/* Mô tả phim */
+.movie-description {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #dcdcdc;
+}
+
+/* Đạo diễn và diễn viên */
+.movie-director,
+.movie-cast {
+    display: flex;
+    align-items: baseline;
+    margin: 20px 0;
+    flex-wrap: wrap; 
+}
+
+.movie-director h3,
+.movie-cast h3 {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.movie-director span,
+.movie-cast span {
+    font-size: 14px;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.movie-director span:hover,
+.movie-cast span:hover {
+    cursor: pointer;
+    color: whitesmoke;
+}
+
+.genre-tag,
+.actor-link {
+    text-decoration: none; 
+}
+
+.actor-link {
+    color: blue; 
+    transition: color 0.2s ease;
+}

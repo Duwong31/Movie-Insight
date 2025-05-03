@@ -321,43 +321,6 @@
 
 
 @push('scripts')
-{{-- Chỉ định nghĩa các biến JS cần giá trị từ PHP --}}
-<script>
-    // Biến kiểm tra trạng thái đăng nhập
-    const isLoggedIn = @json(Auth::check());
-    // ID người dùng (null nếu chưa đăng nhập)
-    const loggedInUserId = @json(Auth::id());
-    // CSRF Token cho các request AJAX non-GET
-    const csrfToken = '{{ csrf_token() }}';
-
-    // Định nghĩa các URL API (ưu tiên dùng route() nếu có)
-    // Đảm bảo các route name ('api.rate.movie', ...) đã được định nghĩa trong routes/api.php
-    const rateMovieUrl = '{{ route("api.rate.movie", [], false) ?? url("/api/fallback/rate/movie") }}'; // Thêm fallback nếu route chưa chắc có
-    const removeRatingUrl = '{{ route("api.remove.rating", [], false) ?? url("/api/fallback/remove-rating") }}';
-    const addToWatchlistUrl = '{{ route("api.watchlist.add", [], false) ?? url("/api/fallback/watchlist/add") }}';
-    const removeFromWatchlistUrl = '{{ route("api.watchlist.remove", [], false) ?? url("/api/fallback/watchlist/remove") }}';
-
-    // **Ghi chú quan trọng cho bạn:**
-    // - Các file `public/js/script.js` và `public/js/ajax.js` bây giờ cần PHẢI
-    //   sử dụng các biến const được định nghĩa ở trên (isLoggedIn, loggedInUserId, csrfToken, rateMovieUrl, ...).
-    // - KHÔNG định nghĩa lại các biến này trong script.js hay ajax.js.
-    // - Khi gọi fetch() trong ajax.js hoặc script.js cho các request POST/PUT/DELETE:
-    //   Hãy thêm 'X-CSRF-TOKEN': csrfToken vào phần headers.
-    //   Ví dụ:
-    //   fetch(rateMovieUrl, {
-    //       method: 'POST',
-    //       headers: {
-    //           'Content-Type': 'application/json',
-    //           'Accept': 'application/json',
-    //           'X-CSRF-TOKEN': csrfToken // <<< THÊM DÒNG NÀY
-    //       },
-    //       body: JSON.stringify({ movie_id: movieId, rating: ratingValue, user_id: loggedInUserId }) // User ID lấy từ biến toàn cục
-    //   })
-    //   .then(...)
-    //   .catch(...);
-    // - Logic kiểm tra đăng nhập trong ajax.js/script.js nên dùng biến `isLoggedIn`.
-</script>
-
 {{-- Nhúng file JS dành riêng cho trang chủ SAU KHI định nghĩa biến --}}
 <script src="{{ asset('js/home.js') }}"></script>
 

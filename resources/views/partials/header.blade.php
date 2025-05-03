@@ -39,10 +39,7 @@
             <a href="{{ route('login') }}" id="watchlist-btn"> {{-- Giữ ID, đổi href --}}
                 <i class="fa-solid fa-plus"></i> Watchlist
             </a>
-            {{-- Hoặc nếu bạn muốn giữ là button và dùng JS: --}}
-            {{-- <button id="watchlist-btn" onclick="window.location.href='{{ route('login') }}'">...</button> --}}
-
-
+            
             {{-- Nút Login --}}
             @if (Route::has('login'))
                 <a href="{{ route('login') }}" id="login-btn">Login</a> {{-- Giữ ID, đổi thành <a> --}}
@@ -58,7 +55,7 @@
 
             {{-- Nút Watchlist (trỏ đến trang watchlist thực tế) --}}
             <a href="{{ route('watchlist.index') ?? '#' }}" id="watchlist-btn"> {{-- Giữ ID, đổi href --}}
-                 <i class="fa-solid fa-list-check"></i> Watchlist
+                 <i class="fa-solid fa-plus"></i> Watchlist
             </a>
 
             {{-- Dropdown User (Sử dụng cấu trúc .dropdown hiện có) --}}
