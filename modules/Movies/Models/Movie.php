@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany; // <<< Thêm dòng này
 use Illuminate\Database\Eloquent\Relations\HasOne;  // <<< Giữ lại nếu đã có userRating
 use Illuminate\Database\Eloquent\Relations\BelongsToMany; // <<< Thêm dòng này
 use Illuminate\Support\Facades\Auth;             // <<< Giữ lại nếu đã có userRating
-use App\Models\Rating;  
+use Modules\Ratings\Models\Rating;  
 use Modules\Genres\Models\Genre;
 use Modules\Actors\Models\Actor;
 use App\Models\User; // <<< Add this line to import the User model
@@ -34,7 +34,7 @@ class Movie extends Model
      */
     public function ratings(): HasMany
     {
-        return $this->hasMany(Rating::class, 'movie_id');
+        return $this->hasMany(Rating::class, 'movie_id', 'movie_id');
     }
 
     /**
@@ -45,8 +45,8 @@ class Movie extends Model
      */
     public function userRating(): HasOne
     {
-        return $this->hasOne(Rating::class, 'movie_id')
-                    ->where('user_id', Auth::id());
+        return $this->hasOne(\Modules\Ratings\Models\Rating::class, 'movie_id', 'movie_id')
+                   ->where('user_id', Auth::id());
     }
 
     public function genres(): BelongsToMany

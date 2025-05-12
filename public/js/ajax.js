@@ -2,10 +2,7 @@
 // Thêm phim vào watchlist
 function addToWatchlist(movieId, buttonElement) {
     if (!config.isLoggedIn) {
-        // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập, kèm theo URL để quay lại
         window.location.href = `${config.urls.login}?redirect=${encodeURIComponent(window.location.href)}`;
-        // Hoặc hiển thị thông báo:
-        // alert("Please log in to add movies to your watchlist.");
         return;
     }
 
@@ -46,10 +43,10 @@ function addToWatchlist(movieId, buttonElement) {
             // Cập nhật nút (nếu có)
             if (buttonElement) {
                 buttonElement.innerHTML = '<i class="fas fa-check"></i> Added'; // Đổi thành trạng thái "Added"
-                buttonElement.classList.remove('add-watchlist-btn'); // Xóa class cũ
-                buttonElement.classList.add('remove-watchlist-btn'); // Thêm class mới
-                buttonElement.dataset.movieId = movieId; // Đảm bảo dòng này tồn tại và đúng
-                buttonElement.onclick = () => removeFromWatchlist(movieId, buttonElement);
+                buttonElement.classList.remove('addToWatchlist-btn'); 
+                buttonElement.classList.add('remove-watchlist-btn'); 
+                // buttonElement.dataset.movieId = movieId; 
+                // buttonElement.onclick = () => removeFromWatchlist(movieId, buttonElement);
                 buttonElement.disabled = false; // Kích hoạt lại nút với chức năng mới
             }
         } else {
@@ -115,8 +112,8 @@ function removeFromWatchlist(movieId, buttonElement) {
             if (buttonElement) {
                 buttonElement.innerHTML = '<i class="fa-solid fa-plus"></i> Add to Watchlist';
                 buttonElement.classList.remove('remove-watchlist-btn');
-                buttonElement.classList.add('add-watchlist-btn');
-                buttonElement.onclick = () => addToWatchlist(movieId, buttonElement);
+                buttonElement.classList.add('addToWatchlist-btn');
+                // buttonElement.onclick = () => addToWatchlist(movieId, buttonElement);
                 buttonElement.disabled = false;
             }
 
@@ -286,3 +283,46 @@ function removeRating(movieId) {
 //     .catch(error => console.error('Error:', error));
 // }
 
+// Hàm cập nhật giao diện sau khi gửi hoặc xoá đánh giá
+function updateRatingUI(movieId, ratingValue, newAverageRating) {
+    console.log(`Running updateRatingUI for ${movieId}. New Rating: ${ratingValue}, New Avg: ${newAverageRating}`);
+
+    const rateLink = document.querySelector(`.rate-link[data-movie-id="${movieId}"]`);
+    const averageRatingDisplay = document.querySelector(`.average-rating[data-movie-id="${movieId}"]`);
+    const form = document.querySelector(`.rating-form[data-movie-id="${movieId}"]`);
+
+    if (rateLink) {
+         if (ratingValue) {
+             rateLink.innerHTML = `★ ${Math.round(ratingValue)}`; // Sử dụng Math.round
+             rateLink.classList.add('rated');
+         } else {
+             rateLink.innerHTML = `☆ Rate`;
+             rateLink.classList.remove('rated');
+         }
+         console.log("Updated rateLink content");
+    } else {
+         console.warn("Could not find .rate-link for movie", movieId);
+    }
+
+    // Cần một element trên card để hiển thị average rating, ví dụ class="average-rating"
+    if (averageRatingDisplay && typeof newAverageRating !== 'undefined' && newAverageRating !== null) {
+        averageRatingDisplay.textContent = `★ ${parseFloat(newAverageRating).toFixed(1)}/10`;
+        console.log("Updated average rating display");
+    } else if (!averageRatingDisplay) {
+         console.warn("Could not find .average-rating display element for movie", movieId);
+    }
+
+
+    if (form) {
+        const submitButton = form.querySelector('.btn-submit-rating');
+        if(submitButton){
+            submitButton.disabled = true;
+            submitButton.textContent = 'Rate';
+        }
+        form.dataset.currentRating = ratingValue || 0; // Cập nhật rating hiện tại trên form
+        form.style.display = 'none'; // Đóng form
+        console.log("Closed rating form for movie", movieId);
+    } else {
+         console.warn("Could not find rating form to close for movie", movieId);
+    }
+}

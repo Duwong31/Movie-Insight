@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Phần JS cho nút .add-watchlist-btn (nếu cần trên trang này) giữ nguyên
+    // Phần JS cho nút .addToWatchlist-btn (nếu cần trên trang này) giữ nguyên
 });
 </script>
 @endpush

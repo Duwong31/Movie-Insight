@@ -172,30 +172,106 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
 
+    function updateStarsAndDisplay(targetForm, currentValue, isHovering = false) {
+        // Kiểm tra xem targetForm có hợp lệ không
+        if (!targetForm) {
+            // console.error("updateStarsAndDisplay called with invalid targetForm");
+            return;
+        }
+        const localStars = targetForm.querySelectorAll('.star');
+        const localValueDisplay = targetForm.querySelector('.rating-value-display');
+        const selectedVal = parseInt(targetForm.dataset.selectedValue || '0');
+
+        // console.log(`Updating display for form ${targetForm.dataset.movieId}. Value: ${currentValue}, Hover: ${isHovering}, Selected: ${selectedVal}`);
+        // console.log("Found localValueDisplay:", localValueDisplay);
+
+        if (localValueDisplay) {
+            if (isHovering) {
+                localValueDisplay.textContent = currentValue > 0 ? currentValue : '?';
+            } else {
+                localValueDisplay.textContent = selectedVal > 0 ? selectedVal : '?';
+            }
+        } else {
+             // console.error("Could not find .rating-value-display inside the form:", targetForm);
+        }
+
+        localStars.forEach((s, index) => {
+            const starValue = index + 1;
+            s.classList.remove('hover', 'selected', 'fas', 'far');
+            const compareValue = isHovering ? currentValue : selectedVal;
+            if (starValue <= compareValue) {
+                s.classList.add('fas');
+                if (isHovering && starValue <= currentValue) {
+                    s.classList.add('hover');
+                }
+                if (!isHovering && starValue <= selectedVal) {
+                    s.classList.add('selected');
+                }
+            } else {
+                s.classList.add('far');
+            }
+        });
+    }
+
     // --- Logic Rating Form ---
-    // (Giữ nguyên phần code xử lý rating form của bạn ở đây)
-    // Mở form đánh giá khi nhấn vào nút "Rate"
     document.querySelectorAll('.rate-link').forEach(link => {
         link.addEventListener('click', function(event) {
             event.preventDefault();
             event.stopPropagation();
+
             const movieId = this.dataset.movieId;
+            console.log("Clicked Rate link for movie ID:", movieId); // Log 1
+            if (!movieId) {
+                console.error("Movie ID is missing on the clicked rate link:", this);
+                return;
+            }
 
-            if (!isLoggedIn) {
+            if (!config.isLoggedIn) {
                 alert("Please log in to rate this movie.");
-            } else {
-                const form = document.querySelector(`.rating-form[data-movie-id="${movieId}"]`);
-                form.style.display = 'block';
+                window.location.href = `${config.urls.login}?redirect=${encodeURIComponent(window.location.href)}`;
+                return;
+            }
 
-                // Kiểm tra nếu đã đánh giá, hiển thị nút "Remove Rating"
-                const userRating = this.textContent.includes("★") ? parseInt(this.textContent.split("★ ")[1]) : null;
+            const formSelector = `.rating-form[data-movie-id="${movieId}"]`;
+            console.log("Looking for form with selector:", formSelector); // Log 2
+            const form = document.querySelector(formSelector);
+            console.log("Found form element:", form); // Log 3
+
+            if (form) {
+                // Đóng các form khác
+                document.querySelectorAll('.rating-form').forEach(otherForm => {
+                    if (otherForm !== form && otherForm.style.display !== 'none') {
+                        otherForm.style.display = 'none';
+                    }
+                });
+
+                // Reset form và cập nhật UI ban đầu
+                const submitButton = form.querySelector('.btn-submit-rating');
+                const currentRating = parseInt(form.dataset.currentRating || '0');
                 const removeRatingBtn = form.querySelector('.remove-rating-btn');
-                
-                if (userRating) {
-                    removeRatingBtn.style.display = 'block';
-                } else {
-                    removeRatingBtn.style.display = 'none';
+
+                form.dataset.selectedValue = currentRating;
+
+                // <<< GỌI HÀM TỪ PHẠM VI MỚI >>>
+                updateStarsAndDisplay(form, currentRating, false); // Giờ hàm này đã được định nghĩa ở ngoài
+
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Rate';
                 }
+                if (removeRatingBtn) {
+                    removeRatingBtn.style.display = currentRating > 0 ? 'block' : 'none';
+                    if (currentRating > 0) {
+                        removeRatingBtn.textContent = `Remove Your Rating (${currentRating})`;
+                    }
+                }
+
+                // Hiển thị form
+                form.style.display = 'flex'; // << Dòng này giờ sẽ chạy được
+
+            } else {
+                console.error(`ERROR: Rating form with selector "${formSelector}" NOT FOUND!`);
+                alert(`Could not find rating details for movie ID ${movieId}.`);
             }
         });
     });
@@ -217,116 +293,92 @@ document.addEventListener("DOMContentLoaded", function() {
      });
 
      // Tô màu sao khi hover
-     document.querySelectorAll('.rating-form').forEach(form => {
-        form.querySelectorAll('.star').forEach(star => {
+    document.querySelectorAll('.rating-form').forEach(form => {
+        const stars = form.querySelectorAll('.star'); // Lấy tất cả sao trong form này
+        const submitButton = form.querySelector('.btn-submit-rating');
+
+        // Lưu trữ trạng thái selected ban đầu
+        form.dataset.selectedValue = form.dataset.currentRating || "0";
+
+        stars.forEach(star => {
+            // --- Sự kiện HOVER vào sao ---
+            star.addEventListener('mouseover', function() {
+                const hoverValue = parseInt(this.dataset.value);
+                updateStarsAndDisplay(form, hoverValue, true); // Gọi hàm global
+            });
+    
+            // --- Sự kiện RỜI CHUỘT khỏi sao ---
+            star.addEventListener('mouseout', function() {
+                const selectedValue = parseInt(form.dataset.selectedValue || '0');
+                updateStarsAndDisplay(form, selectedValue, false); // Gọi hàm global
+            });
+    
+            // --- Sự kiện CLICK vào sao ---
             star.addEventListener('click', function() {
-                const movieId = form.dataset.movieId; // Lấy movie id từ form
-                const ratingValue = this.dataset.value; // Lấy giá trị rating từ sao
-                // Gọi hàm AJAX từ ajax.js
-                if (typeof submitRating === 'function') {
-                    submitRating(movieId, ratingValue);
-                } else {
-                    console.error('submitRating function is not defined.');
+                const ratingValue = parseInt(this.dataset.value);
+                form.dataset.selectedValue = ratingValue;
+                console.log("Star clicked, selectedValue set to:", form.dataset.selectedValue);
+                updateStarsAndDisplay(form, ratingValue, false); // Gọi hàm global
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.classList.add('active');
                 }
+                 // Đảm bảo không có lệnh gọi submitRating ở đây
             });
         });
-     });
 
-     // Sự kiện click để gửi đánh giá
-     document.querySelectorAll('.star').forEach(star => {
-        star.addEventListener('click', function() {
-            const ratingValue = this.dataset.value;
-            const movieId = this.closest('.rating-form').dataset.movieId;
+        // --- Sự kiện CLICK vào nút Rate ---
+        if (submitButton) {
+            submitButton.addEventListener('click', function() {
+                const movieId = form.dataset.movieId; // Lấy ID từ form
+                const selectedValue = parseInt(form.dataset.selectedValue || '0');
 
-            fetch('./ajax/rate_movie.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ movie_id: movieId, rating: ratingValue, user_id: loggedInUserId })
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert("Thank you for rating!");
-                    updateRatingUI(movieId, ratingValue, data.new_average_rating);
-                    const form = document.querySelector(`.rating-form[data-movie-id="${movieId}"]`);
-                    form.style.display = 'none'; // Đóng form sau khi đánh giá thành công
+                console.log(`Submit button clicked for movie ${movieId} with rating ${selectedValue}`); // Log
+
+                if (selectedValue > 0) {
+                     this.disabled = true;
+                     this.textContent = 'Rating...';
+                    if (typeof submitRating === 'function') {
+                         submitRating(movieId, selectedValue); // Gọi AJAX
+                         form.dataset.currentRating = selectedValue; // Cập nhật rating hiện tại
+                         console.log("Calling submitRating function..."); // Log
+                    } else {
+                         console.error('submitRating function is not defined.');
+                         this.disabled = false;
+                         this.textContent = 'Rate';
+                    }
                 } else {
-                    alert(data.error || "There was an error submitting your rating.");
+                     alert("Please select a rating first.");
+                     console.log("No rating selected to submit."); // Log
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("There was an error submitting your rating.");
             });
-        });
-     });
+        }
 
-     // Xử lý sự kiện click để xoá đánh giá
-     document.querySelectorAll('.remove-rating-btn').forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn hành vi mặc định nếu là link/button trong form
-             const movieId = this.dataset.movieId; // Lấy movie id từ nút
-             if (confirm('Are you sure you want to remove your rating for this movie?')) {
-                 // Gọi hàm AJAX từ ajax.js
-                 if (typeof removeRating === 'function') {
-                     removeRating(movieId);
-                 } else {
-                     console.error('removeRating function is not defined.');
-                 }
-             }
-         });
-     });
-
-     // Hàm cập nhật giao diện sau khi gửi hoặc xoá đánh giá
-     function updateRatingUI(movieId, ratingValue, newAverageRating) {
-        console.log(`Updating UI for Movie ${movieId}: New Rating=${ratingValue}, New Avg=${newAverageRating}`);
-
-       // Cập nhật hiển thị rating của người dùng (nếu có)
-       const userRatingDisplay = document.querySelector(`.user-rating-display[data-movie-id="${movieId}"]`); // Cần có element này
-       const rateLink = document.querySelector(`.rate-link[data-movie-id="${movieId}"]`);
-       const removeRatingBtn = document.querySelector(`.remove-rating-btn[data-movie-id="${movieId}"]`);
-
-       if (userRatingDisplay) {
-           if (ratingValue) {
-               userRatingDisplay.innerHTML = `Your Rating: ★ ${ratingValue}/10`;
-               userRatingDisplay.style.display = 'inline'; // Hoặc 'block'
-           } else {
-               userRatingDisplay.style.display = 'none'; // Ẩn nếu xóa rating
-           }
-       }
-
-       // Cập nhật nút Rate/Remove
-       if (rateLink && removeRatingBtn) {
-           if (ratingValue) { // Nếu có rating mới
-               rateLink.style.display = 'none'; // Ẩn nút "Rate"
-               removeRatingBtn.style.display = 'inline-block'; // Hiện nút "Remove Rating"
-           } else { // Nếu xóa rating
-               rateLink.style.display = 'inline-block'; // Hiện nút "Rate"
-               removeRatingBtn.style.display = 'none'; // Ẩn nút "Remove Rating"
-           }
-       }
-
-       // Cập nhật rating trung bình hiển thị trên trang
-       const averageRatingDisplay = document.querySelector(`.average-rating[data-movie-id="${movieId}"]`); // Cần có element này
-       if (averageRatingDisplay && typeof newAverageRating !== 'undefined' && newAverageRating !== null) {
-           averageRatingDisplay.innerHTML = `★ ${parseFloat(newAverageRating).toFixed(1)}/10`;
-       }
-
-       // Reset và ẩn form rating nếu đang mở
-       const form = document.querySelector(`.rating-form[data-movie-id="${movieId}"]`);
-       if (form) {
-           form.style.display = 'none';
-           // Reset sao về trạng thái chưa chọn
-           form.querySelectorAll('.star').forEach(s => s.classList.remove('selected', 'hover'));
-           // Reset trạng thái hover
-           form.dataset.hoverValue = "0";
-       }
-   }
+        // --- Sự kiện CLICK vào nút Remove Rating ---
+        const removeButton = form.querySelector('.remove-rating-btn');
+        if (removeButton) {
+            removeButton.addEventListener('click', function() {
+                const movieId = form.dataset.movieId; // Lấy ID từ form
+                console.log(`Remove button clicked for movie ${movieId}`); // Log
+                if (confirm('Are you sure you want to remove your rating?')) {
+                    if (typeof removeRating === 'function') {
+                        removeRating(movieId); // Gọi AJAX
+                        console.log("Calling removeRating function..."); // Log
+                        // Cập nhật UI ngay
+                        form.dataset.selectedValue = "0";
+                        form.dataset.currentRating = "0";
+                        updateStarsAndDisplay(form, 0, false); // Reset UI, truyền form vào
+                        if (submitButton) submitButton.disabled = true;
+                        this.style.display = 'none';
+                    } else {
+                        console.error('removeRating function is not defined.');
+                    }
+                }
+            });
+        }
+    });
+     
+     
      // (Kết thúc phần code rating)
 
      // Header - Profile Dropdown

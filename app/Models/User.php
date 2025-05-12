@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Movies\Models\Movie;
+use Modules\Ratings\Models\Rating;
+
 
 class User extends Authenticatable // implements MustVerifyEmail (nếu dùng)
 {

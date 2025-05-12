@@ -48,7 +48,7 @@
                                 @endfor
                             </div>
                              {{-- Hiện nút remove nếu đã có $userRating --}}
-                            <button class="remove-rating-btn" data-movie-id="{{ $movie->movie_id }}" style="display: {{ $userRating ? 'block' : 'none' }};">Remove Rating</button> {{-- Thêm data-movie-id --}}
+                            <button class="remove-rating-btn" data-movie-id="{{ $movie->movie_id }}" style="display: {{ $userRating ? 'block' : 'none' }}">Remove Rating</button> {{-- Thêm data-movie-id --}}
                         </div>
 
                     </div>

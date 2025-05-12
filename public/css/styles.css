@@ -750,7 +750,7 @@ main {
 }
 
 .movie-container {
-    padding: 0 10vw;
+    padding: 0;
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
@@ -788,7 +788,7 @@ main {
     object-fit: cover;
 }
 
-.addToWatchlist-btn {
+.addToWatchlist-btn, .remove-watchlist-btn {
     position: absolute;
     bottom: 10px;
     left: 50%;
@@ -805,15 +805,16 @@ main {
     opacity: 0;
 }
 
-.movie-card:hover .addToWatchlist-btn {
+.movie-card:hover .addToWatchlist-btn,
+.movie-card:hover .remove-watchlist-btn {
     opacity: 1;
 }
 
-.addToWatchlist-btn:hover {
+.addToWatchlist-btn:hover,
+.remove-watchlist-btn:hover {
     background: #ff7d7d;
     color: #fff;
 }
-
 .movie-info {
     width: 100%;
     height: 100px;
@@ -934,53 +935,198 @@ main {
 }
 /*rating*/
 .rating-form {
-    display: none;
+    display: none; /* Giữ nguyên */
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(51, 51, 51);
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border-radius: 2% 2% 2% 2%;
-    z-index: 1000;
+    background-color: #282828; /* Màu nền tối hơn một chút */
+    padding: 35px 40px; /* Tăng padding */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6); /* Shadow rõ hơn */
+    border-radius: 18px; /* Bo góc nhiều hơn */
+    z-index: 1000; /* Giữ nguyên */
+    width: 90%; /* Chiều rộng tương đối */
+    max-width: 420px; /* Giới hạn chiều rộng tối đa */
+    color: var(--white);
+    text-align: center; /* Căn giữa text mặc định */
+
+    /* Sử dụng flexbox để căn chỉnh nội dung bên trong */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.rating-form-name {
-    color: white;
-}
-
+/* --- Nút Đóng --- */
 .close-btn {
-    color: white;
-    font-weight: bold;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px; /* Điều chỉnh vị trí */
+    right: 15px;
+    font-size: 1.5rem; /* Kích thước lớn hơn */
+    color: #aaa; /* Màu xám nhạt */
+    background: none;
+    border: none;
     cursor: pointer;
+    line-height: 1; /* Căn chuẩn */
+    padding: 5px;
+    transition: color 0.2s ease;
+}
+.close-btn:hover {
+    color: var(--white);
 }
 
-.stars {
+/* --- Icon Ngôi Sao Lớn --- */
+.rating-form-icon {
+    font-size: 4.5rem;
+    color: #4a90e2;
+    margin-bottom: 20px;
+    line-height: 1;
+    position: relative; /* <<< Cần để định vị số bên trong */
+    width: 5rem; /* Đảm bảo có chiều rộng/cao để căn giữa */
+    height: 4.5rem;
+    display: inline-flex; /* Giúp căn giữa nội dung */
+    justify-content: center;
+    align-items: center; /* Tránh line-height ảnh hưởng kích thước */
+}
+.rating-form-icon i { /* Style cho icon sao nền */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
-    gap: 5px;
+    align-items: center;
+    z-index: 1; /* Nằm dưới số */
+}
+
+/* --- Text "RATE THIS" --- */
+.rating-form-prompt {
+    color: #f0ad4e; /* Màu vàng cam */
+    font-weight: 700; /* Bold */
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+/* --- Tên Phim --- */
+.rating-form-name {
+    color: var(--white);
+    font-size: 1.6rem; /* Kích thước lớn hơn */
+    font-weight: 600; /* Hơi đậm */
+    margin-bottom: 25px; /* Khoảng cách với sao */
+    line-height: 1.3;
+}
+.rating-value-display {
+    position: relative; /* Nằm trên icon */
+    z-index: 2;
+    font-size: 1.8rem; /* Kích thước số */
+    font-weight: 700; /* Đậm */
+    color: var(--white); /* Màu trắng */
+    line-height: 1; /* Đảm bảo số căn giữa chuẩn */
+    user-select: none; /* <<< THÊM: Ngăn người dùng chọn icon như text */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; 
+}
+
+/* --- Dãy Sao --- */
+.stars {
+    display: flex; /* Giữ nguyên */
+    justify-content: center; /* Giữ nguyên */
+    gap: 8px; /* Tăng khoảng cách giữa các sao */
+    margin-bottom: 30px; /* Khoảng cách với nút */
 }
 
 .star {
-    font-size: 24px;
+    font-size: 28px; /* Kích thước sao lớn hơn */
+    cursor: pointer; /* Giữ nguyên */
+    color: #666; /* Màu xám nhạt cho outline mặc định (khi dùng far fa-star) */
+    transition: color 0.2s ease, transform 0.1s ease; /* Thêm transition transform */
+    user-select: none; /* <<< THÊM: Ngăn người dùng chọn icon như text */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+    outline: none !important; /* <<< THÊM: Đảm bảo không có outline khi focus */
+    border: none !important;
+}
+
+/* --- Styling sao khi hover hoặc được chọn --- */
+/* JS sẽ thêm/xóa class 'hover' và 'selected' */
+/* Sử dụng fas fa-star (solid) khi hover/select */
+.star.hover, /* Dùng class 'hover' do JS thêm */
+.star.selected { /* Dùng class 'selected' do JS thêm */
+    color: #ffd700; /* Màu vàng gold */
+    /* font-family: "Font Awesome 5 Free"; */ /* Đảm bảo dùng đúng font */
+    /* font-weight: 900; */ /* Solid stars thường có weight 900 */
+    /* content: "\f005"; */ /* Mã unicode cho sao solid nếu cần ghi đè */
+    transform: scale(1.15); /* Phóng to nhẹ khi hover/select */
+}
+/* Ghi đè để dùng icon solid khi hover/selected */
+.star.hover::before,
+.star.selected::before {
+    font-family: "Font Awesome 5 Free", "Font Awesome 6 Free"; /* Đảm bảo font */
+     font-weight: 900; /* Weight cho Solid */
+     content: "\f005"; /* Unicode cho Solid Star */
+}
+
+
+/* --- Nút "Rate" --- */
+.btn-submit-rating:disabled {
+    background-color: #555 !important; /* Màu xám hơn */
+    cursor: not-allowed; /* Con trỏ không cho phép */
+    opacity: 0.6; /* Giảm độ mờ */
+    color: #999 !important;
+}
+.btn-submit-rating.active {
+    background-color: var(--red); /* <<< Đổi sang màu đỏ */
+    color: var(--white);          /* <<< Chữ trắng */
+}
+.btn-submit-rating.active:hover {
+    background-color: #c4052c; /* <<< Màu đỏ đậm hơn khi hover */
+}
+.btn-submit-rating {
+    background-color: #444; /* Màu nền nút tối */
+    color: #eee; /* Màu chữ sáng */
+    border: none;
+    padding: 12px 40px; /* Padding lớn hơn */
+    border-radius: 25px; /* Bo tròn nhiều */
     cursor: pointer;
-    color: white;
-    transition: color 0.2s;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    margin-top: 10px; /* Khoảng cách nếu có phần tử khác bên trên */
 }
 
-/* Màu của sao khi được hover */
-.star.hovered {
-    color: gold;
+.btn-submit-rating:hover {
+    background-color: #555;
 }
 
-/* Màu của sao khi được đánh giá */
-.rated {
-    color: #000;
-    font-weight: bold;
+/* Style cho nút Remove Rating nếu bạn dùng */
+.remove-rating-btn {
+    background: none;
+    border: 1px solid #888;
+    color: #aaa;
+    padding: 6px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-top: 20px; /* Khoảng cách với các phần tử trên */
+    transition: color 0.2s ease, border-color 0.2s ease;
+    display: block; /* Đảm bảo nó hiển thị đúng nếu là block */
+    margin-left: auto;
+    margin-right: auto;
+}
+.remove-rating-btn:hover {
+    color: var(--red);
+    border-color: var(--red);
+}
+
+/* Style cho hiển thị rating đã có */
+.user-rating-display {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-top: 15px;
 }
 
 /*WATCH-LIST*/

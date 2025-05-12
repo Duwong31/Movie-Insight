@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; // <<< Thêm dòng này
 use App\Http\Controllers\HomeController;
 use Modules\Movies\Controllers\MovieController;
-use App\Http\Controllers\TvShowController;
+use Modules\TVShows\Controllers\TVShowController;
 use App\Http\Controllers\CelebController;
 use App\Http\Controllers\NewsController;
 use Modules\Watchlists\Controllers\WatchlistController;
-use App\Http\Controllers\RatingController;
+use Modules\Ratings\Controllers\RatingController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SearchController;
 

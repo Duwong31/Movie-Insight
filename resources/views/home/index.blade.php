@@ -111,8 +111,9 @@
             @php
                 // Lấy rating của người dùng hiện tại (nếu có) cho phim này
                 // Giả định rằng $movie->user_rating chứa giá trị này từ Controller
-                $userRating = $movie->user_rating ?? null;
+                $userRating = $movie->userRating?->rating ?? null;
                 $movieId = $movie->movie_id; // Hoặc $movie->id nếu bạn dùng ID mặc định của Laravel
+                $isInWatchlist = Auth::check() && in_array($movieId, $userWatchlistMovieIds);
             @endphp
             <div class="movie-card" data-movie-id="{{ $movieId }}"> {{-- Thêm data-movie-id vào card chính --}}
                 <div class="movie-image">
@@ -125,23 +126,27 @@
                              class="movie-thumb" alt="{{ $movie->movie_name ?? 'Movie Poster' }}">
                     </a>
                     {{-- Nút Add to Watchlist --}}
-                    {{-- Logic add/remove sẽ được xử lý trong home.js/ajax.js sử dụng biến `addToWatchlistUrl` --}}
-                    {{-- Có thể thêm trạng thái ban đầu nếu phim đã có trong watchlist --}}
-                    <button class="addToWatchlist-btn" data-movie-id="{{ $movieId }}">Add to watchlist</button>
+                    <button class="{{ $isInWatchlist ? 'remove-watchlist-btn' : 'addToWatchlist-btn' }}" data-movie-id="{{ $movieId }}">
+                        @if($isInWatchlist)
+                            <i class="fas fa-check"></i> Added
+                        @else
+                            Add to watchlist
+                        @endif
+                    </button>
                 </div>
                 <div class="movie-info">
                     <div class="movie-rating">
                         {{-- Hiển thị điểm trung bình --}}
-                        <span class="rating-score">★ {{ number_format($movie->average_rating ?? 0, 1) }}/10</span>
+                        <span class="rating-score">★ {{ number_format($movie->average_rating ?? 0, 1) }}</span>
                         {{-- Nút Rate --}}
                         <span class="rate-button">
-                            @if ($userRating)
-                                {{-- Người dùng đã rate: hiển thị điểm và class 'rated' --}}
-                                <a href="#" class="rate-link rated" data-movie-id="{{ $movieId }}">★ {{ round($userRating) }}</a>
-                            @else
-                                {{-- Người dùng chưa rate: hiển thị nút 'Rate' --}}
-                                <a href="#" class="rate-link" data-movie-id="{{ $movieId }}">☆ Rate</a>
-                            @endif
+                        @if ($userRating !== null) {{-- Kiểm tra xem có rating không (kể cả 0) --}}
+                    {{-- Hiển thị điểm đã rate --}}
+                            <a href="#" class="rate-link rated" data-movie-id="{{ $movieId }}">★ {{ round($userRating) }}</a>
+                        @else
+                            {{-- Hiển thị nút "Rate" --}}
+                            <a href="#" class="rate-link" data-movie-id="{{ $movieId }}">☆ Rate</a>
+                        @endif
                         </span>
                     </div>
                     {{-- Hiển thị tên phim --}}
@@ -150,18 +155,39 @@
 
                 {{-- Form đánh giá (ẩn ban đầu, được kích hoạt bởi JS) --}}
                 {{-- Đặt data-movie-id ở đây để JS dễ dàng xác định form nào đang active --}}
-                <div class="rating-form" data-movie-id="{{ $movieId }}" style="display: none;"> {{-- Thêm style="display: none;" --}}
-                    <p class="rating-form-name">{{ $movie->movie_name ?? 'Untitled Movie' }}</p>
-                    {{-- Nút đóng (sử dụng class thay vì ID nếu có nhiều form) --}}
-                    <span class="close-rating-form-btn">X</span> {{-- Đổi ID thành class --}}
+                <div class="rating-form" data-movie-id="{{ $movie->movie_id }}" data-current-rating="{{ $userRating ?? 0 }}" style="display: none;">
+                    <button class="close-btn">×</button> {{-- Nút đóng --}}
+
+                    {{-- 1. Icon Ngôi Sao (Thêm mới) --}}
+                    <div class="rating-form-icon">
+                        <i class="fas fa-star"></i> {{-- Sử dụng Font Awesome solid star làm placeholder --}}
+                        <span class="rating-value-display">?</span>
+                    </div>
+
+                    {{-- 2. Text "RATE THIS" (Thêm mới) --}}
+                    <p class="rating-form-prompt">Rate This</p>
+
+                    {{-- 3. Tên Phim (Giữ lại class cũ hoặc đổi tên) --}}
+                    <h3 class="rating-form-name">{{ $movie->movie_name }}</h3>
+
+                    {{-- 4. Dãy Sao (Giữ lại class cũ) --}}
                     <div class="stars">
-                        {{-- Tạo 10 ngôi sao để chọn --}}
                         @for ($i = 1; $i <= 10; $i++)
-                            <span class="star" data-value="{{ $i }}">★</span>
+                            {{-- Sử dụng far fa-star (outline) làm mặc định --}}
+                            <i class="far fa-star star" data-value="{{ $i }}"></i>
                         @endfor
                     </div>
-                    {{-- Nút xóa đánh giá (ẩn ban đầu, chỉ hiện khi đã có đánh giá) --}}
-                    <button class="remove-rating-btn" data-movie-id="{{ $movieId }}" style="display: {{ $userRating ? 'inline-block' : 'none' }};">Remove Rating</button>
+
+                    {{-- 5. Nút Submit (Thêm mới - Nút này không tự gửi form, JS sẽ xử lý click sao) --}}
+                    {{-- Nút này có thể không cần thiết nếu việc submit xảy ra ngay khi click sao --}}
+                    {{-- Hoặc bạn có thể giữ lại để người dùng xác nhận --}}
+                    <button type="button" class="btn btn-submit-rating">Rate</button>
+
+                    {{-- Nút Remove Rating (Nếu đã rate) - Cần logic để hiển thị --}}
+                    {{-- <button type="button" class="remove-rating-btn" data-movie-id="{{ $movie->id }}" style="display: {{ $userRating ? 'inline-block' : 'none' }};">Remove Rating</button> --}}
+                    {{-- Element hiển thị rating hiện tại của user (nếu có) --}}
+                    {{-- <p class="user-rating-display" data-movie-id="{{ $movie->id }}" style="display: {{ $userRating ? 'block' : 'none' }}; margin-top: 10px;">Your Rating: ★ {{ $userRating ?? '' }}/10</p> --}}
+
                 </div>
             </div>
         @empty
@@ -274,11 +300,13 @@
         </div>
     </section>
     {{-- What to Watch Section --}}
-<section id="what-to-watch-section">
+<section id="what-to-watch-section" class="movie">
     <div class="what-to-watch-container">
         {{-- Tiêu đề chính --}}
-        <h2 class="section-heading what-to-watch-main-title">What to watch</h2>
-
+        <h2 class="movie-category">What to watch</h2>
+        {{-- Thêm nút prev và next --}}
+            <button class="pre-btn"><</button>
+            <button class="nxt-btn">></button>
         {{-- Kiểm tra nếu người dùng chưa đăng nhập --}}
         @guest
             {{-- Link "From your Watchlist" (có thể dẫn đến trang đăng nhập hoặc thông báo) --}}
@@ -301,22 +329,68 @@
             </div>
         @endguest
 
-        {{-- Kiểm tra nếu người dùng ĐÃ đăng nhập (Phần này sẽ hiển thị Watchlist thực tế - để phát triển sau) --}}
+        {{-- Kiểm tra nếu người dùng ĐÃ đăng nhập --}}
         @auth
-             {{-- Link đến trang Watchlist thực tế --}}
-            <a href="{{ route('watchlist.index') ?? '#' }}" class="what-to-watch-link"> {{-- Giả sử có route 'watchlist.index' --}}
+            {{-- Link đến trang Watchlist thực tế --}}
+            <a href="{{ route('watchlist.index') }}" class="what-to-watch-link">
                 <span class="link-divider">|</span> From your Watchlist <i class="fas fa-chevron-right"></i>
             </a>
 
-            {{-- NƠI HIỂN THỊ CÁC MỤC TRONG WATCHLIST (Cần code thêm) --}}
-            <div class="user-watchlist-items">
-                <p style="color: var(--whitegr); text-align: center; padding: 40px 0;">Your watchlist items will appear here.</p>
-                {{-- Logic lặp qua watchlist items sẽ ở đây --}}
+            
+
+            {{-- Hiển thị các phim trong watchlist --}}
+            <div class="movie-container">
+                @forelse (Auth::user()->watchlistMovies()->withAvg('ratings', 'rating')->get() as $movie)
+                    @php
+                        $userRating = $movie->userRating?->rating ?? null;
+                        $movieId = $movie->movie_id;
+                    @endphp
+                    <div class="movie-card" data-movie-id="{{ $movieId }}">
+                        <div class="movie-image">
+                            <a href="{{ route('movie.detail', ['id' => $movieId]) }}">
+                                <img src="{{ $movie->movie_image ? asset('uploads/' . $movie->movie_image) : asset('img/placeholder-movie.jpg') }}"
+                                     class="movie-thumb" alt="{{ $movie->movie_name ?? 'Movie Poster' }}">
+                            </a>
+                            <button class="addToWatchlist-btn" data-movie-id="{{ $movieId }}">Remove from watchlist</button>
+                        </div>
+                        <div class="movie-info">
+                            <div class="movie-rating">
+                                <span class="rating-score">★ {{ number_format($movie->ratings_avg_rating ?? 0, 1) }}</span>
+                                <span class="rate-button">
+                                    @if ($userRating !== null)
+                                        <a href="#" class="rate-link rated" data-movie-id="{{ $movieId }}">★ {{ round($userRating) }}</a>
+                                    @else
+                                        <a href="#" class="rate-link" data-movie-id="{{ $movieId }}">☆ Rate</a>
+                                    @endif
+                                </span>
+                            </div>
+                            <h4 class="movie-name">{{ $movie->movie_name ?? 'Untitled Movie' }}</h4>
+                        </div>
+
+                        {{-- Form đánh giá (ẩn ban đầu) --}}
+                        <div class="rating-form" data-movie-id="{{ $movieId }}" data-current-rating="{{ $userRating ?? 0 }}" style="display: none;">
+                            <button class="close-btn">×</button>
+                            <div class="rating-form-icon">
+                                <i class="fas fa-star"></i>
+                                <span class="rating-value-display">?</span>
+                            </div>
+                            <p class="rating-form-prompt">Rate This</p>
+                            <h3 class="rating-form-name">{{ $movie->movie_name }}</h3>
+                            <div class="stars">
+                                @for ($i = 1; $i <= 10; $i++)
+                                    <i class="far fa-star star" data-value="{{ $i }}"></i>
+                                @endfor
+                            </div>
+                            <button type="button" class="btn btn-submit-rating">Rate</button>
+                        </div>
+                    </div>
+                @empty
+                    <p style="color: white; padding: 20px; width: 100%; text-align: center;">Your watchlist is empty. Add some movies to get started!</p>
+                @endforelse
             </div>
         @endauth
-
-    </div> {{-- End .what-to-watch-container --}}
-</section> {{-- End #what-to-watch-section --}}
+    </div>
+</section>
 @endsection
 
 

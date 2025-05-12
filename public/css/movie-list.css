@@ -1,0 +1,361 @@
+.page-title{
+    color: white;
+}
+/* --- FILTER CONTROLS STYLING --- */
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap; /* Giữ lại để xuống dòng nếu không đủ chỗ */
+    gap: 20px; /* Tăng khoảng cách giữa các cụm filter */
+    margin-bottom: 30px; /* Tăng khoảng cách dưới */
+    padding: 20px; /* Tăng padding bên trong */
+    background-color: #1A1A1A; /* THAY ĐỔI: MÀU NỀN ĐEN/XÁM RẤT TỐI */
+    border-radius: 8px;
+    align-items: center; /* Căn các item theo chiều dọc */
+    border: 1px solid #333; /* Thêm viền nhẹ nếu muốn */
+}
+
+.filter-controls .form-group {
+    margin-bottom: 0; /* Giữ nguyên */
+    display: flex; /* Sắp xếp label và select trên cùng một hàng */
+    align-items: center; /* Căn giữa label và select */
+    gap: 8px; /* Khoảng cách giữa label và select */
+    flex: 0 0 auto;
+}
+
+.filter-controls label {
+    /* margin-right: 8px; */ /* Bỏ margin, dùng gap của form-group */
+    font-weight: 500;
+    color: #E0E0E0; /* THAY ĐỔI: MÀU CHỮ SÁNG CHO LABEL (xám trắng) */
+    font-size: 0.9rem; /* Đồng nhất font size */
+    white-space: nowrap; /* Ngăn label xuống dòng */
+}
+
+.filter-controls select.form-control-sm, /* Target cụ thể hơn */
+.filter-controls .btn { /* Giữ lại cho nút Reset nếu có */
+    height: 38px; /* Đồng nhất chiều cao */
+    padding: .375rem .75rem;
+    font-size: 0.9rem;
+    border-radius: 5px; /* Bo tròn nhẹ */
+    background-color: #2C2C2C; /* THAY ĐỔI: MÀU NỀN TỐI CHO SELECT */
+    color: #E0E0E0; /* THAY ĐỔI: MÀU CHỮ SÁNG CHO TEXT TRONG SELECT */
+    border: 1px solid #444; /* THAY ĐỔI: MÀU VIỀN TỐI CHO SELECT */
+    /* Loại bỏ box-shadow mặc định nếu có */
+    box-shadow: none;
+    -webkit-appearance: none; /* Loại bỏ giao diện mặc định của select trên WebKit */
+    -moz-appearance: none;    /* Loại bỏ giao diện mặc định của select trên Firefox */
+    appearance: none;         /* Loại bỏ giao diện mặc định của select */
+    /* Thêm icon mũi tên tùy chỉnh cho select */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23E0E0E0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    background-size: 16px 12px;
+    min-width: 150px; /* Đặt chiều rộng tối thiểu cho select */
+}
+/* Style khi select được focus */
+.filter-controls select.form-control-sm:focus {
+    border-color: #007bff; /* Màu viền khi focus (có thể đổi) */
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(0,123,255,.25); /* Hiệu ứng focus (có thể đổi) */
+}
+
+.filter-controls select#sort_by {
+    min-width: 120px;
+    width: auto;
+    max-width: 100%;
+    display: inline-block;
+    padding-right: 30px; /* Để icon không đè lên text */
+    white-space: nowrap;
+}
+
+.filter-controls .btn-reset {
+    text-decoration: none;
+    color: #00AEEF; /* THAY ĐỔI: MÀU XANH SÁNG HƠN CHO NÚT RESET */
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: .375rem .75rem; /* Đồng nhất padding */
+    /* background-color: transparent; */ /* Nền trong suốt cho nút reset */
+    /* border: 1px solid #00AEEF; */ /* Viền nếu muốn */
+    /* border-radius: 5px; */
+    transition: color 0.2s ease;
+}
+.filter-controls .btn-reset:hover {
+    color: #007bff; /* Đậm hơn khi hover */
+    text-decoration: underline;
+}
+
+/* Căn chỉnh cho div chứa nút ResetFilters (ml-auto) */
+.filter-controls .form-group.ml-auto {
+    margin-left: auto; /* Đảm bảo nó được đẩy sang phải */
+}
+
+.main-filter-dropdown { /* Kiểu cho dropdown chính */
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.main-filter-dropdown button {
+    background-color: #5e5b50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    min-width: 180px; /* Độ rộng tối thiểu */
+    text-align: left;
+}
+.main-filter-dropdown button i {
+    float: right;
+    margin-top: 3px;
+}
+
+.main-filter-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 220px; /* Rộng hơn nút một chút */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 100;
+    border-radius: 5px;
+    overflow: hidden; /* Để bo tròn áp dụng cho item bên trong */
+}
+
+.main-filter-dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.95rem;
+}
+.main-filter-dropdown-content .dropdown-header {
+    padding: 10px 16px;
+    font-weight: bold;
+    color: #555;
+    background-color: #f0f0f0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.main-filter-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+.main-filter-dropdown-content a.active {
+    background-color: #e70634;
+    color: white;
+    font-weight: bold;
+}
+
+.main-filter-dropdown:hover .main-filter-dropdown-content {
+    /* display: block; */ /* Sẽ dùng JS để toggle */
+}
+.main-filter-dropdown-content.show { /* Class để JS hiển thị */
+    display: block;
+}
+
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Điều chỉnh minmax cho kích thước card */
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* --- CSS cho movie-card (BẠN CUNG CẤP) --- */
+.movie-card {
+    color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+}
+.movie-card img.movie-poster {
+    width: 100%;
+    /* height: 250px; */ /* Hoặc aspect-ratio */
+    aspect-ratio: 2 / 3; /* Tỉ lệ poster phổ biến */
+    object-fit: cover;
+    display: block;
+}
+/* .movie-card .movie-info {
+    padding: 10px;
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+} */
+.movie-card .movie-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.4em; /* Đảm bảo chiều cao cho 2 dòng */
+}
+.movie-card .movie-scores, .movie-card .movie-release {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin-bottom: 8px;
+}
+.movie-card .movie-scores span {
+    margin-right: 10px;
+}
+.movie-card .movie-scores .tomatometer {
+    color: #fa320a; /* Màu RT */
+}
+.movie-card .movie-scores .audience-score {
+    color: #f5c518; /* Màu khán giả */
+}
+.movie-card .watchlist-btn-container {
+    margin-top: auto; /* Đẩy nút xuống dưới cùng */
+}
+.movie-card .btn-watchlist {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    background-color: #444;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+.movie-card .btn-watchlist:hover {
+    background-color: #555;
+}
+.movie-card .btn-watchlist.in-watchlist {
+    background-color: #e70634 !important; 
+    border-color: #e70634 !important;
+    color: #fff !important;
+    width: 30px;
+    height: 30px;
+    display: flex !important; /* Ghi đè mọi display: none */
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+}
+.movie-card .btn-watchlist i {
+    margin-right: 5px;
+}
+/* --- Kết thúc CSS cho movie-card --- */
+
+.no-movies {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: #777;
+}
+
+.custom-pagination-nav {
+    display: flex;
+    flex-direction: column; /* Để thông tin kết quả nằm dưới nếu có */
+    align-items: center;
+    margin: 40px auto 20px auto;
+    font-family: 'Poppins', sans-serif; /* Hoặc font bạn muốn */
+}
+
+.custom-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0; /* Bỏ margin của ul nếu có */
+    list-style: none;
+}
+
+.custom-page-item {
+    margin: 0 3px; /* Khoảng cách giữa các nút */
+}
+
+/* Style chung cho các nút (a và span) */
+.custom-page-item a.custom-page-link,
+.custom-page-item span.custom-page-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 15px;
+    font-weight: 600; /* Chữ đậm */
+    line-height: 1;
+    color: #4A5568; /* Màu chữ xám đậm */
+    background-color: transparent; /* Nền trong suốt */
+    border: none; /* Không có border */
+    border-radius: 50%; /* Bo tròn */
+    text-decoration: none;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+    box-shadow: none; /* Đảm bảo không có shadow */
+    outline: none; /* Đảm bảo không có outline */
+}
+
+/* Nút trang hiện tại (Active) */
+.custom-page-item.active span.custom-page-link {
+    color: #ffffff;
+    background-color: #4A5568; /* Màu nền xám đậm */
+    font-weight: 700; /* Đậm hơn nữa cho active */
+    cursor: default; /* Không cần trỏ tay vì đã ở trang đó */
+}
+
+/* Nút Previous và Next (bao gồm cả khi disabled) */
+.custom-page-item a.custom-page-link[rel="prev"],
+.custom-page-item a.custom-page-link[rel="next"],
+.custom-page-item.disabled span.custom-page-link[aria-label*="previous"], /* Target cụ thể */
+.custom-page-item.disabled span.custom-page-link[aria-label*="next"] {
+    color: #718096; /* Màu icon mũi tên */
+    background-color: transparent;
+    border: none;
+    border-radius: 0; /* Không bo tròn cho mũi tên */
+    min-width: auto;
+    width: auto;
+    height: 36px; /* Giữ chiều cao để căn thẳng hàng */
+    padding: 0 10px; /* Khoảng cách ngang cho mũi tên */
+    font-size: 20px; /* Kích thước mũi tên */
+    font-weight: normal;
+    line-height: 36px; /* Căn giữa ký tự mũi tên */
+}
+
+/* Hover cho các nút link SỐ TRANG (không active, không disabled) */
+.custom-page-item:not(.active):not(.disabled) a.custom-page-link:hover {
+    color: #2D3748; /* Đậm hơn */
+    background-color: #EDF2F7; /* Nền xám nhạt */
+}
+
+/* Hover cho nút MŨI TÊN (nếu là link và enabled) */
+.custom-page-item a.custom-page-link[rel="prev"]:hover,
+.custom-page-item a.custom-page-link[rel="next"]:hover {
+    color: #2D3748; /* Đậm hơn */
+    background-color: transparent; /* Vẫn trong suốt */
+}
+
+/* Nút Disabled (Previous/Next khi ở đầu/cuối, và dấu '...') */
+.custom-page-item.disabled span.custom-page-link {
+    color: #A0AEC0 !important; /* Màu rất nhạt */
+    background-color: transparent !important; /* Đảm bảo trong suốt */
+    border: none !important; /* Đảm bảo không có border */
+    cursor: not-allowed;
+    pointer-events: none;
+}
+/* Đảm bảo dấu ... cũng không có nền tròn nếu không muốn */
+.custom-page-item.disabled span.custom-page-link:not([aria-label*="previous"]):not([aria-label*="next"]) {
+    border-radius: 0; /* Bỏ bo tròn cho dấu ... nếu không muốn nó có nền */
+    /* Hoặc giữ lại border-radius: 50%; nếu muốn ... là hình tròn mờ */
+}
+
+
+/* Tùy chọn: CSS cho thông tin kết quả */
+.pagination-results-info {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+

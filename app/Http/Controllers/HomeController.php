@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\News\Models\News;    
 use Modules\Movies\Models\Movie;         
-use Modules\Actors\Models\Actor;              
+use Modules\Actors\Models\Actor;          
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;     
 // Không cần Model Rating ở đây nếu dùng relationship
 
 class HomeController extends Controller
@@ -39,7 +40,7 @@ class HomeController extends Controller
              $movies_query->with(['userRating' => function ($query) use ($userId) {
                  $query->where('user_id', $userId); // Đảm bảo chỉ lấy rating của user này
              }]);
-
+             
              // HOẶC nếu không muốn thêm relationship, dùng subquery (phức tạp hơn):
              /*
              $movies_query->withCount(['ratings as user_rating' => function ($query) use ($userId) {
@@ -81,13 +82,26 @@ class HomeController extends Controller
 
         // 4. Lấy dữ liệu Actors
         $actors_array = Actor::take(10)->get(); // Lấy 10 diễn viên
+        
+        $userWatchlistMovieIds = [];
+        if (Auth::check()) { // Kiểm tra xem người dùng đã đăng nhập chưa
+            // Sử dụng relationship 'watchlistMovies' đã định nghĩa trong model User
+            // Lấy danh sách các 'movie_id' từ bảng movies liên kết qua bảng watchlist
+            // Đảm bảo cột khóa ngoại trong 'watchlist' và khóa chính trong 'movies' là 'movie_id'
+            $userWatchlistMovieIds = Auth::user()->watchlistMovies()->pluck('movies.movie_id')->toArray();
 
+            // Nếu khóa chính của bảng movies là 'id' và khóa ngoại trong watchlist là 'movie_id'
+            // thì bạn cần pluck cột 'id' từ bảng movies:
+            // $userWatchlistMovieIds = Auth::user()->watchlistMovies()->pluck('movies.id')->toArray();
+            // =>>> KIỂM TRA LẠI CẤU TRÚC BẢNG VÀ RELATIONSHIP CỦA BẠN <<<
+        }
         // 5. Trả về view với tất cả dữ liệu đã lấy
         return view('home.index', [
             'news_array' => $news_array,
             'movies_array' => $movies_array,
             'tv_shows_array' => $tv_shows_array,
             'actors_array' => $actors_array,
+            'userWatchlistMovieIds' => $userWatchlistMovieIds,
             // Bạn có thể truyền thêm các biến khác nếu cần
         ]);
     }
