@@ -23,12 +23,10 @@ class User extends Authenticatable // implements MustVerifyEmail (nếu dùng)
      * @var array<int, string>
      */
     protected $fillable = [
-        // Thêm các trường bạn cho phép điền khi tạo user mới (Register)
-        'fullname', // Hoặc 'name' nếu bạn dùng cột 'name'
+        'fullname', 
         'email',
         'password',
-        'phone', // Nếu cho đăng ký cả phone
-        // Không thêm 'status', 'isAdmin' ở đây trừ khi bạn muốn set lúc đăng ký
+        'phone', 
     ];
 
     /**

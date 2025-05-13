@@ -11,7 +11,7 @@ use Modules\Watchlists\Controllers\WatchlistController;
 use Modules\Ratings\Controllers\RatingController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SearchController;
-
+use Modules\Dashboard\Admin\DashboardController;
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -50,5 +50,9 @@ Route::middleware(['auth'])->group(function () { // <<< Dùng 'auth'
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Có thể comment hoặc xóa dòng này
 Auth::routes();
+
+Route::prefix('admin')->group(function() {
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

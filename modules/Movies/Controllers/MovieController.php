@@ -28,7 +28,7 @@ class MovieController extends Controller
             if (count(array_filter($genreIds))) {
                 $query->whereHas('genres', function ($q) use ($genreIds) {
                     $q->whereIn('genres.genres_id', $genreIds);
-                });
+            });
             }
         }
 

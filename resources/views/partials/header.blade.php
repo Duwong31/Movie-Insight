@@ -75,6 +75,9 @@
                     <li><a class="dropdown-item" href="{{ route('profile.show') ?? '#' }}">Your Profile</a></li>
                     <li><a class="dropdown-item" href="{{ route('watchlist.index') ?? '#' }}">Your Watchlist</a></li>
                     <li><a class="dropdown-item" href="{{ route('ratings.index') ?? '#' }}">Your ratings</a></li>
+                    @if(Auth::user()->role === 1)
+                    <li><a class="dropdown-item" href="{{ route('admin.index') ?? '#' }}">Admin Dashboard</a></li>
+                    @endif
                     <li><a class="dropdown-item" href="{{ route('settings.account') ?? '#' }}">Account settings</a></li>
                     <li><hr class="dropdown-divider"></li> {{-- Dòng kẻ ngang phân cách --}}
                     <li>
