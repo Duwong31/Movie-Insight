@@ -12,7 +12,7 @@ use Modules\Ratings\Models\Rating;
 use Modules\Genres\Models\Genre;
 use Modules\Actors\Models\Actor;
 use App\Models\User; // <<< Add this line to import the User model
-
+use Modules\Review\Models\Review;
 
 class Movie extends Model
 {
@@ -63,5 +63,10 @@ class Movie extends Model
     {
         return $this->belongsToMany(User::class, 'watchlist', 'movie_id', 'user_id')
                     ->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'movie_id')->with('user')->latest();
     }
 }

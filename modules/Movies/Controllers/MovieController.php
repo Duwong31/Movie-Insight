@@ -103,39 +103,38 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        $userId = Auth::id(); // Lấy ID người dùng đang đăng nhập (nếu có)
+        $userId = Auth::id();
 
         try {
-            // Lấy phim bằng ID, đồng thời tải sẵn relationships 'genres', 'actors'
-            // và tính trung bình cột 'rating' từ relationship 'ratings'
             $movie = Movie::with([
-                           'genres', // Tải relationship genres (yêu cầu định nghĩa trong Model)
-                           'actors', // Tải relationship actors (yêu cầu định nghĩa trong Model)
-                       ])
-                       ->withAvg('ratings', 'rating') // Tính điểm trung bình (kiểm tra tên cột 'rating')
-                       ->findOrFail($id); // Tìm theo khóa chính hoặc báo lỗi 404 nếu không thấy
-
+                'genres',
+                'actors',
+                'reviews.user'
+            ])
+            ->withAvg('ratings', 'rating')
+            ->findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // Xử lý trường hợp không tìm thấy phim
-            // Bạn có thể chuyển hướng hoặc hiển thị thông báo lỗi tùy ý
-            return redirect()->route('home')->with('error', 'Movie not found.'); // Ví dụ: chuyển về trang chủ
-            // Hoặc: abort(404);
+            return redirect()->route('home')->with('error', 'Movie not found.');
         }
 
         // Lấy rating của user hiện tại cho phim này (nếu user đã đăng nhập)
         $userRating = null;
         if ($userId) {
-            $userRating = Rating::where('movie_id', $movie->movie_id) // Dùng $movie->movie_id rõ ràng hơn
-                               ->where('user_id', $userId)
-                               ->value('rating'); // Lấy giá trị cột 'rating' (kiểm tra tên cột)
+            $userRating = \Modules\Ratings\Models\Rating::where('movie_id', $movie->movie_id)
+                ->where('user_id', $userId)
+                ->value('rating');
         }
 
-        $viewPath = 'movies.show'; 
+        // Lấy tất cả reviews và ratings cho phim này
+        $reviews = $movie->reviews; // đã eager load user
+        $ratings = \Modules\Ratings\Models\Rating::where('movie_id', $movie->movie_id)
+            ->pluck('rating', 'user_id');
 
-        // Trả về view với dữ liệu cần thiết
-        return view($viewPath, [
-            'movie' => $movie,         
-            'userRating' => $userRating,  
+        return view('movies.show', [
+            'movie' => $movie,
+            'userRating' => $userRating,
+            'reviews' => $reviews,
+            'ratings' => $ratings,
         ]);
     }
 }

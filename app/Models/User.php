@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Movies\Models\Movie;
 use Modules\Ratings\Models\Rating;
-
+use Modules\Review\Models\Review;
 
 class User extends Authenticatable // implements MustVerifyEmail (nếu dùng)
 {
@@ -59,5 +59,10 @@ class User extends Authenticatable // implements MustVerifyEmail (nếu dùng)
     {
         return $this->belongsToMany(Movie::class, 'watchlist', 'user_id', 'movie_id')
                     ->withTimestamps(); // Thêm cái này nếu bảng watchlist có cột created_at, updated_at
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(\Modules\Review\Models\Review::class, 'user_id', 'id');
     }
 }

@@ -1,148 +1,168 @@
-/* General Styles */
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #1a1a1a;
+    color: #fff;
 }
-
-h2 {
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    font-size: 2.2em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-}
-
-/* Login Container */
-.row {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.col-4 {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    position: relative;
-}
-
-/* Form Styling */
-.form-group {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.mg-form label {
-    font-size: 14px;
-    color: #666;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.mg-form input[type="email"],
-.mg-form input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    transition: all 0.3s;
-    background-color: #f9f9f9;
-    color: #333;
-    outline: none;
-}
-
-.mg-form input[type="email"]:focus,
-.mg-form input[type="password"]:focus {
-    border-color: #4b6584;
-    box-shadow: 0px 0px 5px rgba(75, 101, 132, 0.5);
-}
-
-/* Button Styling */
-.mg-btn {
-    width: 100%;
-    background-color: #e70634;
-    color: #ffffff;
+.card {
+    background-color: #2d2d2d;
     border: none;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: all 0.4s;
-    cursor: pointer;
-    box-shadow: 0px 4px 10px rgba(75, 101, 132, 0.3);
-    position: relative;
-}
-
-.mg-btn:hover {
-    background-color: #34495e;
-    transform: translateY(-2px);
-    box-shadow: 0px 6px 15px rgba(75, 101, 132, 0.5);
-}
-
-/* Google Sign-up Button */
-.google-btn {
-    width: 100%;
-    background-color: #4285f4;
-    color: #ffffff;
-    border: none;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: all 0.3s;
-    cursor: pointer;
+    border-radius: 10px;
+    padding: 20px;
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 4px 10px rgba(66, 133, 244, 0.3);
+    transition: transform 0.3s;
 }
-
-.google-btn img {
-    margin-right: 10px;
-    height: 20px;
+.card:hover {
+    transform: translateY(-5px);
 }
-
-.google-btn:hover {
-    background-color: #357ae8;
-    box-shadow: 0px 6px 15px rgba(66, 133, 244, 0.5);
+.card i {
+    color: #e70634;
 }
-
-/* Additional Links */
-hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 20px 0;
+/* Sidebar styles */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #2d2d2d;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
 }
-
-p.text-center {
-    margin: 15px 0;
-    position: relative;
-}
-
-p.text-center a {
+.sidebar a {
+    padding: 8px 8px 8px 32px;
     text-decoration: none;
-    color: #4b6584;
-    font-weight: bold;
-    transition: color 0.3s;
-    position: relative;
+    font-size: 16px;
+    color: #fff;
+    display: block;
+    transition: 0.3s;
+}
+.sidebar a:hover {
+    color: #e70634;
+}
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+.openbtn:hover {
+    color: #e70634;
+}
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
 }
 
-p.text-center a:hover {
-    color: #34495e;
-}
+.table-container-dark {
+    background-color: #343a40; /* Dark Grey Background - Tweak if needed */
+    border-radius: 0.5rem; /* 8px */
+    padding: 1rem 0.5rem; /* Add some padding */
+    color: #dee2e6; /* Light text */
+    margin-bottom: 1rem;
+    overflow-x: auto; /* Handle responsiveness */
+ }
+ 
+ /* Custom Dark Table */
+ .table-dark-custom {
+    width: 100%;
+    margin-bottom: 0; /* Remove margin if inside a padded container */
+    color: #dee2e6;
+    border-color: #454d55; /* --- BORDER COLOR --- */
+    vertical-align: middle; /* Center text vertically in cells */
+    --bs-table-bg: transparent; /* Use the container's background */
+     --bs-table-striped-bg: transparent;
+      --bs-table-hover-bg: #3f454b; /* Optional: Darker Hover */
+ }
+ 
+ /* Remove ALL default borders, we will add back only the ones we want */
+  .table-dark-custom td,
+  .table-dark-custom th
+   {
+    border: 0; 
+    padding: 0.8rem;
+    white-space: nowrap; /* Prevent text wrapping if desired */
+  }
+ 
+ /* Add HORIZONTAL borders BACK */
+ .table-dark-custom thead th {
+   border-bottom: 1px solid #454d55; /* Border below header */
+    color: #adb5bd; /* Slightly dimmer color for header text */
+    font-weight: 500;
+ }
+ .table-dark-custom tbody tr {
+    border-bottom: 1px solid #454d55; /* Border below each data row */
+ }
+ .table-dark-custom tbody tr:last-of-type {
+   border-bottom: 0; /* No border after the LAST row */
+ }
+ 
+ 
+ /* --- ACTION BUTTONS --- */
+  .btn-action {
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     padding: 0.3rem 0.6rem;
+     font-size: 0.9rem;
+     border-radius: 6px;
+     border: 0;
+     margin: 0 2px;
+     line-height: 1.2;
+     text-decoration: none;
+  }
+ 
+ .btn-action-edit {
+    background-color: #0dcaf0; /* Cyan */
+    color: #212529; /* Dark text looks better on cyan */
+    /* color: #FFF; */
+ }
+  .btn-action-edit:hover {
+    background-color: #0b9ead;
+    color: #212529;
+ }
+ 
+  .btn-action-delete {
+     background-color: #dc3545; /* Red */
+     color: #FFFFFF;
+  }
+   .btn-action-delete:hover {
+     background-color: #b02a37;
+     color: #FFFFFF;
+   }
+ 
+ /* Ensure form doesn't add extra margin */
+ td form {
+    margin-bottom: 0;
+     display: inline-block; /* Crucial */
+ }
+ 
+ /* OPTIONAL: Style pagination for dark mode */
+ .pagination .page-link {
+    background-color: #343a40;
+    color: #dee2e6;
+     border-color: #454d55;
+ }
+ .pagination .page-item.active .page-link {
+      background-color: #0dcaf0;
+      border-color: #0dcaf0;
+      color: #212529;
+ }
+ .pagination .page-item.disabled .page-link {
+     background-color: #343a40;
+     color: #6c757d;
+      border-color: #454d55;
+ }

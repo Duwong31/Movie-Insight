@@ -100,7 +100,6 @@
             <!-- Đạo diễn -->
             <div class="movie-director">
                 <h3>Director</h3>
-                 {{-- Có thể link đến trang tìm kiếm theo đạo diễn nếu muốn --}}
                 <span>{{ $movie->director }}</span>
             </div>
             <hr width="100%" size="2px" align="center" color="gray">
@@ -133,6 +132,105 @@
             </div>
         </div>
     </div>
+    {{-- USER REVIEWS SECTION --}}
+    <div class="user-reviews-section">
+        <div class="user-reviews-header">
+            <div class="user-reviews-title-group">
+                <h2>User Reviews</h2>
+                <span class="review-count">{{ number_format(count($reviews)) }}</span>
+                <a href="{{-- {{ route('movie.reviews', ['id' => $movie->movie_id]) }} --}}#" class="see-all-reviews-btn" title="Xem tất cả review">
+                    >
+                </a>
+            </div>
+            @auth
+                <button id="addReviewBtn" class="button-primary">+ Review</button>
+            @else
+                <p><a href="{{ route('login') }}">Log in</a> to add a review.</p>
+            @endauth
+        </div>
+
+        <div class="reviews-slider-wrapper" style="position:relative;">
+            <button class="prev-review-btn" style="position:absolute;left:0;top:40%;z-index:2;">&#60;</button>
+            <div class="reviews-slider" style="overflow:hidden;">
+                <div class="reviews-slider-inner" style="display:flex;transition:transform 0.3s;">
+                    @foreach ($reviews as $review)
+                        <div class="review-item" style="min-width:25%;box-sizing:border-box;">
+                            <div class="review-item-header">
+                                @php
+                                    $userRating = $ratings[$review->user_id] ?? null;
+                                @endphp
+                                @if($userRating)
+                                    <span class="review-score">{{ $userRating }}</span>
+                                @endif
+                                <strong>{{ $review->user->fullname ?? 'Unknown User' }}</strong>
+                            </div>
+                            <h4>{{ $review->title }}</h4>
+                            @if($review->has_spoiler)
+                                <p class="spoiler-warning"><strong>Warning: This review may contain spoilers!</strong></p>
+                            @endif
+                            <p class="review-content">{{ Str::limit($review->content, 300) }}
+                                @if(strlen($review->content) > 300)
+                                    <a href="#" class="read-more-review" data-fulltext="{{ nl2br(e($review->content)) }}">Read more</a>
+                                @endif
+                            </p>
+                            <div class="full-review-content" style="display:none;"></div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <button class="next-review-btn" style="position:absolute;right:0;top:40%;z-index:2;">&#62;</button>
+        </div>
+        @if(count($reviews) == 0)
+            <p id="noReviewsMessage">No reviews yet. Be the first to write one!</p>
+        @endif
+    </div>
+
+    {{-- ADD REVIEW SIDEBAR (Initially Hidden) --}}
+    @auth
+    <div id="reviewSidebar" class="review-sidebar">
+        <div class="review-sidebar-header">
+            <h3>Add User Review for {{ $movie->movie_name }}</h3>
+            <button id="closeReviewSidebar" class="close-btn">×</button>
+        </div>
+        <form id="reviewForm" data-movie-id="{{ $movie->movie_id }}" data-initial-user-rating="{{ $userRating ? round($userRating) : '' }}"> {{-- Use movie->id or movie->movie_id --}}
+            @csrf
+            <div class="form-group">
+                <label>Your rating</label>
+                <div class="stars-input">
+                    @for ($i = 1; $i <= 10; $i++)
+                        {{-- Pre-select based on $userRating (the main rating for the movie) --}}
+                        <span class="sidebar-star {{ $userRating && $i <= round($userRating) ? 'selected' : '' }}" data-value="{{ $i }}">☆</span>
+                    @endfor
+                </div>
+                <input type="hidden" name="rating" id="reviewRatingInput" value="{{ $userRating ? round($userRating) : '' }}">
+                <small class="rating-display">{{ $userRating ? round($userRating).'/10' : '?/10' }}</small>
+            </div>
+
+            <div class="form-group">
+                <label for="reviewTitle">Title of your review <span class="required">*</span></label>
+                <input type="text" id="reviewTitle" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="reviewContent">Review <span class="required">*</span></label>
+                <textarea id="reviewContent" name="content" rows="10" required minlength="400"></textarea>
+                <small>Minimum 400 characters. <span id="charCount">0</span>/400</small>
+            </div>
+
+            <div class="form-group">
+                <p>Does this User Review contain spoilers? <span class="required">*</span></p>
+                <label><input type="radio" name="has_spoiler" value="1" required> Yes</label>
+                <label><input type="radio" name="has_spoiler" value="0" required checked> No</label>
+            </div>
+            <div id="reviewFormErrors" class="form-errors" style="display:none;"></div>
+            <div class="form-actions">
+                <button type="submit" class="button-primary">Submit</button>
+                <button type="button" id="cancelReviewSidebar" class="button-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div id="reviewSidebarOverlay" class="review-sidebar-overlay"></div>
+    @endauth
 @endsection
 
 @push('styles')
@@ -140,19 +238,5 @@
 @endpush
 
 @push('scripts')
-{{-- Không cần nhúng script.js hay ajax.js ở đây nếu chúng đã có trong layout chính --}}
-{{-- JS xử lý rating form, watchlist button đã có trong các file đó và sẽ hoạt động --}}
-{{-- dựa trên các data-attribute (data-movie-id) --}}
-
-<script>
-    // Có thể thêm JS CỤ THỂ cho trang này nếu cần, ví dụ:
-    // console.log('Movie Detail Page Loaded for movie ID: {{ $movie->movie_id }}');
-
-    // Ví dụ: cập nhật trạng thái nút watchlist nếu cần (JS nên kiểm tra API)
-    // const watchlistButton = document.querySelector('.watchlist-button[data-movie-id="{{ $movie->movie_id }}"]');
-    // if (watchlistButton) {
-    //     // Gọi API để kiểm tra trạng thái watchlist thực tế và cập nhật nút
-    //     // fetch('/api/watchlist/status/{{ $movie->movie_id }}') ... then(data => { if(data.inWatchlist) ... })
-    // }
-</script>
+    <script src="{{ asset('js/movie-detail.js') }}"></script>
 @endpush

@@ -169,3 +169,303 @@
     color: blue; 
     transition: color 0.2s ease;
 }
+
+/* Review section */
+.user-reviews-section {
+    background-color: #fff;
+    color: #333;
+    padding: 25px 30px 30px 30px;
+    margin-top: 0 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
+    top: 0;
+}
+
+.user-reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.user-reviews-title-group {
+    display: flex; /* Sắp xếp các phần tử con trên cùng một hàng */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 10px; /* Khoảng cách giữa các phần tử con trong nhóm */
+}
+.user-reviews-header h2 {
+    color: #212121;
+    font-weight: 700;
+    font-size: 2em;
+    border-left: 5px solid #e70634;
+    padding-left: 10px;
+    margin-bottom: 0;
+    margin-right: 0;
+    /* display: inline-block; */
+}
+
+.user-reviews-header .review-count {
+    font-size: 1em; /* Điều chỉnh kích thước số lượng */
+    font-weight: 600;
+    color: gray; /* Hoặc màu bạn muốn */
+    /* margin-left: 10px; /* Điều chỉnh khoảng cách nếu gap không đủ */
+}
+.user-reviews-header .fa-star,
+.user-reviews-header .star {
+    color: #ffd700;
+    font-size: 2.5em;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.user-reviews-section .rating-score,
+.user-reviews-section .fa-star {
+    color: #ffd700 !important;
+    font-size: 3em;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.user-reviews-section .rating-bar {
+    background: #ffd700;
+    border-radius: 3px;
+    height: 32px;
+    margin: 0 0 0 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.see-all-reviews-btn {
+    font-size: 2em;
+    color: black;
+    text-decoration: none;
+    margin-left: 16px;
+    transition: color 0.2s;
+}
+#addReviewBtn {
+    background-color: #e70634;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 7px 18px;
+    font-size: 1em;
+    transition: background 0.2s, color 0.2s;
+}
+
+#addReviewBtn:hover {
+    background-color: #b00528;
+    color: #fff;
+}
+
+#reviewsList p#noReviewsMessage {
+    color: #555;
+    font-size: 1em;
+    padding: 10px 0;
+}
+
+.review-item {
+    background: #fff;
+    border: 1.5px solid black;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(231,6,52,0.05);
+    margin-bottom: 18px;
+    padding: 18px 16px;
+}
+.review-item-header {
+    color: #333;
+}
+.review-item-header strong {
+    color: #212121;
+    font-weight: 700;
+}
+.review-item-header .review-stars .star.selected {
+    color: #ffd700 !important;
+}
+.review-item-header .review-stars .star {
+    color: #ffd6de;
+}
+.review-item h4 {
+    color: black;
+    font-weight: 600;
+}
+.spoiler-warning {
+    color: #b00528;
+}
+.review-content {
+    color: #444;
+}
+
+.user-reviews-header span,
+.user-reviews-section h3,
+.user-reviews-section .featured-reviews-title {
+    color: black;
+    font-weight: 600;
+}
+
+hr, .user-reviews-section hr {
+    border-color: #e70634 !important;
+}
+
+a, a:visited {
+    color: #e70634;
+}
+a:hover {
+    color: #b00528;
+}
+
+/* SIDEBAR STYLES (keep these as they were, they are for the popup form) */
+.review-sidebar {
+    position: fixed;
+    top: 0;
+    right: -450px;
+    width: 420px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    z-index: 1050;
+    transition: right 0.3s ease-in-out;
+    overflow-y: auto;
+}
+/* ... (rest of your sidebar styles: .review-sidebar.open, .review-sidebar-overlay, etc.) ... */
+.review-sidebar.open {
+    right: 0;
+}
+.review-sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1040; /* Below sidebar */
+    display: none; /* Hidden by default */
+}
+.review-sidebar-overlay.open {
+    display: block;
+}
+.review-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.review-sidebar-header h3 { margin: 0; font-size: 1.2em;}
+.review-sidebar .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    cursor: pointer;
+}
+.review-sidebar .form-group { margin-bottom: 15px; }
+.review-sidebar label { display: block; margin-bottom: 5px; font-weight: bold; }
+.review-sidebar input[type="text"],
+.review-sidebar textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.review-sidebar .stars-input {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.review-sidebar .stars-input .sidebar-star {
+    font-size: 2em;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.1s;
+    user-select: none;
+}
+.review-sidebar .stars-input .sidebar-star.selected,
+.review-sidebar .stars-input .sidebar-star:hover,
+.review-sidebar .stars-input .sidebar-star.hovered {
+    color: #ffd700 !important;
+    transform: scale(1.15);
+}
+.review-sidebar .rating-display { margin-left: 10px; font-size: 0.9em; }
+.review-sidebar .required { color: red; }
+.review-sidebar .form-actions { margin-top: 20px; text-align: right; }
+.review-sidebar .button-primary, .review-sidebar .button-secondary { /* These are for sidebar buttons */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.review-sidebar .button-primary { background-color: #007bff; color: white; }
+.review-sidebar .button-secondary { background-color: #6c757d; color: white; }
+.form-errors {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+.form-errors ul { margin: 0; padding-left: 20px; }
+
+.review-score::before {
+    content: '★ ';
+    color: #f39c12;
+}
+
+/* Review slider custom */
+.reviews-slider-wrapper {
+    position: relative;
+    margin-bottom: 30px;
+}
+.reviews-slider {
+    overflow: hidden;
+    width: 100%;
+}
+.reviews-slider-inner {
+    display: flex;
+    transition: transform 0.3s;
+    width: 100%;
+}
+.review-item {
+    min-width: 25%;
+    box-sizing: border-box;
+    padding: 18px 16px;
+    margin: 0 8px;
+}
+.prev-review-btn, .next-review-btn {
+    position: absolute;
+    top: 40%;
+    z-index: 2;
+    background: #e70634;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background 0.2s;
+    opacity: 0.85;
+}
+.prev-review-btn { left: 0; }
+.next-review-btn { right: 0; }
+.prev-review-btn:disabled, .next-review-btn:disabled {
+    background: #ccc;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+@media (max-width: 1200px) {
+    .review-item { min-width: 33.33%; }
+}
+@media (max-width: 900px) {
+    .review-item { min-width: 50%; }
+}
+@media (max-width: 600px) {
+    .review-item { min-width: 100%; }
+}

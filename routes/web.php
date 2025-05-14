@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth; // <<< Thêm dòng này
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;  
 use App\Http\Controllers\HomeController;
 use Modules\Movies\Controllers\MovieController;
 use Modules\TVShows\Controllers\TVShowController;
@@ -12,12 +13,18 @@ use Modules\Ratings\Controllers\RatingController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SearchController;
 use Modules\Dashboard\Admin\DashboardController;
+use Modules\User\Admin\UserController;
+use Modules\Review\Controllers\ReviewController;
+
+
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Các route công khai khác (Dùng route() helper trong view thay vì ?module=...)
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.list');
-Route::get('/movies/{id}', [MovieController::class, 'show'])->name('movie.detail'); // Dùng route này cho link chi tiết
+Route::get('/movies/{id}', [MovieController::class, 'show'])->name('movie.detail');
+Route::post('/movies/{movie}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/movies/reviews/{id}', [MovieController::class, 'allReviews'])->name('movie.reviews');
 Route::get('/tv-shows', [TvShowController::class, 'index'])->name('tvshows.list');
 // Route chi tiết TV Show có thể dùng chung 'movie.detail' nếu cấu trúc giống nhau
 // Route::get('/tv-shows/{id}', [TvShowController::class, 'show'])->name('tvshow.detail');
@@ -48,11 +55,21 @@ Route::middleware(['auth'])->group(function () { // <<< Dùng 'auth'
 
 });
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Có thể comment hoặc xóa dòng này
 Auth::routes();
 
 Route::prefix('admin')->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
+    Route::prefix('module/users')
+    ->as('admin.users.')
+    ->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/edit/{user}', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+        // Bạn có thể dùng Route::resource('/', UserController::class); nếu muốn đầy đủ CRUD và đặt tên theo chuẩn resource.
+    });
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

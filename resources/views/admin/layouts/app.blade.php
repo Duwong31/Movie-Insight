@@ -10,76 +10,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <style>
-        body {
-            background-color: #1a1a1a;
-            color: #fff;
-        }
-        .card {
-            background-color: #2d2d2d;
-            border: none;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .card i {
-            color: #e70634;
-        }
-        /* Sidebar styles */
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #2d2d2d;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-        .sidebar a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 16px;
-            color: #fff;
-            display: block;
-            transition: 0.3s;
-        }
-        .sidebar a:hover {
-            color: #e70634;
-        }
-        .sidebar .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-        .openbtn {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: transparent;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-        }
-        .openbtn:hover {
-            color: #e70634;
-        }
-        #main {
-            transition: margin-left .5s;
-            padding: 16px;
-        }
-        @media screen and (max-height: 450px) {
-            .sidebar {padding-top: 15px;}
-            .sidebar a {font-size: 18px;}
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -127,7 +58,7 @@
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="{{ route('admin.index') }}"><i class="fa fa-home"></i> Dashboard</a>
-        <a href="#"><i class="fa fa-users"></i> Users</a>
+        <a href="{{ route('admin.users.index') }}"><i class="fa fa-users"></i> Users</a>
         <a href="#"><i class="fa fa-film"></i> Movies</a>
         <a href="#"><i class="fa fa-tv"></i> TV Shows</a>
         <a href="#"><i class="fa fa-tags"></i> Genres</a>
