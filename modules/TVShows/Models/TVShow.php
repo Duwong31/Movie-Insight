@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Movies\Models;
+namespace Modules\TVShows\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,10 +14,10 @@ use Modules\Actors\Models\Actor;
 use App\Models\User; // <<< Add this line to import the User model
 use Modules\Review\Models\Review;
 
-class Movie extends Model
+class TVShow extends Model
 {
     use HasFactory;
-
+    protected $table = 'movies';
     /**
      * Tên của khóa chính trong bảng.
      * Chỉ định rõ ràng vì nó không phải là 'id' mặc định.
@@ -39,9 +39,8 @@ class Movie extends Model
         'movie_image', // Sẽ lưu đường dẫn 'movies/filename.jpg'
         'trailer_url',
         'duration',
-        'movie_type',   // Sẽ được set thành 'isMovie'
+        'movie_type',   
         'status',       // 'in_theaters', 'streaming', 'coming soon'
-        // created_at và updated_at sẽ tự động được quản lý nếu timestamps không bị tắt
     ];
 
     /**

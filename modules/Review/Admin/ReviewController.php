@@ -4,7 +4,6 @@ namespace Modules\Review\Admin;
 
 use Illuminate\Routing\Controller;
 use Modules\Review\Models\Review;
-use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
@@ -13,8 +12,8 @@ class ReviewController extends Controller
         $reviews = Review::where('status', 0)
             ->with(['user', 'movie'])
             ->latest()
-            ->get();
-        return view('Review::admin.index', compact('reviews'));
+            ->paginate(15);
+        return view('Review::admin.index', compact('reviews'))->with('title', 'Pending Reviews');
     }
 
     public function show($id)

@@ -150,22 +150,27 @@ body {
      display: inline-block; /* Crucial */
  }
  
- /* OPTIONAL: Style pagination for dark mode */
  .pagination .page-link {
-    background-color: #343a40;
-    color: #dee2e6;
-     border-color: #454d55;
- }
- .pagination .page-item.active .page-link {
-      background-color: #0dcaf0;
-      border-color: #0dcaf0;
-      color: #212529;
- }
- .pagination .page-item.disabled .page-link {
-     background-color: #343a40;
-     color: #6c757d;
-      border-color: #454d55;
- }
+    background-color: #282828; /* Nền nút */
+    color: #b3b3b3; /* Màu chữ */
+    border-color: #383838; /* Viền nút */
+    margin: 0 2px; /* Khoảng cách giữa các nút */
+    border-radius: 4px; /* Bo góc nhẹ */
+}
+.pagination .page-item.active .page-link {
+    background-color: #e70634; /* Màu đỏ cho trang hiện tại */
+    border-color: #e70634;
+    color: #ffffff;
+}
+.pagination .page-item.disabled .page-link {
+    background-color: #232323; /* Nền tối hơn cho nút disabled */
+    color: #6c757d;
+    border-color: #383838;
+}
+.pagination .page-item .page-link:hover {
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
 
 /* Bảng review admin trên nền tối */
 .table-admin-dark {
@@ -212,4 +217,220 @@ body {
     white-space: pre-line;
     border-radius: 8px;
     padding: 16px;
+}
+
+/* --- CARD CHỨA BẢNG --- */
+.card-table-container { /* Thay thế .card mặc định của Bootstrap */
+    background-color: #282828; /* Nền tối hơn cho card chứa bảng */
+    border: 1px solid #383838;
+    border-radius: 12px; /* Bo góc mềm mại hơn */
+    /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Giữ shadow nếu muốn */
+    color: #e0e0e0;
+    padding: 0; /* Bỏ padding nếu bảng chiếm hết */
+    margin-bottom: 20px;
+}
+.card-table-container .card-body { /* Nếu vẫn dùng card-body bên trong */
+    padding: 0; /* Bỏ padding để bảng full width */
+}
+.card-table-container .card-footer {
+    background-color: #232323;
+    border-top: 1px solid #383838;
+    padding: 1rem 1.5rem; /* Thêm padding cho footer */
+}
+
+
+/* --- BẢNG DỮ LIỆU PHIM (Kết hợp và tinh chỉnh từ style của bạn và style mới) --- */
+.table-movies {
+    width: 100%;
+    margin-bottom: 0;
+    /* MÀU CHỮ CHÍNH CHO NỘI DUNG BẢNG (tbody) */
+    color: #dee2e6; /* Hoặc #e0e0e0, #f0f0f0 tùy bạn chọn. Thử #dee2e6 trước. */
+    vertical-align: middle;
+    --bs-table-bg: transparent; /* Nền của table sẽ là nền của .card-table-container */
+    --bs-table-striped-bg: #2a2a2a; /* Màu sọc nhạt hơn nền card một chút */
+    --bs-table-hover-bg: #363636;   /* Màu hover đậm hơn một chút */
+    font-size: 0.9rem;
+}
+
+.table-movies thead th {
+    /* MÀU CHỮ CHO HEADER BẢNG */
+    color: #ffffff; /* Trắng sáng cho header */
+    background-color: #202020; /* Nền header tối nhất, tách biệt rõ ràng */
+    border-bottom: 1px solid #484848; /* Đường kẻ dưới header, hơi sáng hơn nền header */
+    border-top: none;
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    padding: 0.9rem 1rem;
+    white-space: nowrap;
+}
+
+
+.table-movies tbody td {
+    border-top: 1px solid #383838; /* Đường kẻ ngang giữa các hàng */
+    padding: 0.9rem 1rem;
+    white-space: nowrap;
+    /* color: inherit; Sẽ kế thừa màu từ .table-movies */
+}
+.table-movies tbody tr:first-child td {
+    border-top: none;
+}
+
+.table-movies tbody tr:hover {
+    background-color: var(--bs-table-hover-bg);
+    color: #ffffff; 
+}
+.table-movies tbody tr:hover td { /* Cụ thể hơn để ghi đè */
+    color: #ffffff;
+}
+.table-movies.table-striped tbody tr:nth-of-type(odd) td {
+    color: #dee2e6 !important;
+}
+/* Ảnh trong bảng */
+.table-movies img {
+    border-radius: 4px;
+    /* box-shadow: 0 1px 3px rgba(0,0,0,0.4); */ /* Bỏ shadow nếu thấy rối */
+    display: block; /* Tránh khoảng trống thừa dưới ảnh */
+}
+
+/* Badge Status */
+.badge.status-badge { /* Class chung cho các status badge */
+    padding: 0.45em 0.8em; /* Tăng nhẹ padding */
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 50px; /* Bo tròn */
+    text-transform: capitalize;
+    min-width: 100px; /* Đảm bảo độ rộng tối thiểu để dễ nhìn */
+    text-align: center;
+    display: inline-block; /* Để min-width có tác dụng */
+    line-height: 1.2; /* Căn chỉnh text tốt hơn */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Thêm shadow nhẹ */
+}
+
+/* In Theaters - Màu xanh lá cây hoặc xanh dương sáng */
+.badge.status-in-theaters { /* Đổi tên class để rõ ràng hơn */
+    background-color: #28a745 !important; /* Xanh lá cây (Bootstrap success) */
+    /* Hoặc: background-color: #17a2b8 !important; */ /* Xanh dương sáng (Bootstrap info) */
+    color: #fff !important;
+}
+
+/* Streaming - Màu xanh dương đậm */
+.badge.status-streaming {
+    background-color: #007bff !important; /* Xanh dương (Bootstrap primary) */
+    color: #fff !important;
+}
+
+/* Coming Soon - Màu vàng hoặc cam */
+.badge.status-coming-soon {
+    background-color: #ffc107 !important; /* Vàng (Bootstrap warning) */
+    color: #212529 !important; /* Chữ tối cho nền vàng để dễ đọc */
+    /* Hoặc: background-color: #fd7e14 !important; */ /* Cam (Bootstrap orange) */
+    /* color: #fff !important; */ /* Nếu dùng màu cam đậm */
+}
+
+.custom-pagination-nav {
+    display: flex;
+    flex-direction: column; /* Để thông tin kết quả nằm dưới nếu có */
+    align-items: center;
+    margin: 40px auto 20px auto;
+    font-family: 'Poppins', sans-serif; /* Hoặc font bạn muốn */
+}
+
+.custom-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0; /* Bỏ margin của ul nếu có */
+    list-style: none;
+}
+
+.custom-page-item {
+    margin: 0 3px; /* Khoảng cách giữa các nút */
+}
+
+/* Style chung cho các nút (a và span) */
+.custom-page-item a.custom-page-link,
+.custom-page-item span.custom-page-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 15px;
+    font-weight: 600; /* Chữ đậm */
+    line-height: 1;
+    color: #4A5568; /* Màu chữ xám đậm */
+    background-color: transparent; /* Nền trong suốt */
+    border: none; /* Không có border */
+    border-radius: 50%; /* Bo tròn */
+    text-decoration: none;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+    box-shadow: none; /* Đảm bảo không có shadow */
+    outline: none; /* Đảm bảo không có outline */
+}
+
+/* Nút trang hiện tại (Active) */
+.custom-page-item.active span.custom-page-link {
+    color: #ffffff;
+    background-color: #4A5568; /* Màu nền xám đậm */
+    font-weight: 700; /* Đậm hơn nữa cho active */
+    cursor: default; /* Không cần trỏ tay vì đã ở trang đó */
+}
+
+/* Nút Previous và Next (bao gồm cả khi disabled) */
+.custom-page-item a.custom-page-link[rel="prev"],
+.custom-page-item a.custom-page-link[rel="next"],
+.custom-page-item.disabled span.custom-page-link[aria-label*="previous"], /* Target cụ thể */
+.custom-page-item.disabled span.custom-page-link[aria-label*="next"] {
+    color: #718096; /* Màu icon mũi tên */
+    background-color: transparent;
+    border: none;
+    border-radius: 0; /* Không bo tròn cho mũi tên */
+    min-width: auto;
+    width: auto;
+    height: 36px; /* Giữ chiều cao để căn thẳng hàng */
+    padding: 0 10px; /* Khoảng cách ngang cho mũi tên */
+    font-size: 20px; /* Kích thước mũi tên */
+    font-weight: normal;
+    line-height: 36px; /* Căn giữa ký tự mũi tên */
+}
+
+/* Hover cho các nút link SỐ TRANG (không active, không disabled) */
+.custom-page-item:not(.active):not(.disabled) a.custom-page-link:hover {
+    color: #2D3748; /* Đậm hơn */
+    background-color: #EDF2F7; /* Nền xám nhạt */
+}
+
+/* Hover cho nút MŨI TÊN (nếu là link và enabled) */
+.custom-page-item a.custom-page-link[rel="prev"]:hover,
+.custom-page-item a.custom-page-link[rel="next"]:hover {
+    color: #2D3748; /* Đậm hơn */
+    background-color: transparent; /* Vẫn trong suốt */
+}
+
+/* Nút Disabled (Previous/Next khi ở đầu/cuối, và dấu '...') */
+.custom-page-item.disabled span.custom-page-link {
+    color: #A0AEC0 !important; /* Màu rất nhạt */
+    background-color: transparent !important; /* Đảm bảo trong suốt */
+    border: none !important; /* Đảm bảo không có border */
+    cursor: not-allowed;
+    pointer-events: none;
+}
+/* Đảm bảo dấu ... cũng không có nền tròn nếu không muốn */
+.custom-page-item.disabled span.custom-page-link:not([aria-label*="previous"]):not([aria-label*="next"]) {
+    border-radius: 0; /* Bỏ bo tròn cho dấu ... nếu không muốn nó có nền */
+    /* Hoặc giữ lại border-radius: 50%; nếu muốn ... là hình tròn mờ */
+}
+
+
+/* Tùy chọn: CSS cho thông tin kết quả */
+.pagination-results-info {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #aaa;
 }

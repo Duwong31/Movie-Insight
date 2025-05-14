@@ -24,5 +24,11 @@ class AppServiceProvider extends ServiceProvider
 
         $moduleViewPath = base_path('modules/Review/Views');
         $this->loadViewsFrom($moduleViewPath, 'Review');
+
+        $moduleViewPath = base_path('modules/Movies/Views');
+        $this->loadViewsFrom($moduleViewPath, 'Movies');
+
+        $moduleViewPath = base_path('modules/TVShows/Views');
+        $this->loadViewsFrom($moduleViewPath, 'TVShows');
     }
 }

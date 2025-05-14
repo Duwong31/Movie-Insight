@@ -16,8 +16,8 @@ use Modules\Dashboard\Admin\DashboardController;
 use Modules\User\Admin\UserController;
 use Modules\Review\Controllers\ReviewController;
 use Modules\Review\Admin\ReviewController as AdminReviewController;
-
-
+use Modules\Movies\Admin\MovieController as AdminMovieController;
+use Modules\TVShows\Admin\TVShowController as AdminTVShowController;
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -79,6 +79,31 @@ Route::prefix('admin')->group(function() {
         Route::get('/{review}', [AdminReviewController::class, 'show'])->name('show');
         Route::post('/{review}/approve', [AdminReviewController::class, 'approve'])->name('approve');
         Route::delete('/{review}', [AdminReviewController::class, 'destroy'])->name('destroy');
+    });
+
+    //movies
+    Route::prefix('module/movies')
+        ->as('admin.movies.') // Tạo prefix cho tên route: admin.movies.index, admin.movies.create,...
+        ->group(function () {
+            Route::get('/', [AdminMovieController::class, 'index'])->name('index');
+            Route::get('/create', [AdminMovieController::class, 'create'])->name('create');
+            Route::post('/', [AdminMovieController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [AdminMovieController::class, 'edit'])->name('edit'); // {id} hoặc {movie} nếu dùng route model binding
+            Route::put('/{id}', [AdminMovieController::class, 'update'])->name('update'); // {id} hoặc {movie}
+            Route::delete('/{id}', [AdminMovieController::class, 'destroy'])->name('destroy'); // {id} hoặc {movie}
+            // Bạn có thể dùng Route::resource('/', AdminMovieController::class); nếu các phương thức theo chuẩn resource.
+    });
+
+    //TVSHOWS
+    Route::prefix('module/tvshows')
+        ->as('admin.tvshows.')
+        ->group(function () {
+            Route::get('/', [AdminTVShowController::class, 'index'])->name('index');
+            Route::get('/create', [AdminTVShowController::class, 'create'])->name('create');
+            Route::post('/', [AdminTVShowController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [AdminTVShowController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [AdminTVShowController::class, 'update'])->name('update');
+            Route::delete('/{id}', [AdminTVShowController::class, 'destroy'])->name('destroy');
     });
 });
 

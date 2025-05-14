@@ -66,8 +66,8 @@
          </table>
       </div>
         @if($users->hasPages())
-        <div class="card-footer">
-            {{ $users->links() }} {{-- Hiển thị phân trang --}}
+        <div class="custom-pagination-container">
+            {{ $users->links('vendor.pagination.custom_pagination') }} {{-- Bootstrap 4 pagination styling mặc định --}}
         </div>
         @endif
     </div>
