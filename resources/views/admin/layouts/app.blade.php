@@ -63,7 +63,7 @@
         <a href="#"><i class="fa fa-tv"></i> TV Shows</a>
         <a href="#"><i class="fa fa-tags"></i> Genres</a>
         <a href="#"><i class="fa fa-newspaper"></i> News</a>
-        <a href="#"><i class="fa fa-comments"></i> Comments</a>
+        <a href="{{ route('admin.reviews.index') }}"><i class="fa fa-comments"></i> Reviews</a>
         <a href="#"><i class="fa fa-star"></i> Celebrity</a>
         <a href="#"><i class="fa fa-cog"></i> Settings</a>
     </div>

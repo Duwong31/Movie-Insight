@@ -125,8 +125,8 @@ class MovieController extends Controller
                 ->value('rating');
         }
 
-        // Lấy tất cả reviews và ratings cho phim này
-        $reviews = $movie->reviews; // đã eager load user
+        // Lấy tất cả reviews đã duyệt (status = 1) và ratings cho phim này
+        $reviews = $movie->reviews()->where('status', 1)->with('user')->latest()->get();
         $ratings = \Modules\Ratings\Models\Rating::where('movie_id', $movie->movie_id)
             ->pluck('rating', 'user_id');
 

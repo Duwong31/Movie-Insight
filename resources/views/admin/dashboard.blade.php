@@ -13,9 +13,9 @@
     </div>
     <div class="col-sm-3">
         <div class="card">
-            <i class="fa fa-tags" style="font-size: 70px;"></i>
-            <h4 style="color:white;">Genres</h4>
-            <h5 style="color:white;">{{ $totalGenres }}</h5>
+            <i class="fa fa-comments mb-2" style="font-size: 70px;"></i>
+            <h4 style="color:white;">Reviews</h4>
+            <h5 style="color:white;">{{ $totalReviews }}</h5>
         </div>
     </div>
     <div class="col-sm-3">

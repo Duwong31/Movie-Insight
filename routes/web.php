@@ -15,6 +15,7 @@ use App\Http\Controllers\SearchController;
 use Modules\Dashboard\Admin\DashboardController;
 use Modules\User\Admin\UserController;
 use Modules\Review\Controllers\ReviewController;
+use Modules\Review\Admin\ReviewController as AdminReviewController;
 
 
 // Trang chủ
@@ -59,6 +60,7 @@ Auth::routes();
 
 Route::prefix('admin')->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
+    //users
     Route::prefix('module/users')
     ->as('admin.users.')
     ->group(function () {
@@ -68,7 +70,15 @@ Route::prefix('admin')->group(function() {
         Route::get('/edit/{user}', [UserController::class, 'edit'])->name('edit');
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
-        // Bạn có thể dùng Route::resource('/', UserController::class); nếu muốn đầy đủ CRUD và đặt tên theo chuẩn resource.
+    });
+    //reviews
+    Route::prefix('module/reviews')
+    ->as('admin.reviews.')
+    ->group(function () {
+        Route::get('/', [AdminReviewController::class, 'index'])->name('index');
+        Route::get('/{review}', [AdminReviewController::class, 'show'])->name('show');
+        Route::post('/{review}/approve', [AdminReviewController::class, 'approve'])->name('approve');
+        Route::delete('/{review}', [AdminReviewController::class, 'destroy'])->name('destroy');
     });
 });
 
