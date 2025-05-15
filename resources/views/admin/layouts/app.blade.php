@@ -61,7 +61,7 @@
         <a href="{{ route('admin.users.index') }}"><i class="fa fa-users"></i> Users</a>
         <a href="{{ route('admin.movies.index') }}"><i class="fa fa-film"></i> Movies</a>
         <a href="{{ route('admin.tvshows.index') }}"><i class="fa fa-tv"></i> TV Shows</a>
-        <a href="#"><i class="fa fa-tags"></i> Genres</a>
+        <a href="{{ route('admin.genres.index') }}"><i class="fa fa-tags"></i> Genres</a>
         <a href="#"><i class="fa fa-newspaper"></i> News</a>
         <a href="{{ route('admin.reviews.index') }}"><i class="fa fa-comments"></i> Reviews</a>
         <a href="#"><i class="fa fa-star"></i> Celebrity</a>

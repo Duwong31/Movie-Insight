@@ -12,7 +12,7 @@
         <div class="main-filter-dropdown">
             <button id="mainFilterBtn" type="button">
                 @if($status == 'in_theaters') In Theaters
-                @elseif($status == 'coming_soon') Coming Soon
+                @elseif($status == 'coming soon') Coming Soon
                 @elseif($status == 'tv_shows') TV Shows
                 @else All Movies
                 @endif
@@ -20,7 +20,7 @@
             </button>
             <div id="mainFilterDropdownContent" class="main-filter-dropdown-content">
                 <a href="{{ route('movies.list', array_merge(request()->except('status', 'page'), ['status' => 'in_theaters'])) }}" class="{{ $status == 'in_theaters' ? 'active' : '' }}">In Theaters</a>
-                <a href="{{ route('movies.list', array_merge(request()->except('status', 'page'), ['status' => 'coming_soon'])) }}" class="{{ $status == 'coming_soon' ? 'active' : '' }}">Coming Soon</a>
+                <a href="{{ route('movies.list', array_merge(request()->except('status', 'page'), ['status' => 'coming soon'])) }}" class="{{ $status == 'coming_soon' ? 'active' : '' }}">Coming Soon</a>
                 <a href="{{ route('tvshows.list', array_merge(request()->except('status', 'page'))) }}" >TV Shows</a>
             </div>
         </div>

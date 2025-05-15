@@ -126,7 +126,7 @@ body {
   }
  
  .btn-action-edit {
-    background-color: #0dcaf0; /* Cyan */
+    background-color: lightblue; /* Cyan */
     color: #212529; /* Dark text looks better on cyan */
     /* color: #FFF; */
  }
@@ -136,8 +136,8 @@ body {
  }
  
   .btn-action-delete {
-     background-color: #dc3545; /* Red */
-     color: #FFFFFF;
+     background-color: white; /* Red */
+     color: #e70634;
   }
    .btn-action-delete:hover {
      background-color: #b02a37;
@@ -433,4 +433,89 @@ body {
     margin-top: 15px;
     font-size: 0.85rem;
     color: #aaa;
+}
+
+/* Card Genre */
+/* Trong admin.css */
+
+/* ----- CARD CHỨA BẢNG GENRES ----- */
+/* Sử dụng lại .card-table-container nếu bạn muốn áp dụng style này
+   Hoặc tạo một class mới nếu chỉ muốn cho trang Genres */
+   .card.genre-card-table { /* Thêm class 'genre-card-table' vào thẻ card trong index.blade.php */
+    background-color: #282828;
+    border: 1px solid #383838;
+    border-radius: 8px; /* Giảm bớt bo tròn một chút so với 12px nếu muốn */
+    color: #e0e0e0; /* Màu chữ mặc định cho card */
+    padding: 0; /* Bỏ padding của card nếu bảng chiếm hết */
+    margin-bottom: 20px;
+}
+
+.card.genre-card-table .card-header {
+    background-color: #202020; /* Nền tối hơn cho header của card */
+    color: #ffffff;
+    font-weight: 500;
+    border-bottom: 1px solid #383838;
+    padding: 0.9rem 1.2rem; /* Tăng padding cho card header */
+    border-top-left-radius: 7px; /* Bo góc cho khớp với card */
+    border-top-right-radius: 7px;
+}
+
+.card.genre-card-table .card-body {
+    padding: 0; /* Bỏ padding để table chiếm hết */
+}
+
+/* ----- BẢNG GENRES ----- */
+/* Áp dụng cho .table trong .genre-card-table */
+.genre-card-table .table {
+    width: 100%;
+    margin-bottom: 0;
+    color: #c7c7c7; /* Màu chữ cho nội dung bảng, sáng hơn một chút */
+    vertical-align: middle;
+    --bs-table-bg: transparent; /* Nền của table là nền của card */
+    --bs-table-striped-bg: #2c2c2c; /* Sọc nhạt hơn nền card một chút */
+    --bs-table-hover-bg: #3a3a3a;   /* Màu hover đậm hơn một chút */
+    font-size: 0.875rem; /* Có thể tăng nhẹ font-size */
+}
+
+.genre-card-table .table thead th {
+    color: #ffffff; /* Trắng sáng cho header bảng */
+    background-color: #1c1c1c; /* Nền header bảng tối nhất, tách biệt rõ ràng */
+    border-bottom: 2px solid #404040; /* Đường kẻ dưới header dày hơn, màu rõ hơn */
+    border-top: none;
+    font-weight: 600; /* Đậm hơn */
+    font-size: 0.8rem;
+    text-transform: uppercase; /* VIẾT HOA CHO DỄ NHẬN BIẾT HEADER */
+    letter-spacing: 0.5px;
+    padding: 0.9rem 1.2rem;
+    white-space: nowrap;
+}
+
+.genre-card-table .table tbody td {
+    border-top: 1px solid #3b3b3b; /* Đường kẻ ngang giữa các hàng, rõ hơn một chút */
+    padding: 0.9rem 1.2rem;
+    white-space: nowrap;
+}
+.genre-card-table .table tbody tr:first-child td {
+    border-top: none; /* Bỏ border cho hàng đầu tiên của tbody */
+}
+
+/* Hiệu ứng hover cho hàng */
+.genre-card-table .table tbody tr:hover {
+    background-color: var(--bs-table-hover-bg);
+    color: #ffffff; /* Chữ trắng khi hover */
+}
+.genre-card-table .table tbody tr:hover td { /* Đảm bảo td cũng đổi màu chữ */
+    color: #ffffff;
+}
+
+/* Sọc cho bảng (nếu bạn dùng class table-striped) */
+.genre-card-table .table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--bs-table-striped-bg);
+}
+.genre-card-table .table.table-striped tbody tr:nth-of-type(odd) td {
+    color: #d0d0d0; /* Màu chữ cho hàng sọc, có thể giống màu chữ chính */
+}
+
+.btn-info{
+    background-color: lightblue;
 }

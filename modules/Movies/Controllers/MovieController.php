@@ -32,20 +32,7 @@ class MovieController extends Controller
             }
         }
 
-        // 3. Lọc theo Rating (ví dụ: MI score >= X)
-        if ($request->filled('rating_min')) {
-            $query->where('tomatometer_score', '>=', $request->input('rating_min'));
-        }
-        // Bạn có thể thêm các bộ lọc khác như "Certified Fresh", "Verified Hot"
-        // Ví dụ: nếu "Certified Fresh" là một boolean flag hoặc một ngưỡng score cụ thể
-        if ($request->has('certified_fresh')) {
-            // Giả sử certified_fresh là một flag boolean trong bảng movies
-            // $query->where('is_certified_fresh', true);
-            // Hoặc dựa trên score
-            $query->where('tomatometer_score', '>=', 75); // Ví dụ ngưỡng cho Certified Fresh
-        }
-
-        // 4. Sắp xếp (Sort)
+        // 3. Sắp xếp (Sort)
         $sortBy = $request->input('sort_by',''); // Mặc định
         switch ($sortBy) {
             case 'popularity.desc':
@@ -58,7 +45,7 @@ class MovieController extends Controller
                 $query->orderBy('release_date', 'asc');
                 break;
             case 'rating.desc':
-                $query->orderBy('tomatometer_score', 'desc');
+                $query->orderBy('ratings_avg_rating', 'desc');
                 break;
             default:
                 break;

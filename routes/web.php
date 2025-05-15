@@ -18,6 +18,8 @@ use Modules\Review\Controllers\ReviewController;
 use Modules\Review\Admin\ReviewController as AdminReviewController;
 use Modules\Movies\Admin\MovieController as AdminMovieController;
 use Modules\TVShows\Admin\TVShowController as AdminTVShowController;
+use Modules\Genres\Admin\GenreController as AdminGenreController;
+use Modules\Genres\Controllers\GenreController;
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -105,6 +107,18 @@ Route::prefix('admin')->group(function() {
             Route::put('/{id}', [AdminTVShowController::class, 'update'])->name('update');
             Route::delete('/{id}', [AdminTVShowController::class, 'destroy'])->name('destroy');
     });
+
+    //Genres
+    Route::prefix('module/genres')
+        ->as('admin.genres.')
+        ->group(function () {
+            Route::get('/', [AdminGenreController::class, 'index'])->name('index');
+            Route::get('/create', [AdminGenreController::class, 'create'])->name('create');
+            Route::post('/', [AdminGenreController::class, 'store'])->name('store');
+            Route::get('/edit/{genre}', [AdminGenreController::class, 'edit'])->name('edit'); // {genre} sử dụng route model binding
+            Route::put('/{genre}', [AdminGenreController::class, 'update'])->name('update');
+            Route::delete('/{genre}', [AdminGenreController::class, 'destroy'])->name('destroy');
+        });
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
