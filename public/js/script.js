@@ -278,11 +278,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (submitButton) {
                     submitButton.disabled = true;
                     submitButton.textContent = 'Rate';
+                    submitButton.classList.remove('active');
                 }
                 if (removeRatingBtn) {
-                    removeRatingBtn.style.display = currentRating > 0 ? 'block' : 'none';
                     if (currentRating > 0) {
-                        removeRatingBtn.textContent = `Remove Your Rating (${currentRating})`;
+                        removeRatingBtn.style.display = 'inline-block';
+                    } else {
+                        removeRatingBtn.style.display = 'none';
                     }
                 }
 
@@ -316,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('.rating-form').forEach(form => {
         const stars = form.querySelectorAll('.star'); // Lấy tất cả sao trong form này
         const submitButton = form.querySelector('.btn-submit-rating');
-
+        const removeRatingButton = form.querySelector('.btn-remove-rating');
         // Lưu trữ trạng thái selected ban đầu
         form.dataset.selectedValue = form.dataset.currentRating || "0";
 
@@ -342,6 +344,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (submitButton) {
                     submitButton.disabled = false;
                     submitButton.classList.add('active');
+                    submitButton.textContent = 'Rate';
                 }
                  // Đảm bảo không có lệnh gọi submitRating ở đây
             });
@@ -375,9 +378,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // --- Sự kiện CLICK vào nút Remove Rating ---
-        const removeButton = form.querySelector('.remove-rating-btn');
-        if (removeButton) {
-            removeButton.addEventListener('click', function() {
+        if (removeRatingButton) {
+            removeRatingButton.addEventListener('click', function() {
                 const movieId = form.dataset.movieId; // Lấy ID từ form
                 console.log(`Remove button clicked for movie ${movieId}`); // Log
                 if (confirm('Are you sure you want to remove your rating?')) {

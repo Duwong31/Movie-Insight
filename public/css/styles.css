@@ -1108,7 +1108,7 @@ main {
 .remove-rating-btn {
     background: none;
     border: 1px solid #888;
-    color: #aaa;
+    color: white !important;
     padding: 6px 15px;
     border-radius: 15px;
     cursor: pointer;
@@ -1783,3 +1783,5 @@ main {
         font-size: 0.9rem;
     }
 }
+
+
