@@ -243,7 +243,7 @@ body {
     max-width: 800px;
     flex-grow: 1;
     min-width: 200px;
-    overflow: hidden;
+    /* overflow: hidden; */
     /* Add padding here for icon spacing from the edge */
     /* padding: 0 1px; */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -255,6 +255,7 @@ body {
     height: 100%;       /* Make it fill the search-box height */
     display: flex;      /* Use flex to make the input fill it */
     align-items: center;
+    padding-left: 10px;
 }
 
 #header .search-icon {
@@ -293,14 +294,15 @@ body {
     top: calc(100% + 5px);
     left: 0;
     right: 0;
-    background: #2a2a2a;
+    background: whitesmoke;
     border: 1px solid #444;
+    border-top: none;
     border-radius: 4px;
     z-index: 10;
     max-height: 250px;
     overflow-y: auto;
     display: none;
-    color: #eee;
+    color: black;
 }
 
 #header .suggestions-list .suggestion-item {
@@ -310,7 +312,7 @@ body {
     align-items: center;
     border-bottom: 1px solid #444; /* Border giữa các item */
     transition: background-color 0.2s ease;
-    color: #eee;
+    color: black;
     border-bottom: 1px solid #444;
 }
 #header .suggestions-list .suggestion-item:last-child {
@@ -331,10 +333,10 @@ body {
 }
 
 #header .suggestions-list .suggestion-item h4 {
-    color: var(--white);
+    color: black;
 }
 #header .suggestions-list .suggestion-item p {
-    color: #aaa;
+    color: black;
 }
 
 #header .suggestions-list .suggestion-item:hover {
@@ -490,7 +492,7 @@ body {
         display: block; /* Hiển thị icon và chữ menu */
     }
      #header .search-box {
-        display: none; /* Ẩn ô search (hoặc di chuyển vào menu mobile) */
+        display: none; 
     }
      #header #login-btn,
      #header #sign-up-btn,
@@ -1240,97 +1242,6 @@ main {
     transform: rotate(45deg); 
 }
 
-.search-container {
-    position: relative;
-    width: 600px;
-    margin: 20px;
-}
-
-#search-bar {
-    width: 100%;
-    padding: 10px;
-    border: none !important;
-    border-radius: 4px;
-}
-
-.suggestions-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: #fff;
-    border: none;
-    border-radius: 4px;
-    z-index: 10;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-}
-
-.suggestions-list .suggestion-item {
-    padding: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-}
-
-.suggestions-list .suggestion-item img {
-    width: 50px;
-    height: 70px;
-    object-fit: cover;
-    margin-right: 10px;
-}
-
-.suggestions-list .suggestion-item:hover {
-    background: #f0f0f0;
-}
-
-.search-container {
-    position: relative;
-    width: 300px;
-    margin: 20px;
-}
-
-#search-bar {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.suggestions-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    z-index: 10;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-}
-
-.suggestions-list .suggestion-item {
-    padding: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-}
-
-.suggestions-list .suggestion-item img {
-    width: 50px;
-    height: 70px;
-    object-fit: cover;
-    margin-right: 10px;
-}
-
-.suggestions-list .suggestion-item:hover {
-    background: #f0f0f0;
-}
 
 /*================================ Footer Styles ========================================*/
 #footer {

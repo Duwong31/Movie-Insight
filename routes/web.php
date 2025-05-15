@@ -34,7 +34,7 @@ Route::get('/celebs/{id}', [CelebController::class, 'show'])->name('celeb.detail
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/search', [SearchController::class, 'webSearch'])->name('search');
 Route::get('/genres/{id}', [GenreController::class, 'show'])
-      ->name('genres.show');
+      ->name('genres.show');    
 // Route xác thực (Login, Register, Forgot Password, Logout...)
 Auth::routes(); // Tự động tạo các route /login, /register, /logout,...
 

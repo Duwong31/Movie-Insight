@@ -27,6 +27,18 @@ document.addEventListener("DOMContentLoaded", function() {
     const suggestionsContainerHeader = document.getElementById('suggestions');
 
     if (searchInputHeader && suggestionsContainerHeader) {
+        searchInputHeader.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Ngăn form submit mặc định nếu không muốn
+                const query = this.value.trim();
+                if (query.length > 0) {
+                    // Chuyển hướng đến trang kết quả tìm kiếm đầy đủ
+                    window.location.href = `${config.urls.searchSuggest}?query=${encodeURIComponent(query)}`;
+                    // Hoặc nếu action của form đã đúng, có thể gọi:
+                    // this.closest('form').submit();
+                }
+            }
+        });
         searchInputHeader.addEventListener('keyup', function() {
             const query = this.value.trim(); // Trim whitespace
             if (query.length < 2) {
@@ -57,27 +69,31 @@ document.addEventListener("DOMContentLoaded", function() {
                  // Kiểm tra content type trước khi parse JSON
                  const contentType = response.headers.get('content-type');
                  if (contentType && contentType.includes('application/json')) {
+                     console.log("Response is JSON, parsing...");
                      return response.json();
                  } else {
-                     // Nếu không phải JSON, có thể là trang HTML (ví dụ: lỗi server)
+                    console.error('Received non-JSON response. Content-Type:', contentType);
                      return response.text().then(text => { throw new Error('Received non-JSON response: ' + text); });
                  }
             })
             .then(data => {
+                console.log("Data received by JS for suggestions:", data);
                 suggestionsContainerHeader.innerHTML = ""; // Clear previous
                 // Giả sử data trả về là một mảng các object phim/tv/celeb
                 // Cần điều chỉnh key (image_url, title, type, year, url) cho phù hợp với API response thực tế
                 if (data && Array.isArray(data) && data.length > 0) {
+                    console.log("Data is an array and has items. Processing each...");
                      data.forEach(item => {
+                        console.log("Processing suggestion item:", item); 
                         const div = document.createElement("div");
                         div.classList.add("suggestion-item");
                         // Cần đảm bảo các key `item.image_url`, `item.title`, `item.type`, `item.year`, `item.url`
                         // tồn tại trong dữ liệu trả về từ SearchController::webSearch
                         div.innerHTML = `
-                            <img src="${item.image_url || '/img/placeholder.jpg'}" alt="${item.title || ''}" onerror="this.src='/img/placeholder.jpg';"> {{-- Thêm fallback onerror --}}
+                            <img src="${item.image_url || '/img/placeholder.jpg'}" alt="${item.title || ''}" onerror="this.src='/img/placeholder.jpg';">
                             <div>
                                 <h4>${item.title || 'No Title'}</h4>
-                                <p>${item.type || ''} ${item.year ? '(' + item.year + ')' : ''}</p> {{-- Hiển thị năm trong ngoặc --}}
+                                <p>${item.type || ''} ${item.year ? '(' + item.year + ')' : ''}</p>
                             </div>`;
                         // Gán link chuyển hướng khi click vào suggestion
                         div.onclick = () => {
@@ -87,13 +103,17 @@ document.addEventListener("DOMContentLoaded", function() {
                             }
                         };
                         suggestionsContainerHeader.appendChild(div);
+                        console.log("Item details for HTML: ", item.image_url, item.title, item.type, item.year, item.url);
                     });
                     suggestionsContainerHeader.style.display = "block";
-                } else if (data && data.message) { // Xử lý trường hợp API trả về message (vd: "No results found")
+                    console.log("Suggestions container display set to block.");
+                } else if (data && data.message) {
+                    console.log("Data has a message:", data.message);
                      suggestionsContainerHeader.innerHTML = `<div class="suggestion-item"><i>${data.message}</i></div>`;
                      suggestionsContainerHeader.style.display = "block";
                 }
                  else {
+                    console.log("No valid data or message to display. Hiding suggestions.");
                     suggestionsContainerHeader.style.display = "none"; // Ẩn nếu không có data hoặc data rỗng
                 }
             })
