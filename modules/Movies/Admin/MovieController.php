@@ -11,10 +11,13 @@ use Modules\Actors\Models\Actor;
 
 class MovieController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::where('movie_type', 'isMovie')->with('genres', 'actors')->orderByDesc('created_at')->paginate(10);
-        return view('Movies::admin.index', compact('movies'))->with('title', 'Manage Movies');
+        $search = $request->input('search');
+        $movies = Movie::where('movie_type', 'isMovie')->when($search, function ($query, $search) {
+            return $query->where('movie_name', 'like', '%' . $search . '%');
+        })->with('genres', 'actors')->orderByDesc('created_at')->paginate(10);
+        return view('Movies::admin.index', compact('movies', 'search'))->with('title', 'Manage Movies');
     }
 
     public function create()

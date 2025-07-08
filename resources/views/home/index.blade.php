@@ -247,7 +247,7 @@
     {{-- What to Watch Section --}}
 <section id="what-to-watch-section" class="movie">
     <div class="what-to-watch-container">
-        <h2 class="movie-category">What to watch</h2>
+        <h2 class="what-to-watch-category">What to watch</h2>
             <button class="pre-btn"><</button>
             <button class="nxt-btn">></button>
         @guest

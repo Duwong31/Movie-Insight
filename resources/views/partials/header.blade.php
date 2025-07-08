@@ -74,7 +74,7 @@
                     {{-- Thêm các mục menu mong muốn --}}
                     <li><a class="dropdown-item" href="{{ route('profile.show') ?? '#' }}">Your Profile</a></li>
                     <li><a class="dropdown-item" href="{{ route('watchlist.index') ?? '#' }}">Your Watchlist</a></li>
-                    <li><a class="dropdown-item" href="{{ route('ratings.index') ?? '#' }}">Your ratings</a></li>
+                    <li><a class="dropdown-item" href="{{ route('ratings.index') ?? '#' }}">Your Ratings</a></li>
                     @if(Auth::user()->role === 1)
                     <li><a class="dropdown-item" href="{{ route('admin.index') ?? '#' }}">Admin Dashboard</a></li>
                     @endif

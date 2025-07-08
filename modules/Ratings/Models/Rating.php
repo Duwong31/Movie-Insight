@@ -39,4 +39,9 @@ class Rating extends Model
         // Foreign key là 'movie_id', khóa chính của Movie là 'movie_id'
         return $this->belongsTo(Movie::class, 'movie_id', 'movie_id');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'user_id', 'id');
+    }
 }

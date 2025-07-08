@@ -16,7 +16,19 @@
             {{ session('success') }}
         </div>
     @endif
-
+    {{-- Form tìm kiếm --}}
+    <div class="card mb-3">
+        <div class="card-body">
+            <form method="GET" action="{{ route('admin.tvshows.index') }}" class="row g-3 align-items-center">
+                <div class="col-md-10">
+                    <input type="text" name="search" class="form-control" placeholder="Search by tvshow name..." value="{{ $search ?? '' }}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-info w-100"><i class="fa fa-search"></i> Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="card-table-container">
         <div class="card-body">
             <table class="table table-striped table-hover table-movies mb-0">

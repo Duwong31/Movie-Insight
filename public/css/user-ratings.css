@@ -1,0 +1,267 @@
+body {
+    background-color: #f4f4f4; /* Màu nền chung cho trang */
+}
+
+.user-ratings-page .container {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.user-ratings-page .page-header {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.user-ratings-page .page-header h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.user-ratings-page .page-header p {
+    font-size: 1em;
+    color: #666;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: #777;
+}
+
+.empty-state .empty-icon {
+    font-size: 4em;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.empty-state h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.empty-state .btn-primary {
+    margin-top: 20px;
+    background-color: #e70634; /* Màu chủ đạo của bạn */
+    border-color: #e70634;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.empty-state .btn-primary:hover {
+    background-color: #c2052c;
+    border-color: #c2052c;
+}
+
+.ratings-list .rating-item {
+    display: flex;
+    align-items: flex-start; /* Căn các item con lên trên */
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.ratings-list .rating-item:last-child {
+    border-bottom: none;
+}
+
+.rating-item-poster {
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.rating-item-poster img {
+    width: 80px; /* Kích thước poster nhỏ */
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover;
+    transition: transform 0.2s ease-in-out;
+}
+.rating-item-poster a:hover img {
+    transform: scale(1.05);
+}
+
+.rating-item-details {
+    flex-grow: 1;
+}
+
+.rating-item-details h3 {
+    font-size: 1.3em;
+    margin-bottom: 5px;
+}
+
+.rating-item-details h3 a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+}
+.rating-item-details h3 a:hover {
+    color: #e70634;
+}
+
+.rating-item-details .release-year {
+    font-size: 0.9em;
+    color: #777;
+    font-weight: normal;
+}
+
+.rating-item-details .item-type {
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.your-rating-display {
+    font-size: 1em;
+    color: #444;
+    margin-bottom: 8px;
+    display: flex; /* Quan trọng: Sử dụng flexbox để căn chỉnh */
+    align-items: center; /* Căn các phần tử con theo chiều dọc */
+    flex-wrap: nowrap; /* Ngăn không cho xuống dòng nếu không đủ chỗ (có thể điều chỉnh nếu cần) */
+}
+
+.your-rating-display .stars {
+    color: #f39c12; /* Màu vàng cho sao */
+    font-weight: bold;
+    margin-left: 5px; /* Thêm khoảng cách nhỏ giữa chữ "Your Rating:" và điểm sao */
+    white-space: nowrap; /* Đảm bảo "★ X" không bị tách dòng */
+}
+
+/* Đảm bảo text "/ 10" cũng nằm trên cùng một hàng và có khoảng cách */
+.your-rating-display span + span { /* Nhắm vào span thứ hai (chứa "/ 10") */
+    margin-left: 2px; /* Khoảng cách nhỏ sau điểm sao */
+}
+
+
+/* Phần rating-item-details, đảm bảo nó có đủ không gian */
+.rating-item-details {
+    flex-grow: 1;
+    display: flex; /* Thêm flex để dễ quản lý hơn */
+    flex-direction: column; /* Sắp xếp các mục con theo chiều dọc */
+    justify-content: center; /* Căn giữa các mục con theo chiều dọc nếu có không gian thừa */
+}
+
+/* Bạn có thể cần điều chỉnh margin của các phần tử khác bên trong .rating-item-details nếu cần */
+.rating-item-details h3 {
+    font-size: 1.3em;
+    margin-top: 0; /* Reset margin top nếu có */
+    margin-bottom: 5px;
+}
+
+.rating-item-details .item-type {
+    font-size: 0.85em;
+    color: #888;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.rated-date {
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 5px; /* Điều chỉnh margin nếu cần */
+    margin-bottom: 10px;
+}
+
+.rating-actions {
+    margin-top: auto; /* Đẩy nút "Change Rating" xuống dưới cùng nếu .rating-item-details cao hơn nội dung */
+}
+.rating-actions .btn {
+    font-size: 0.85em;
+    padding: 5px 10px;
+}
+.rating-actions .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+.rating-actions .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Style cho form rating ẩn (nếu có) */
+.rating-form-on-list {
+    border: 1px solid #ddd;
+    /* Thêm các style khác nếu cần */
+}
+.rating-form-on-list .stars .star {
+    font-size: 1.5em; /* Điều chỉnh kích thước sao trong form */
+    color: #ccc;
+    cursor: pointer;
+    margin: 0 2px;
+}
+.rating-form-on-list .stars .star.fas, /* Sao đã chọn hoặc hover */
+.rating-form-on-list .stars .star.hover {
+    color: #f39c12;
+}
+.rating-form-on-list .btn-primary {
+     background-color: #007bff; color: white;
+}
+.rating-form-on-list .btn-danger {
+    background-color: #dc3545; color: white;
+}
+
+
+.pagination-links {
+    margin-top: 30px;
+    text-align: center;
+}
+/* Style cho pagination của Laravel (bạn có thể tùy chỉnh thêm) */
+.pagination {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+    border-radius: .25rem;
+}
+.pagination li {
+    margin: 0;
+}
+.pagination li a, .pagination li span {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #e70634;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    text-decoration: none;
+}
+.pagination li:first-child a, .pagination li:first-child span {
+    margin-left: 0;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+.pagination li:last-child a, .pagination li:last-child span {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+.pagination li a:hover {
+    z-index: 2;
+    color: #c2052c;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+.pagination li.active span {
+    z-index: 3;
+    color: #fff;
+    background-color: #e70634;
+    border-color: #e70634;
+}
+.pagination li.disabled span {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}   
+
+.stars{
+    margin: 0;
+}

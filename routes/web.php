@@ -20,6 +20,7 @@ use Modules\Movies\Admin\MovieController as AdminMovieController;
 use Modules\TVShows\Admin\TVShowController as AdminTVShowController;
 use Modules\Genres\Admin\GenreController as AdminGenreController;
 use Modules\Genres\Controllers\GenreController;
+use App\Http\Controllers\UserRatingController;
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -46,7 +47,7 @@ Route::middleware(['auth'])->group(function () { // <<< Dùng 'auth'
     // Rating
     Route::post('/rate/movie', [RatingController::class, 'store'])->name('api.rate.movie');
     Route::post('/remove-rating', [RatingController::class, 'destroy'])->name('api.remove.rating'); // Đổi thành DELETE nếu muốn chuẩn RESTful hơn
-
+    Route::get('/my-ratings', [UserRatingController::class, 'index'])->name('ratings.index');
     // Watchlist
     Route::post('/watchlist/add', [WatchlistController::class, 'store'])->name('api.watchlist.add');
     Route::delete('/watchlist/remove', [WatchlistController::class, 'destroy'])->name('api.watchlist.remove');

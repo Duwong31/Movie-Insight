@@ -12,10 +12,13 @@ use Modules\TVShows\Models\TVShow;
 
 class TVShowController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tvshows = Movie::where('movie_type', 'isTVShow')->with('genres', 'actors')->orderByDesc('created_at')->paginate(15);
-        return view('TVShows::admin.index', compact('tvshows'))->with('title', 'Manage TV Shows');
+        $search = $request->input('search');
+        $tvshows = Movie::where('movie_type', 'isTVShow')->when($search, function ($query, $search) {
+            return $query->where('movie_name', 'like', '%' . $search . '%');
+        })->with('genres', 'actors')->orderByDesc('created_at')->paginate(15);
+        return view('TVShows::admin.index', compact('tvshows', 'search'))->with('title', 'Manage TV Shows');
     }
 
     public function create()
