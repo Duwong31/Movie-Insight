@@ -27,7 +27,8 @@
              <thead>
                  <tr>
                     {{-- 4. REMOVE MOST text-center --}}
-                     <th>S.N.</th> 
+                     <th>S.N.</th>
+                     <th>Avatar</th>
                      <th>Username</th>
                      <th>Email</th>
                      <th>Contact Number</th>
@@ -39,6 +40,16 @@
                  @forelse ($users as $key => $user)
                      <tr>
                          <td>{{ $users->firstItem() + $key }}</td> {{-- SN Left Aligned --}}
+                         <td>
+                             @if($user->hasProfileImage())
+                                 <img src="{{ $user->profile_image_url }}" 
+                                      alt="{{ $user->fullname }}" 
+                                      class="rounded-circle"
+                                      style="width: 40px; height: 40px; object-fit: cover;">
+                             @else
+                                 <i class="fas fa-user-circle fa-2x text-muted"></i>
+                             @endif
+                         </td>
                          <td>{{ $user->fullname }}</td>
                          <td>{{ $user->email }}</td>
                          <td>{{ $user->phone ?? 'N/A' }}</td>
@@ -59,7 +70,7 @@
                      </tr>
                  @empty
                      <tr>
-                         <td colspan="6" class="text-center">No customers found.</td>
+                         <td colspan="7" class="text-center">No customers found.</td>
                      </tr>
                  @endforelse
              </tbody>

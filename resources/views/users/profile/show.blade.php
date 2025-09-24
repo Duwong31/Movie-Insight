@@ -29,7 +29,10 @@
                                     <img src="{{ $user->profile_image_url }}" 
                                          alt="{{ $user->fullname }}" 
                                          class="rounded-circle img-thumbnail"
-                                         style="width: 150px; height: 150px; object-fit: cover;">
+                                         style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;"
+                                         data-bs-toggle="modal" 
+                                         data-bs-target="#imageViewModal"
+                                         title="Click to view full image">
                                 @else
                                     <i class="fas fa-user-circle fa-5x text-muted"></i>
                                 @endif
@@ -151,6 +154,34 @@
                 </div>
             </div>
             @endif
+        </div>
+    </div>
+</div>
+
+<!-- Image View Modal -->
+<div class="modal fade" id="imageViewModal" tabindex="-1" aria-labelledby="imageViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageViewModalLabel">
+                    <i class="fas fa-user"></i> {{ $user->fullname }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                @if($user->hasProfileImage())
+                    <img src="{{ $user->profile_image_url }}" 
+                         alt="{{ $user->fullname }}" 
+                         class="img-fluid"
+                         style="max-height: 80vh; width: auto;">
+                @endif
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#changeProfileImageModal">
+                    <i class="fas fa-edit"></i> Change Image
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

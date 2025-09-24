@@ -17,9 +17,49 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+                <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+
+                    <!-- Profile Image Section -->
+                    <div class="mb-4 text-center">
+                        <label class="form-label">Profile Avatar</label>
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="mb-3">
+                                <div class="profile-preview" id="profile-preview">
+                                    @if($user->hasProfileImage())
+                                        <img src="{{ $user->profile_image_url }}" alt="{{ $user->fullname }}">
+                                    @else
+                                        <i class="fas fa-user-circle fa-5x text-muted"></i>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="w-100">
+                                <input type="file" 
+                                       class="form-control @error('profile_image') is-invalid @enderror" 
+                                       id="profile_image" 
+                                       name="profile_image" 
+                                       accept="image/*"
+                                       onchange="previewImage(this)">
+                                <small class="form-text text-muted">Choose JPG, PNG or GIF (max 2MB, optional)</small>
+                                @error('profile_image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                @if($user->hasProfileImage())
+                                    <div class="mt-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="remove_image" name="remove_profile_image" value="1">
+                                            <label class="form-check-label" for="remove_image">
+                                                Remove current profile image
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="mb-4">
 
                     <div class="mb-3">
                         <label for="fullname" class="form-label">Full name</label>
@@ -68,4 +108,59 @@
         </div>
     </div>
 </div>
+
+<style>
+.profile-preview {
+    width: 120px;
+    height: 120px;
+    border: 2px dashed #dee2e6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.profile-preview:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.profile-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-preview .fas {
+    font-size: 3rem;
+    color: #6c757d;
+}
+
+.profile-preview.has-image {
+    border-style: solid;
+    border-color: #28a745;
+}
+</style>
+
+<script>
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        const preview = document.getElementById('profile-preview');
+        
+        reader.onload = function(e) {
+            // Replace the content with new image
+            preview.innerHTML = '<img src="' + e.target.result + '" alt="Profile Preview">';
+            preview.classList.add('has-image');
+            preview.style.borderStyle = 'solid';
+            preview.style.borderColor = '#28a745';
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 @endsection

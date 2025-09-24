@@ -76,3 +76,36 @@
         transform: translateY(0);
     }
 }
+
+/* Image view modal styles */
+#imageViewModal .modal-dialog {
+    max-width: 90vw;
+}
+
+#imageViewModal .modal-body {
+    background: #000;
+}
+
+#imageViewModal .modal-body img {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* Hover effect for clickable profile image */
+.profile-avatar img[data-bs-toggle="modal"] {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar img[data-bs-toggle="modal"]:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+}
+
+/* Admin table avatar styles */
+.table img.rounded-circle {
+    transition: transform 0.2s ease;
+}
+
+.table img.rounded-circle:hover {
+    transform: scale(1.1);
+}
