@@ -3,45 +3,111 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0">Dashboard</h1>
+</div>
+
+<!-- Stat Cards Row -->
 <div class="row">
-    <div class="col-sm-3">
-        <div class="card">
-            <i class="fa fa-users mb-2" style="font-size: 70px;"></i>
-            <h4 style="color:white;">Total Users</h4>
-            <h5 style="color:white;">{{ $totalUsers }}</h5>
-        </div>
+
+    <!-- Total Users Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <a href="{{ route('admin.users.index') }}" class="card-link">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs text-primary mb-1">Total Users</div>
+                            <div class="h5 mb-0 fw-bold">{{ $totalUsers }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
-    <div class="col-sm-3">
-        <div class="card">
-            <i class="fa fa-comments mb-2" style="font-size: 70px;"></i>
-            <h4 style="color:white;">Reviews</h4>
-            <h5 style="color:white;">{{ $totalReviews }}</h5>
-        </div>
+
+    <!-- Total Genres Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <a href="{{ route('admin.genres.index') }}" class="card-link">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs text-success mb-1">Total Genres</div>
+                            <div class="h5 mb-0 fw-bold">{{ $totalGenres }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
-    <div class="col-sm-3">
-        <div class="card">
-            <i class="fa fa-film" style="font-size: 70px;"></i>
-            <h4 style="color:white;">Movies</h4>
-            <h5 style="color:white;">{{ $totalMovies }}</h5>
-        </div>
+
+    <!-- Total Movies Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <a href="{{ route('admin.movies.index') }}" class="card-link">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs text-info mb-1">Total Movies</div>
+                            <div class="h5 mb-0 fw-bold">{{ $totalMovies }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-film fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
-    <div class="col-sm-3">
-        <div class="card">
-            <i class="fa fa-tv mb-2" style="font-size: 70px;"></i>
-            <h4 style="color:white;">TVShows</h4>
-            <h5 style="color:white;">{{ $totalTVShows }}</h5>
-        </div>
+
+    <!-- Total TV Shows Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <a href="{{ route('admin.tvshows.index') }}" class="card-link">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs text-warning mb-1">TV Shows</div>
+                            <div class="h5 mb-0 fw-bold">{{ $totalTVShows }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tv fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Total Celebrities Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <a href="{{ route('admin.actors.index') }}" class="card-link">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs text-danger mb-1">Celebrities</div>
+                            <div class="h5 mb-0 fw-bold">{{ $totalActors }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-star fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
 </div>
 
-
-{{--
-@if(session('category_success'))
-    <script> alert("Category Successfully Added")</script>
-@elseif(session('category_error'))
-    <script> alert("Adding Unsuccess")</script>
-@endif
---}}
 @endsection
 
 @push('scripts')

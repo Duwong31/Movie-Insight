@@ -1,0 +1,78 @@
+/* Profile Image Styles */
+.profile-avatar {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-avatar img {
+    border: 3px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar img:hover {
+    border-color: #007bff;
+    transform: scale(1.05);
+}
+
+.profile-avatar .fas {
+    transition: all 0.3s ease;
+}
+
+.profile-avatar .fas:hover {
+    color: #007bff !important;
+    transform: scale(1.05);
+}
+
+/* Modal styles */
+.modal .current-image img {
+    border: 2px solid #dee2e6;
+}
+
+.modal .current-image .fas {
+    color: #6c757d;
+}
+
+/* Custom file input styling */
+.form-control[type="file"] {
+    padding: 0.5rem;
+}
+
+/* Action buttons spacing */
+.action-buttons .btn {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* Responsive profile layout */
+@media (max-width: 768px) {
+    .profile-avatar img {
+        width: 100px !important;
+        height: 100px !important;
+    }
+    
+    .profile-avatar .fas {
+        font-size: 4rem !important;
+    }
+    
+    .action-buttons .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Success message animation */
+.alert-success {
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

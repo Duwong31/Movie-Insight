@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;  
 use App\Http\Controllers\HomeController;
 use Modules\Movies\Controllers\MovieController;
 use Modules\TVShows\Controllers\TVShowController;
@@ -20,9 +19,27 @@ use Modules\Movies\Admin\MovieController as AdminMovieController;
 use Modules\TVShows\Admin\TVShowController as AdminTVShowController;
 use Modules\Genres\Admin\GenreController as AdminGenreController;
 use Modules\Genres\Controllers\GenreController;
+use Modules\News\Admin\NewsController as AdminNewsController;
+use Modules\Actors\Admin\ActorController as AdminActorController;
 use App\Http\Controllers\UserRatingController;
+use App\Http\Controllers\AccountSettingController;
+use App\Http\Controllers\Admin\ChangePasswordController;
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Route to serve profile images
+Route::get('/storage/profile/{filename}', function ($filename) {
+    $path = storage_path('profile/' . $filename);
+    
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    
+    $file = file_get_contents($path);
+    $type = mime_content_type($path);
+    
+    return response($file, 200)->header('Content-Type', $type);
+})->where('filename', '.*');
 
 // Các route công khai khác (Dùng route() helper trong view thay vì ?module=...)
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.list');
@@ -54,14 +71,16 @@ Route::middleware(['auth'])->group(function () { // <<< Dùng 'auth'
     Route::get('/my-watchlist', [WatchlistController::class, 'index'])->name('watchlist.index'); // Route xem watchlist
 
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show'); // Thay Controller nếu cần
+    Route::put('/profile/update-image', [UserProfileController::class, 'updateImage'])->name('profile.update-image');
     Route::get('/my-ratings', [UserRatingController::class, 'index'])->name('ratings.index'); // Thay Controller nếu cần
     Route::get('/account-settings', [AccountSettingController::class, 'edit'])->name('settings.account');
+    Route::put('/account-settings', [AccountSettingController::class, 'update'])->name('settings.account.update');
 
 });
 
 Auth::routes();
 
-Route::prefix('admin')->group(function() {
+Route::prefix('admin')->middleware('admin')->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
     //users
     Route::prefix('module/users')
@@ -79,7 +98,11 @@ Route::prefix('admin')->group(function() {
     ->as('admin.reviews.')
     ->group(function () {
         Route::get('/', [AdminReviewController::class, 'index'])->name('index');
+        Route::get('/create', [AdminReviewController::class, 'create'])->name('create');
+        Route::post('/', [AdminReviewController::class, 'store'])->name('store');
         Route::get('/{review}', [AdminReviewController::class, 'show'])->name('show');
+        Route::get('/{review}/edit', [AdminReviewController::class, 'edit'])->name('edit');
+        Route::put('/{review}', [AdminReviewController::class, 'update'])->name('update');
         Route::post('/{review}/approve', [AdminReviewController::class, 'approve'])->name('approve');
         Route::delete('/{review}', [AdminReviewController::class, 'destroy'])->name('destroy');
     });
@@ -120,6 +143,58 @@ Route::prefix('admin')->group(function() {
             Route::put('/{genre}', [AdminGenreController::class, 'update'])->name('update');
             Route::delete('/{genre}', [AdminGenreController::class, 'destroy'])->name('destroy');
         });
+
+    //News
+    Route::prefix('module/news')
+        ->as('admin.news.')
+        ->group(function () {
+            Route::get('/', [AdminNewsController::class, 'index'])->name('index');
+            Route::get('/create', [AdminNewsController::class, 'create'])->name('create');
+            Route::post('/', [AdminNewsController::class, 'store'])->name('store');
+            Route::get('/{news}', [AdminNewsController::class, 'show'])->name('show');
+            Route::get('/{news}/edit', [AdminNewsController::class, 'edit'])->name('edit');
+            Route::put('/{news}', [AdminNewsController::class, 'update'])->name('update');
+            Route::delete('/{news}', [AdminNewsController::class, 'destroy'])->name('destroy');
+            
+            // Additional actions
+            Route::post('/bulk-action', [AdminNewsController::class, 'bulkAction'])->name('bulk-action');
+            Route::patch('/{news}/toggle-status', [AdminNewsController::class, 'toggleStatus'])->name('toggle-status');
+            Route::patch('/{news}/toggle-featured', [AdminNewsController::class, 'toggleFeatured'])->name('toggle-featured');
+            Route::get('/analytics/overview', [AdminNewsController::class, 'analytics'])->name('analytics');
+        });
+
+    //Actors/Celebrities
+    Route::prefix('module/actors')
+        ->as('admin.actors.')
+        ->group(function () {
+            Route::get('/', [AdminActorController::class, 'index'])->name('index');
+            Route::get('/create', [AdminActorController::class, 'create'])->name('create');
+            Route::post('/', [AdminActorController::class, 'store'])->name('store');
+            Route::get('/{actor}', [AdminActorController::class, 'show'])->name('show');
+            Route::get('/{actor}/edit', [AdminActorController::class, 'edit'])->name('edit');
+            Route::put('/{actor}', [AdminActorController::class, 'update'])->name('update');
+            Route::delete('/{actor}', [AdminActorController::class, 'destroy'])->name('destroy');
+            
+            // Additional actions
+            Route::post('/bulk-action', [AdminActorController::class, 'bulkAction'])->name('bulk-action');
+        });
+    
+    // Change Password
+    Route::get('/change-password', [ChangePasswordController::class, 'show'])->name('admin.change-password.show');
+    Route::put('/change-password', [ChangePasswordController::class, 'update'])->name('admin.change-password.update');
 });
+
+// Temporary test route for admin news (remove in production)
+Route::get('/test-admin-news', function() {
+    $news = \Modules\News\Models\News::paginate(20);
+    $statistics = [
+        'total' => \Modules\News\Models\News::count(),
+        'published' => \Modules\News\Models\News::where('status', 'published')->count(),
+        'draft' => \Modules\News\Models\News::where('status', 'draft')->count(),
+        'featured' => \Modules\News\Models\News::where('featured', true)->count(),
+        'total_views' => \Modules\News\Models\News::sum('views'),
+    ];
+    return view('modules.news.admin.index', compact('news', 'statistics'));
+})->name('test.admin.news');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

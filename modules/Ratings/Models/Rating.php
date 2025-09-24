@@ -14,7 +14,8 @@ class Rating extends Model
     
     protected $primaryKey = 'rating_id';
 
-    public $timestamps = false;
+    // Timestamps already exist in the table
+    public $timestamps = true;
 
     protected $fillable = [
         'user_id',

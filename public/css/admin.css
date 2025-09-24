@@ -1,333 +1,424 @@
+/*
+* MovieInsight Admin Panel CSS
+* Theme: Dark
+* Font: Inter
+*/
+
+/* 1. VARIABLES
+-------------------------------------------------- */
+:root {
+    --primary-color: #4e73df;
+    --primary-color-hover: #5a78d6;
+    
+    --success-color: #1cc88a;
+    --info-color: #36b9cc;
+    --warning-color: #f6c23e;
+    --danger-color: #e74a3b;
+
+    --text-color: #e3e6f0; /* Main text color */
+    --text-color-headings: #ffffff; /* Headings */
+    --text-color-muted: #858796;
+    
+    --bg-dark-body: #1a1d24; /* Body background */
+    --bg-dark-elements: #21252e; /* Cards, tables background */
+    --bg-dark-hover: #2c313d; /* Hover background */
+    
+    --border-color: #303641;
+    
+    --font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --border-radius: 0.35rem;
+    --box-shadow: 0 0.15rem 1.75rem 0 rgba(0, 0, 0, 0.15);
+}
+
+/* 2. GENERAL & TYPOGRAPHY
+-------------------------------------------------- */
 body {
-    background-color: #1a1a1a;
-    color: #fff;
+    font-family: var(--font-family-sans-serif);
+    background-color: var(--bg-dark-body);
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.6;
 }
-.card {
-    background-color: #2d2d2d;
-    border: none;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    transition: transform 0.3s;
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--text-color-headings);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
 }
-.card:hover {
-    transform: translateY(-5px);
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
-.card i {
-    color: #e70634;
+
+a:hover {
+    color: var(--primary-color-hover);
 }
-/* Sidebar styles */
+
+/* 3. LAYOUT & SIDEBAR
+-------------------------------------------------- */
+#main {
+    transition: margin-left .3s ease-in-out;
+    padding: 2rem;
+    width: 100%;
+}
+
 .sidebar {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 1030;
     top: 0;
     left: 0;
-    background-color: #2d2d2d;
+    background-color: var(--bg-dark-elements);
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: width 0.3s ease-in-out;
     padding-top: 60px;
+    border-right: 1px solid var(--border-color);
 }
+
 .sidebar a {
-    padding: 8px 8px 8px 32px;
+    padding: 10px 15px 10px 30px;
     text-decoration: none;
-    font-size: 16px;
-    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
     display: block;
-    transition: 0.3s;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
 }
+
 .sidebar a:hover {
-    color: #e70634;
+    background-color: var(--bg-dark-hover);
+    color: #fff;
+    border-left-color: var(--primary-color);
 }
+
+.sidebar a .fa {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
 .sidebar .closebtn {
     position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    padding: 0;
+    border-left: none;
 }
+.sidebar .closebtn:hover {
+    background: none;
+    border: none;
+    color: #fff;
+}
+
 .openbtn {
-    font-size: 20px;
+    font-size: 1.2rem;
     cursor: pointer;
     background-color: transparent;
     color: white;
     padding: 10px 15px;
     border: none;
 }
+
 .openbtn:hover {
-    color: #e70634;
-}
-#main {
-    transition: margin-left .5s;
-    padding: 16px;
-}
-@media screen and (max-height: 450px) {
-    .sidebar {padding-top: 15px;}
-    .sidebar a {font-size: 18px;}
+    color: rgba(255,255,255,0.8);
 }
 
-.table-container-dark {
-    background-color: #343a40; /* Dark Grey Background - Tweak if needed */
-    border-radius: 0.5rem; /* 8px */
-    padding: 1rem 0.5rem; /* Add some padding */
-    color: #dee2e6; /* Light text */
-    margin-bottom: 1rem;
-    overflow-x: auto; /* Handle responsiveness */
- }
- 
- /* Custom Dark Table */
- .table-dark-custom {
+/* 4. NAVBAR
+-------------------------------------------------- */
+.navbar.bg-dark{
+    background-color: var(--bg-dark-elements) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border-bottom: 1px solid var(--border-color);
+}
+.navbar-brand {
+    font-weight: 700;
+}
+
+/* 5. CARDS
+-------------------------------------------------- */
+.card {
+    background-color: var(--bg-dark-elements);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--box-shadow);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+/* 6. TABLES
+-------------------------------------------------- */
+.table {
+    color: var(--text-color);
+    background-color: var(--bg-dark-elements);
+}
+
+.table thead th {
+    color: var(--text-color-headings);
+    font-weight: 600;
+    border-bottom-width: 2px;
+    border-color: var(--border-color);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.table td, .table th {
+    border-top: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: var(--bg-dark-hover);
+    color: var(--text-color-headings);
+}
+
+/* Make bootstrap striped table dark-theme friendly */
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    --bs-table-accent-bg: var(--bg-dark-hover);
+    color: var(--text-color);
+}
+
+/* 7. FORMS & BUTTONS
+-------------------------------------------------- */
+.form-control {
+    background-color: var(--bg-dark-body);
+    border-color: var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    height: auto;
+    color: var(--text-color);
+}
+.form-control:focus {
+    background-color: var(--bg-dark-body);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+.form-control::placeholder {
+    color: var(--text-color-muted);
+}
+
+.btn {
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    border-width: 1px;
+    transition: all 0.2s ease;
+}
+
+/* Override Bootstrap colors with our theme */
+.btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+.btn-primary:hover { background-color: var(--primary-color-hover); border-color: var(--primary-color-hover); }
+
+.btn-secondary { background-color: #707280; border-color: #707280; }
+.btn-secondary:hover { background-color: #707280; border-color: #707280; }
+
+.btn-success { background-color: var(--success-color); border-color: var(--success-color); }
+.btn-success:hover { background-color: #17a673; border-color: #17a673; }
+
+.btn-info { background-color: var(--info-color); border-color: var(--info-color); }
+.btn-info:hover { background-color: #2c9faf; border-color: #2c9faf; }
+
+.btn-warning { background-color: var(--warning-color); border-color: var(--warning-color); color: #fff;}
+.btn-warning:hover { background-color: #f4b619; border-color: #f4b619; color: #fff;}
+
+.btn-danger { background-color: var(--danger-color); border-color: var(--danger-color); }
+.btn-danger:hover { background-color: #e02d1b; border-color: #e02d1b; }
+
+.btn-light { background-color: #e3e6f0; border-color: #e3e6f0; color: #3a3b45; }
+.btn-light:hover { background-color: #e3e6f0; border-color: #e3e6f0; }
+
+/* Custom Select for dark theme */
+.form-select {
+    background-color: var(--bg-dark-body);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e3e6f0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    background-color: var(--bg-dark-body);
+    color: var(--text-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Custom file input */
+.form-control-file {
+    display: block;
     width: 100%;
-    margin-bottom: 0; /* Remove margin if inside a padded container */
-    color: #dee2e6;
-    border-color: #454d55; /* --- BORDER COLOR --- */
-    vertical-align: middle; /* Center text vertically in cells */
-    --bs-table-bg: transparent; /* Use the container's background */
-     --bs-table-striped-bg: transparent;
-      --bs-table-hover-bg: #3f454b; /* Optional: Darker Hover */
- }
- 
- /* Remove ALL default borders, we will add back only the ones we want */
-  .table-dark-custom td,
-  .table-dark-custom th
-   {
-    border: 0; 
-    padding: 0.8rem;
-    white-space: nowrap; /* Prevent text wrapping if desired */
-  }
- 
- /* Add HORIZONTAL borders BACK */
- .table-dark-custom thead th {
-   border-bottom: 1px solid #454d55; /* Border below header */
-    color: #adb5bd; /* Slightly dimmer color for header text */
-    font-weight: 500;
- }
- .table-dark-custom tbody tr {
-    border-bottom: 1px solid #454d55; /* Border below each data row */
- }
- .table-dark-custom tbody tr:last-of-type {
-   border-bottom: 0; /* No border after the LAST row */
- }
- 
- 
- /* --- ACTION BUTTONS --- */
-  .btn-action {
-     display: inline-flex;
-     align-items: center;
-     justify-content: center;
-     padding: 0.3rem 0.6rem;
-     font-size: 0.9rem;
-     border-radius: 6px;
-     border: 0;
-     margin: 0 2px;
-     line-height: 1.2;
-     text-decoration: none;
-  }
- 
- .btn-action-edit {
-    background-color: lightblue; /* Cyan */
-    color: #212529; /* Dark text looks better on cyan */
-    /* color: #FFF; */
- }
-  .btn-action-edit:hover {
-    background-color: #0b9ead;
-    color: #212529;
- }
- 
-  .btn-action-delete {
-     background-color: white; /* Red */
-     color: #e70634;
-  }
-   .btn-action-delete:hover {
-     background-color: #b02a37;
-     color: #FFFFFF;
-   }
- 
- /* Ensure form doesn't add extra margin */
- td form {
-    margin-bottom: 0;
-     display: inline-block; /* Crucial */
- }
- 
- .pagination .page-link {
-    background-color: #282828; /* Nền nút */
-    color: #b3b3b3; /* Màu chữ */
-    border-color: #383838; /* Viền nút */
-    margin: 0 2px; /* Khoảng cách giữa các nút */
-    border-radius: 4px; /* Bo góc nhẹ */
+}
+
+/* Custom checkbox */
+.custom-control-label::before,
+.custom-control-label::after {
+    top: .25rem;
+    left: -1.5rem;
+    width: 1rem;
+    height: 1rem;
+}
+
+/* 8. BADGES
+-------------------------------------------------- */
+.badge {
+    padding: 0.35em 0.65em;
+    font-weight: 600;
+    font-size: 0.8em;
+}
+/* Ensure text is readable on colored badges */
+.badge-warning {
+    color: #21252e;
+}
+.badge-info, .badge-success, .badge-primary, .badge-danger {
+    color: #fff;
+}
+
+/* Custom status badges for News table */
+.badge.status-published {
+    background-color: var(--success-color);
+    color: #fff;
+}
+.badge.status-draft {
+    background-color: var(--warning-color);
+    color: var(--bg-dark-elements);
+}
+.badge.featured-yes {
+    background-color: var(--info-color);
+    color: #fff;
+}
+.badge.featured-no {
+    background-color: var(--text-color-muted);
+    color: #fff;
+}
+
+
+/* 9. PAGINATION
+-------------------------------------------------- */
+.pagination .page-link {
+    color: var(--primary-color);
+    background-color: var(--bg-dark-elements);
+    border-color: var(--border-color);
+}
+.pagination .page-link:hover {
+    color: var(--primary-color-hover);
+    background-color: var(--bg-dark-hover);
+    border-color: var(--border-color);
 }
 .pagination .page-item.active .page-link {
-    background-color: #e70634; /* Màu đỏ cho trang hiện tại */
-    border-color: #e70634;
-    color: #ffffff;
+    color: #fff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 .pagination .page-item.disabled .page-link {
-    background-color: #232323; /* Nền tối hơn cho nút disabled */
-    color: #6c757d;
-    border-color: #383838;
-}
-.pagination .page-item .page-link:hover {
-    background-color: #3a3a3a;
-    color: #ffffff;
+    color: var(--text-color-muted);
+    background-color: transparent;
+    border-color: var(--border-color);
 }
 
-/* Bảng review admin trên nền tối */
-.table-admin-dark {
-    background: #232323;
-    color: #f1f1f1;
-    border-radius: 8px;
-    overflow: hidden;
-}
-.table-admin-dark th, .table-admin-dark td {
-    color: #f1f1f1;
-    border-color: #444;
-    vertical-align: middle;
-}
-.table-admin-dark thead th {
-    background: #e70634;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-}
-.table-admin-dark tbody tr {
-    background: #232323;
-    transition: background 0.2s;
-}
-
-.table-admin-dark .btn-primary {
-    background: #e70634;
-    border: none;
-    color: #fff;
-}
-.table-admin-dark .btn-primary:hover {
-    background: #b00528;
-    color: #fff;
-}
-
-.table-admin-dark tbody tr:hover,
-.table-admin-dark tbody tr:hover td {
-    background: #353535 !important; /* Màu nền hover */
-    color: #fff !important;         /* Giữ màu chữ sáng khi hover */
-}
-
-.review-content-box {
-    background: #f8f9fa;
-    color: #222;
-    white-space: pre-line;
-    border-radius: 8px;
-    padding: 16px;
-}
-
-/* --- CARD CHỨA BẢNG --- */
-.card-table-container { /* Thay thế .card mặc định của Bootstrap */
-    background-color: #282828; /* Nền tối hơn cho card chứa bảng */
-    border: 1px solid #383838;
-    border-radius: 12px; /* Bo góc mềm mại hơn */
-    /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Giữ shadow nếu muốn */
-    color: #e0e0e0;
-    padding: 0; /* Bỏ padding nếu bảng chiếm hết */
-    margin-bottom: 20px;
-}
-.card-table-container .card-body { /* Nếu vẫn dùng card-body bên trong */
-    padding: 0; /* Bỏ padding để bảng full width */
-}
-.card-table-container .card-footer {
-    background-color: #232323;
-    border-top: 1px solid #383838;
-    padding: 1rem 1.5rem; /* Thêm padding cho footer */
-}
-
-
-/* --- BẢNG DỮ LIỆU PHIM (Kết hợp và tinh chỉnh từ style của bạn và style mới) --- */
-.table-movies {
-    width: 100%;
-    margin-bottom: 0;
-    /* MÀU CHỮ CHÍNH CHO NỘI DUNG BẢNG (tbody) */
-    color: #dee2e6; /* Hoặc #e0e0e0, #f0f0f0 tùy bạn chọn. Thử #dee2e6 trước. */
-    vertical-align: middle;
-    --bs-table-bg: transparent; /* Nền của table sẽ là nền của .card-table-container */
-    --bs-table-striped-bg: #2a2a2a; /* Màu sọc nhạt hơn nền card một chút */
-    --bs-table-hover-bg: #363636;   /* Màu hover đậm hơn một chút */
-    font-size: 0.9rem;
-}
-
-.table-movies thead th {
-    /* MÀU CHỮ CHO HEADER BẢNG */
-    color: #ffffff; /* Trắng sáng cho header */
-    background-color: #202020; /* Nền header tối nhất, tách biệt rõ ràng */
-    border-bottom: 1px solid #484848; /* Đường kẻ dưới header, hơi sáng hơn nền header */
-    border-top: none;
-    font-weight: 500;
+.pagination .page-link .fa {
     font-size: 0.8rem;
-    letter-spacing: 0.5px;
-    padding: 0.9rem 1rem;
-    white-space: nowrap;
 }
 
+/* 10. UTILITIES & HELPERS
+-------------------------------------------------- */
+.text-gray-800 { color: var(--text-color) !important; }
+.font-weight-bold { font-weight: 700 !important; }
 
-.table-movies tbody td {
-    border-top: 1px solid #383838; /* Đường kẻ ngang giữa các hàng */
-    padding: 0.9rem 1rem;
-    white-space: nowrap;
-    /* color: inherit; Sẽ kế thừa màu từ .table-movies */
-}
-.table-movies tbody tr:first-child td {
-    border-top: none;
-}
-
-.table-movies tbody tr:hover {
-    background-color: var(--bs-table-hover-bg);
-    color: #ffffff; 
-}
-.table-movies tbody tr:hover td { /* Cụ thể hơn để ghi đè */
-    color: #ffffff;
-}
-.table-movies.table-striped tbody tr:nth-of-type(odd) td {
-    color: #dee2e6 !important;
-}
-/* Ảnh trong bảng */
-.table-movies img {
-    border-radius: 4px;
-    /* box-shadow: 0 1px 3px rgba(0,0,0,0.4); */ /* Bỏ shadow nếu thấy rối */
-    display: block; /* Tránh khoảng trống thừa dưới ảnh */
+h1.h3 {
+    font-size: 1.75rem;
+    line-height: 1.2;
 }
 
-/* Badge Status */
-.badge.status-badge { /* Class chung cho các status badge */
-    padding: 0.45em 0.8em; /* Tăng nhẹ padding */
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: 50px; /* Bo tròn */
-    text-transform: capitalize;
-    min-width: 100px; /* Đảm bảo độ rộng tối thiểu để dễ nhìn */
-    text-align: center;
-    display: inline-block; /* Để min-width có tác dụng */
-    line-height: 1.2; /* Căn chỉnh text tốt hơn */
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Thêm shadow nhẹ */
+.text-xs {
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-/* In Theaters - Màu xanh lá cây hoặc xanh dương sáng */
-.badge.status-in-theaters { /* Đổi tên class để rõ ràng hơn */
-    background-color: #28a745 !important; /* Xanh lá cây (Bootstrap success) */
-    /* Hoặc: background-color: #17a2b8 !important; */ /* Xanh dương sáng (Bootstrap info) */
-    color: #fff !important;
+.text-gray-300 {
+    color: var(--text-color-muted) !important;
+    opacity: 0.6;
 }
 
-/* Streaming - Màu xanh dương đậm */
-.badge.status-streaming {
-    background-color: #007bff !important; /* Xanh dương (Bootstrap primary) */
-    color: #fff !important;
+/* Helper class for clickable cards */
+a.card-link,
+a.card-link:hover {
+    color: inherit;
+    text-decoration: none;
 }
 
-/* Coming Soon - Màu vàng hoặc cam */
-.badge.status-coming-soon {
-    background-color: #ffc107 !important; /* Vàng (Bootstrap warning) */
-    color: #212529 !important; /* Chữ tối cho nền vàng để dễ đọc */
-    /* Hoặc: background-color: #fd7e14 !important; */ /* Cam (Bootstrap orange) */
-    /* color: #fff !important; */ /* Nếu dùng màu cam đậm */
+/* 11. RESPONSIVE
+-------------------------------------------------- */
+@media (min-width: 768px) {
+    #main {
+        padding: 2rem 3rem;
+    }
+}
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
 }
 
+/* 12. Fixes for blade files (SB Admin classes) */
+.text-primary { color: var(--primary-color) !important; }
+.text-success { color: var(--success-color) !important; }
+.text-info { color: var(--info-color) !important; }
+.text-warning { color: var(--warning-color) !important; }
+
+.border-left-primary { border-left: 0.25rem solid var(--primary-color) !important; }
+.border-left-success { border-left: 0.25rem solid var(--success-color) !important; }
+.border-left-info { border-left: 0.25rem solid var(--info-color) !important; }
+.border-left-warning { border-left: 0.25rem solid var(--warning-color) !important; }
+
+.dropdown-menu {
+    background-color: var(--bg-dark-elements);
+    border-color: var(--border-color);
+}
+.dropdown-item {
+    color: var(--text-color);
+}
+.dropdown-item:hover {
+    background-color: var(--bg-dark-hover);
+    color: var(--text-color-headings);
+}
+.dropdown-divider {
+    border-top-color: var(--border-color);
+}
+
+.card-link {
+    text-decoration: none;
+}
+.card-link .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
 .custom-pagination-nav {
     display: flex;
     flex-direction: column; /* Để thông tin kết quả nằm dưới nếu có */
@@ -362,7 +453,7 @@ body {
     font-size: 15px;
     font-weight: 600; /* Chữ đậm */
     line-height: 1;
-    color: #4A5568; /* Màu chữ xám đậm */
+    color: #aeb4be;
     background-color: transparent; /* Nền trong suốt */
     border: none; /* Không có border */
     border-radius: 50%; /* Bo tròn */
@@ -401,20 +492,20 @@ body {
 
 /* Hover cho các nút link SỐ TRANG (không active, không disabled) */
 .custom-page-item:not(.active):not(.disabled) a.custom-page-link:hover {
-    color: #2D3748; /* Đậm hơn */
-    background-color: #EDF2F7; /* Nền xám nhạt */
+    color: #ffffff;
+    background-color: #383e45; /* Nền xám nhạt */
 }
 
 /* Hover cho nút MŨI TÊN (nếu là link và enabled) */
 .custom-page-item a.custom-page-link[rel="prev"]:hover,
 .custom-page-item a.custom-page-link[rel="next"]:hover {
-    color: #2D3748; /* Đậm hơn */
+    color: #ffffff;
     background-color: transparent; /* Vẫn trong suốt */
 }
 
 /* Nút Disabled (Previous/Next khi ở đầu/cuối, và dấu '...') */
 .custom-page-item.disabled span.custom-page-link {
-    color: #A0AEC0 !important; /* Màu rất nhạt */
+    color: #495057 !important; /* Màu rất nhạt */
     background-color: transparent !important; /* Đảm bảo trong suốt */
     border: none !important; /* Đảm bảo không có border */
     cursor: not-allowed;
@@ -426,96 +517,9 @@ body {
     /* Hoặc giữ lại border-radius: 50%; nếu muốn ... là hình tròn mờ */
 }
 
-
-/* Tùy chọn: CSS cho thông tin kết quả */
 .pagination-results-info {
     text-align: center;
     margin-top: 15px;
     font-size: 0.85rem;
     color: #aaa;
-}
-
-/* Card Genre */
-/* Trong admin.css */
-
-/* ----- CARD CHỨA BẢNG GENRES ----- */
-/* Sử dụng lại .card-table-container nếu bạn muốn áp dụng style này
-   Hoặc tạo một class mới nếu chỉ muốn cho trang Genres */
-   .card.genre-card-table { /* Thêm class 'genre-card-table' vào thẻ card trong index.blade.php */
-    background-color: #282828;
-    border: 1px solid #383838;
-    border-radius: 8px; /* Giảm bớt bo tròn một chút so với 12px nếu muốn */
-    color: #e0e0e0; /* Màu chữ mặc định cho card */
-    padding: 0; /* Bỏ padding của card nếu bảng chiếm hết */
-    margin-bottom: 20px;
-}
-
-.card.genre-card-table .card-header {
-    background-color: #202020; /* Nền tối hơn cho header của card */
-    color: #ffffff;
-    font-weight: 500;
-    border-bottom: 1px solid #383838;
-    padding: 0.9rem 1.2rem; /* Tăng padding cho card header */
-    border-top-left-radius: 7px; /* Bo góc cho khớp với card */
-    border-top-right-radius: 7px;
-}
-
-.card.genre-card-table .card-body {
-    padding: 0; /* Bỏ padding để table chiếm hết */
-}
-
-/* ----- BẢNG GENRES ----- */
-/* Áp dụng cho .table trong .genre-card-table */
-.genre-card-table .table {
-    width: 100%;
-    margin-bottom: 0;
-    color: #c7c7c7; /* Màu chữ cho nội dung bảng, sáng hơn một chút */
-    vertical-align: middle;
-    --bs-table-bg: transparent; /* Nền của table là nền của card */
-    --bs-table-striped-bg: #2c2c2c; /* Sọc nhạt hơn nền card một chút */
-    --bs-table-hover-bg: #3a3a3a;   /* Màu hover đậm hơn một chút */
-    font-size: 0.875rem; /* Có thể tăng nhẹ font-size */
-}
-
-.genre-card-table .table thead th {
-    color: #ffffff; /* Trắng sáng cho header bảng */
-    background-color: #1c1c1c; /* Nền header bảng tối nhất, tách biệt rõ ràng */
-    border-bottom: 2px solid #404040; /* Đường kẻ dưới header dày hơn, màu rõ hơn */
-    border-top: none;
-    font-weight: 600; /* Đậm hơn */
-    font-size: 0.8rem;
-    text-transform: uppercase; /* VIẾT HOA CHO DỄ NHẬN BIẾT HEADER */
-    letter-spacing: 0.5px;
-    padding: 0.9rem 1.2rem;
-    white-space: nowrap;
-}
-
-.genre-card-table .table tbody td {
-    border-top: 1px solid #3b3b3b; /* Đường kẻ ngang giữa các hàng, rõ hơn một chút */
-    padding: 0.9rem 1.2rem;
-    white-space: nowrap;
-}
-.genre-card-table .table tbody tr:first-child td {
-    border-top: none; /* Bỏ border cho hàng đầu tiên của tbody */
-}
-
-/* Hiệu ứng hover cho hàng */
-.genre-card-table .table tbody tr:hover {
-    background-color: var(--bs-table-hover-bg);
-    color: #ffffff; /* Chữ trắng khi hover */
-}
-.genre-card-table .table tbody tr:hover td { /* Đảm bảo td cũng đổi màu chữ */
-    color: #ffffff;
-}
-
-/* Sọc cho bảng (nếu bạn dùng class table-striped) */
-.genre-card-table .table.table-striped tbody tr:nth-of-type(odd) {
-    background-color: var(--bs-table-striped-bg);
-}
-.genre-card-table .table.table-striped tbody tr:nth-of-type(odd) td {
-    color: #d0d0d0; /* Màu chữ cho hàng sọc, có thể giống màu chữ chính */
-}
-
-.btn-info{
-    background-color: lightblue;
 }

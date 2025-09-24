@@ -26,7 +26,8 @@ class User extends Authenticatable // implements MustVerifyEmail (nếu dùng)
         'fullname', 
         'email',
         'password',
-        'phone', 
+        'phone',
+        'profile_image', 
     ];
 
     /**
@@ -64,5 +65,28 @@ class User extends Authenticatable // implements MustVerifyEmail (nếu dùng)
     public function reviews()
     {
         return $this->hasMany(\Modules\Review\Models\Review::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get the full URL path for the profile image
+     *
+     * @return string|null
+     */
+    public function getProfileImageUrlAttribute()
+    {
+        if ($this->profile_image) {
+            return config('app.url') . '/storage/profile/' . $this->profile_image;
+        }
+        return null;
+    }
+
+    /**
+     * Check if user has a profile image
+     *
+     * @return bool
+     */
+    public function hasProfileImage()
+    {
+        return !empty($this->profile_image);
     }
 }

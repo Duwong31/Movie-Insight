@@ -10,6 +10,11 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
@@ -33,10 +38,10 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-regular fa-user"></i> {{ Auth::user()->name }}
+                            <i class="fa-regular fa-user"></i> {{ Auth::user()->fullname }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#"><i class="fa fa-key"></i> Change Password</a></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.change-password.show') }}"><i class="fa fa-key"></i> Change Password</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -62,10 +67,10 @@
         <a href="{{ route('admin.movies.index') }}"><i class="fa fa-film"></i> Movies</a>
         <a href="{{ route('admin.tvshows.index') }}"><i class="fa fa-tv"></i> TV Shows</a>
         <a href="{{ route('admin.genres.index') }}"><i class="fa fa-tags"></i> Genres</a>
-        <a href="#"><i class="fa fa-newspaper"></i> News</a>
+        <a href="{{ route('admin.news.index') }}"><i class="fa fa-newspaper"></i> News</a>
         <a href="{{ route('admin.reviews.index') }}"><i class="fa fa-comments"></i> Reviews</a>
-        <a href="#"><i class="fa fa-star"></i> Celebrity</a>
-        <a href="#"><i class="fa fa-cog"></i> Settings</a>
+        <a href="{{ route('admin.actors.index') }}"><i class="fa fa-star"></i> Celebrity</a>
+        <!-- <a href="#"><i class="fa fa-cog"></i> Settings</a> -->
     </div>
 
     <div id="main">

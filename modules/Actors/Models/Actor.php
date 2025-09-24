@@ -14,10 +14,14 @@ class Actor extends Model
     protected $primaryKey = 'actors_id'; // Khóa chính của bảng diễn viên
 
     protected $fillable = [
-        'actor_name', 
+        'actor_name',
+        'actors_image',
+        'birth_date',
+        'nationality',
+        'biography',
     ];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function movies(): BelongsToMany
     {
@@ -58,5 +62,13 @@ class Actor extends Model
             }
         }
         return $actor;
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName()
+    {
+        return 'actors_id';
     }
 }
