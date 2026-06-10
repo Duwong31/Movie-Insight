@@ -1,3 +1,19 @@
+## Project Background
+
+This project is an enhanced version of a previous web application that was originally developed using native PHP (core PHP) without a framework.
+
+The original project provided the core functionalities and served as the foundation for this system. Building upon that foundation, this version has been redeveloped using the Laravel framework to improve code organization, maintainability, scalability, and development efficiency.
+
+In addition to migrating the project to Laravel, several improvements have been introduced, including:
+
+* Modernized and improved user interface (UI/UX).
+* Refactored code structure following Laravel's MVC architecture.
+* Enhanced security and maintainability.
+* Added new features and functionality beyond the original implementation.
+* Improved database management and application performance.
+
+This project demonstrates the process of upgrading a legacy PHP application into a modern Laravel-based system while preserving the original business logic and extending its capabilities.
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
