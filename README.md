@@ -2,7 +2,7 @@
 
 This project is an enhanced and modernized version of a previous web application that was originally developed using native PHP (Core PHP) without any framework support.
 
-🔗 **Original Project (Core PHP):** [Project Link Here]([https://your-project-link.com](https://github.com/Duwong31/MovieInsight_Project)])
+🔗 **Original Project (Core PHP)** ->>>>> https://github.com/Duwong31/MovieInsight_Project
 
 💡 The original application provided the fundamental business logic and core functionalities that served as the foundation for this project. To improve maintainability, scalability, and development efficiency, the system has been rebuilt using the Laravel framework while preserving the essential features of the original application.
 
