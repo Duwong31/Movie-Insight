@@ -1,18 +1,33 @@
-## Project Background
+## 🚀 Project Background
 
-This project is an enhanced version of a previous web application that was originally developed using native PHP (core PHP) without a framework.
+This project is an enhanced and modernized version of a previous web application that was originally developed using native PHP (Core PHP) without any framework support.
 
-The original project provided the core functionalities and served as the foundation for this system. Building upon that foundation, this version has been redeveloped using the Laravel framework to improve code organization, maintainability, scalability, and development efficiency.
+🔗 **Original Project (Core PHP):** [Project Link Here](https://your-project-link.com](https://github.com/Duwong31/MovieInsight_Project))
 
-In addition to migrating the project to Laravel, several improvements have been introduced, including:
+💡 The original application provided the fundamental business logic and core functionalities that served as the foundation for this project. To improve maintainability, scalability, and development efficiency, the system has been rebuilt using the Laravel framework while preserving the essential features of the original application.
 
-* Modernized and improved user interface (UI/UX).
-* Refactored code structure following Laravel's MVC architecture.
-* Enhanced security and maintainability.
-* Added new features and functionality beyond the original implementation.
-* Improved database management and application performance.
+### ✨ Key Improvements
 
-This project demonstrates the process of upgrading a legacy PHP application into a modern Laravel-based system while preserving the original business logic and extending its capabilities.
+* 🎨 Redesigned and more user-friendly interface (UI/UX).
+* 🏗️ Refactored application architecture following Laravel's MVC pattern.
+* 🔒 Improved code maintainability, readability, and security.
+* ➕ Added new features and functionalities beyond the original implementation.
+* 🗄️ Enhanced database management and optimized application performance.
+* ⚡ Improved scalability and development workflow through Laravel's ecosystem.
+
+### 🎯 Project Goal
+
+This project demonstrates the migration of a legacy Core PHP application to a modern Laravel-based architecture, combining the original business requirements with contemporary web development practices and additional functionality improvements.
+
+### 🛠️ Technology Upgrade
+
+| Original Project         | Current Project      |
+| ------------------------ | -------------------- |
+| 🐘 Core PHP              | 🔴 Laravel           |
+| 📄 Traditional Structure | 🏗️ MVC Architecture |
+| 🎨 Basic UI              | ✨ Modern UI/UX       |
+| ⚙️ Limited Features      | 🚀 Extended Features |
+| 🔧 Manual Management     | 📦 Laravel Ecosystem |
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
