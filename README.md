@@ -2,7 +2,7 @@
 
 This project is an enhanced and modernized version of a previous web application that was originally developed using native PHP (Core PHP) without any framework support.
 
-🔗 **Original Project (Core PHP):** [Project Link Here](https://your-project-link.com](https://github.com/Duwong31/MovieInsight_Project))
+🔗 **Original Project (Core PHP):** [Project Link Here]([https://your-project-link.com](https://github.com/Duwong31/MovieInsight_Project)])
 
 💡 The original application provided the fundamental business logic and core functionalities that served as the foundation for this project. To improve maintainability, scalability, and development efficiency, the system has been rebuilt using the Laravel framework while preserving the essential features of the original application.
 
@@ -24,10 +24,10 @@ This project demonstrates the migration of a legacy Core PHP application to a mo
 | Original Project         | Current Project      |
 | ------------------------ | -------------------- |
 | 🐘 Core PHP              | 🔴 Laravel           |
-| 📄 Traditional Structure | 🏗️ MVC Architecture |
-| 🎨 Basic UI              | ✨ Modern UI/UX       |
-| ⚙️ Limited Features      | 🚀 Extended Features |
-| 🔧 Manual Management     | 📦 Laravel Ecosystem |
+| Traditional Structure | MVC Architecture |
+| Basic UI              | Modern UI/UX       |
+| Limited Features      | Extended Features |
+| Manual Management     | Laravel Ecosystem |
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
