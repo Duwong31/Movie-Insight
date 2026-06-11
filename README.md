@@ -29,6 +29,37 @@ Before you begin, ensure you have the following software installed on your syste
 *   **Node.js** & **npm** (or Yarn)
 *   A **database** (e.g., MySQL, PostgreSQL, SQLite)
 
+## 🚀 Project Background
+
+This project is an enhanced and modernized version of a previous web application that was originally developed using native PHP (Core PHP) without any framework support.
+
+🔗 **Original Project (Core PHP)** ->>>>> https://github.com/Duwong31/MovieInsight_Project
+
+💡 The original application provided the fundamental business logic and core functionalities that served as the foundation for this project. To improve maintainability, scalability, and development efficiency, the system has been rebuilt using the Laravel framework while preserving the essential features of the original application.
+
+### ✨ Key Improvements
+
+* 🎨 Redesigned and more user-friendly interface (UI/UX).
+* 🏗️ Refactored application architecture following Laravel's MVC pattern.
+* 🔒 Improved code maintainability, readability, and security.
+* ➕ Added new features and functionalities beyond the original implementation.
+* 🗄️ Enhanced database management and optimized application performance.
+* ⚡ Improved scalability and development workflow through Laravel's ecosystem.
+
+### 🎯 Project Goal
+
+This project demonstrates the migration of a legacy Core PHP application to a modern Laravel-based architecture, combining the original business requirements with contemporary web development practices and additional functionality improvements.
+
+### 🛠️ Technology Upgrade
+
+| Original Project         | Current Project      |
+| ------------------------ | -------------------- |
+| 🐘 Core PHP              | 🔴 Laravel           |
+| Traditional Structure | MVC Architecture |
+| Basic UI              | Modern UI/UX       |
+| Limited Features      | Extended Features |
+| Manual Management     | Laravel Ecosystem |
+
 ### Step-by-Step Setup
 
 1.  **Clone the repository:**
@@ -108,4 +139,4 @@ Before you begin, ensure you have the following software installed on your syste
     Start the local development server:
 
     ```bash
-    
+    php artisan serve
