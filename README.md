@@ -1,97 +1,111 @@
-## 🚀 Project Background
+# 🎬 Movie-Insight
+Discover, explore, and gain deep insights into your favorite films with ease.
 
-This project is an enhanced and modernized version of a previous web application that was originally developed using native PHP (Core PHP) without any framework support.
+![Version](https://img.shields.io/badge/version-1.0.0-blue) ![License](https://img.shields.io/badge/license/Movie-Insight-green) ![Stars](https://img.shields.io/github/stars/Duwong31/Movie-Insight?style=social) ![Forks](https://img.shields.io/github/forks/Duwong31/Movie-Insight?style=social)
 
-🔗 **Original Project (Core PHP)** ->>>>> https://github.com/Duwong31/MovieInsight_Project
+![preview-image](./web_preview.png)
 
-💡 The original application provided the fundamental business logic and core functionalities that served as the foundation for this project. To improve maintainability, scalability, and development efficiency, the system has been rebuilt using the Laravel framework while preserving the essential features of the original application.
+![preview-image](./admin_preview.png)
 
-### ✨ Key Improvements
+## ✨ Features
 
-* 🎨 Redesigned and more user-friendly interface (UI/UX).
-* 🏗️ Refactored application architecture following Laravel's MVC pattern.
-* 🔒 Improved code maintainability, readability, and security.
-* ➕ Added new features and functionalities beyond the original implementation.
-* 🗄️ Enhanced database management and optimized application performance.
-* ⚡ Improved scalability and development workflow through Laravel's ecosystem.
+*   🔍 **Extensive Movie Database**: Seamlessly browse and search through a vast collection of movies, complete with detailed information.
+*   💬 **User Reviews & Comments**: Share opinions, write reviews, and engage in discussions with other movie enthusiasts through interactive comment sections.
+*   📊 **In-depth Insights**: Access comprehensive data including cast, crew, genres, ratings, and plot summaries for every film.
+*   ⚡ **Blazing Fast Search**: Quickly find any movie using intelligent search capabilities across titles and keywords.
+*   📱 **Responsive Design**: Enjoy a consistent and user-friendly experience across all devices, from desktop to mobile, thanks to a fluid layout.
+*   🛠️ **Modular Architecture**: Built with a clean, maintainable modular structure using Laravel, enhancing extensibility and future development.
 
-### 🎯 Project Goal
+## 🚀 Installation
 
-This project demonstrates the migration of a legacy Core PHP application to a modern Laravel-based architecture, combining the original business requirements with contemporary web development practices and additional functionality improvements.
+Follow these step-by-step instructions to get Movie-Insight up and running on your local machine.
 
-### 🛠️ Technology Upgrade
+### Prerequisites
 
-| Original Project         | Current Project      |
-| ------------------------ | -------------------- |
-| 🐘 Core PHP              | 🔴 Laravel           |
-| Traditional Structure | MVC Architecture |
-| Basic UI              | Modern UI/UX       |
-| Limited Features      | Extended Features |
-| Manual Management     | Laravel Ecosystem |
+Before you begin, ensure you have the following software installed on your system:
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+*   **PHP** >= 8.1
+*   **Composer**
+*   **Node.js** & **npm** (or Yarn)
+*   A **database** (e.g., MySQL, PostgreSQL, SQLite)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Step-by-Step Setup
 
-## About Laravel
+1.  **Clone the repository:**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    ```bash
+    git clone https://github.com/Duwong31/Movie-Insight.git
+    cd Movie-Insight
+    ```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+2.  **Install PHP Dependencies:**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    Use Composer to install all server-side dependencies:
 
-## Learning Laravel
+    ```bash
+    composer install
+    ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3.  **Install Node.js Dependencies:**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    Install frontend dependencies using npm or Yarn:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    ```bash
+    npm install
+    # OR if you prefer Yarn
+    # yarn install
+    ```
 
-## Laravel Sponsors
+4.  **Environment Configuration:**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    Copy the example environment file and generate a unique application key:
 
-### Premium Partners
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    Open the newly created `.env` file and configure your database connection settings (e.g., `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) and any other necessary environment variables.
 
-## Contributing
+    ```ini
+    APP_NAME="Movie Insight"
+    APP_ENV=local
+    APP_KEY=base64:YOUR_GENERATED_KEY_HERE
+    APP_DEBUG=true
+    APP_URL=http://localhost
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    LOG_CHANNEL=stack
+    LOG_LEVEL=debug
 
-## Code of Conduct
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=movie_insight
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5.  **Database Migration:**
 
-## Security Vulnerabilities
+    Run the database migrations to set up your database schema:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    ```bash
+    php artisan migrate
+    ```
 
-## License
+6.  **Compile Assets:**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    Build the frontend assets using Vite:
+
+    ```bash
+    npm run dev
+    # OR for a production-ready build
+    # npm run build
+    ```
+
+7.  **Serve the Application:**
+
+    Start the local development server:
+
+    ```bash
+    
